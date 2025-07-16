@@ -4,12 +4,10 @@ import path from "path";
 import { v4 as uuid } from "uuid";
 import { existsSync } from "fs";
 
-// Required config to handle form data
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+// ✅ New App Router Config (not deprecated)
+export const dynamic = "force-dynamic";
+export const maxDuration = 60;
+export const preferredRegion = "iad1"; // You can omit this if not needed
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,7 +22,7 @@ export async function POST(req: NextRequest) {
     const filename = `${uuid()}_${file.name.replaceAll(" ", "_")}`;
     const uploadDir = path.join(process.cwd(), "public", "uploads");
 
-    // ✅ Ensure directory exists
+    // Ensure uploads dir exists
     if (!existsSync(uploadDir)) {
       await mkdir(uploadDir, { recursive: true });
     }
@@ -40,4 +38,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, message: "Upload failed" }, { status: 500 });
   }
 }
+
 
