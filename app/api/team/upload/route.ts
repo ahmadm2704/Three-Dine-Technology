@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { v4 as uuid } from "uuid";
-import fs from "fs";
+import { existsSync } from "fs";
 
-// Helper to ensure directory exists
-async function ensureUploadDirExists(uploadDir: string) {
-  if (!fs.existsSync(uploadDir)) {
-    await mkdir(uploadDir, { recursive: true });
-  }
-}
+// Required config to handle form data
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,7 +24,11 @@ export async function POST(req: NextRequest) {
     const filename = `${uuid()}_${file.name.replaceAll(" ", "_")}`;
     const uploadDir = path.join(process.cwd(), "public", "uploads");
 
-    await ensureUploadDirExists(uploadDir);
+    // ✅ Ensure directory exists
+    if (!existsSync(uploadDir)) {
+      await mkdir(uploadDir, { recursive: true });
+    }
+
     await writeFile(`${uploadDir}/${filename}`, buffer);
 
     return NextResponse.json({
@@ -33,9 +37,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Upload error:", error);
-    return NextResponse.json(
-      { success: false, message: "Upload failed", error: (error as Error).message },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, message: "Upload failed" }, { status: 500 });
   }
 }
+
