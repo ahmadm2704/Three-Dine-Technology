@@ -1,204 +1,177 @@
-import ProfessionalBackground from "@/components/ui/professional-background";
-import ProfessionalCard from "@/components/ui/professional-card";
-import { ArrowRight, Code, Zap, Users, Star, Sparkles } from "lucide-react";
+"use client";
+
 import Link from "next/link";
+import {
+    ArrowRight,
+    // Tech Icons
+    Code2, Terminal, Database, Globe, Cpu,
+    // Research Icons
+    Microscope, Search, FlaskConical, Dna, BrainCircuit
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import StorySequence from "@/components/ui/story-sequence";
 
-export default function HomePage() {
-  const features = [
-    {
-      icon: Code,
-      title: "Custom Development",
-      description: "Tailored solutions built with cutting-edge technologies to meet your unique business needs.",
-    },
-    {
-      icon: Zap,
-      title: "Lightning Fast",
-      description: "Optimized performance and blazing-fast load times for exceptional user experiences.",
-    },
-    {
-      icon: Users,
-      title: "Expert Team",
-      description: "Seasoned professionals with years of experience in modern web technologies.",
-    },
-  ];
+export default function GatewayPage() {
+    const [hoveredSide, setHoveredSide] = useState<"left" | "right" | null>(null);
 
-  const stats = [
-    { number: "100+", label: "Projects Completed" },
-    { number: "50+", label: "Happy Clients" },
-    { number: "5+", label: "Years Experience" },
-    { number: "24/7", label: "Support Available" },
-  ];
+    const leftWidth = hoveredSide === "left" ? "65%" : hoveredSide === "right" ? "35%" : "50%";
+    const rightWidth = hoveredSide === "right" ? "65%" : hoveredSide === "left" ? "35%" : "50%";
 
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      role: "CEO, TechStart",
-      content: "ThreeDine Tech transformed our vision into reality. Their expertise and dedication are unmatched.",
-      rating: 5,
-    },
-    {
-      name: "Michael Chen",
-      role: "CTO, InnovateCorp",
-      content: "Outstanding work quality and professional service. They delivered beyond our expectations.",
-      rating: 5,
-    },
-    {
-      name: "Emily Rodriguez",
-      role: "Founder, DigitalFlow",
-      content: "The team's technical skills and creative approach helped us achieve remarkable results.",
-      rating: 5,
-    },
-  ];
+    const textVariant = {
+        hidden: { y: 50, opacity: 0 },
+        visible: (i: number) => ({
+            y: 0,
+            opacity: 1,
+            transition: {
+                delay: i * 0.1,
+                duration: 0.8,
+                ease: [0.22, 1, 0.36, 1] as any,
+            },
+        }),
+    };
 
-  return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <ProfessionalBackground variant="aurora" className="min-h-screen flex items-center">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-16">
-            {/* Text Content */}
-            <div className="flex-1 text-center md:text-left space-y-8">
-              <div className="inline-flex items-center space-x-2 bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-full px-6 py-3">
-                <Sparkles className="w-5 h-5 text-cyan-400" />
-                <span className="text-slate-300 font-medium">Welcome to the Future of Development</span>
-              </div>
+    // Define the 10-second stories (4 stages * 2.5s)
+    const techStory = [
+        { icon: Terminal, label: "Coding Logic" },
+        { icon: Database, label: "Processing Data" },
+        { icon: Globe, label: "Connectivity" },
+        { icon: Code2, label: "Three Dine Tech" },
+    ];
 
-              <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-                <span className="block text-white mb-4">Transform Your</span>
-                <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                  Digital Vision
-                </span>
-              </h1>
+    const researchStory = [
+        { icon: Search, label: "Hypothesis" },
+        { icon: FlaskConical, label: "Experiment" },
+        { icon: Dna, label: "Analysis" },
+        { icon: Microscope, label: "Three Dine Research" },
+    ];
 
-              <p className="text-xl md:text-2xl text-slate-300 max-w-3xl leading-relaxed">
-                We craft exceptional digital experiences with cutting-edge technology, innovative design, and unparalleled expertise.
-              </p>
+    return (
+        <div className="h-screen w-full flex flex-col md:flex-row overflow-hidden bg-black">
+            {/* LEFT SIDE: TECHNOLOGY */}
+            <motion.div
+                className="relative h-1/2 md:h-full flex items-center justify-center overflow-hidden cursor-pointer"
+                initial={false}
+                animate={{ width: typeof window !== 'undefined' && window.innerWidth >= 768 ? leftWidth : "100%", height: typeof window !== 'undefined' && window.innerWidth < 768 ? "50%" : "100%" }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                onMouseEnter={() => setHoveredSide("left")}
+                onMouseLeave={() => setHoveredSide(null)}
+            >
+                {/* White Background */}
+                <div className="absolute inset-0 bg-white z-0" />
 
-              <div className="flex flex-col sm:flex-row items-center sm:justify-start space-y-4 sm:space-y-0 sm:space-x-6 pt-4">
-                <Link
-                  href="/contact"
-                  className="group relative px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105"
-                >
-                  <span className="relative z-10 flex items-center space-x-2">
-                    <span>Start Your Project</span>
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </Link>
-
-                <Link
-                  href="/portfolio"
-                  className="px-8 py-4 border-2 border-slate-600 text-slate-300 font-semibold rounded-xl hover:border-slate-500 hover:text-white transition-all duration-300 transform hover:scale-105"
-                >
-                  View Our Work
-                </Link>
-              </div>
-            </div>
-
-            {/* Image Side */}
-            <div className="flex-1 mt-12 md:mt-0 flex justify-center">
-                      <img
-                     src="/home-hero.png" // ✅ Replace with your image
-                 alt="Hero"
-                    className="w-full max-w-xl h-[400px] object-cover rounded-xl shadow-lg"                    />
-                      </div>
-
-          </div>
-        </div>
-      </ProfessionalBackground>
-
-      {/* Features Section */}
-      <ProfessionalBackground variant="minimal" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Why Choose <span className="gradient-text">ThreeDine Tech</span>
-            </h2>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-              We combine technical excellence with creative innovation to deliver solutions that drive results.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <ProfessionalCard key={index} variant="glass" className="p-8 text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/25">
-                    <Icon className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">{feature.title}</h3>
-                  <p className="text-slate-400 leading-relaxed">{feature.description}</p>
-                </ProfessionalCard>
-              );
-            })}
-          </div>
-        </div>
-      </ProfessionalBackground>
-
-      {/* Stats Section */}
-      <ProfessionalBackground variant="particles" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl md:text-5xl font-bold gradient-text mb-2">{stat.number}</div>
-                <div className="text-slate-400 font-medium">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </ProfessionalBackground>
-
-      {/* Testimonials Section */}
-      <ProfessionalBackground variant="grid" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              What Our <span className="gradient-text">Clients Say</span>
-            </h2>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-              Don't just take our word for it. Here's what our clients have to say about working with us.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <ProfessionalCard key={index} variant="glow" className="p-8">
-                <div className="flex items-center mb-4">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
+                {/* Background Outline Text (Parallax-ish effect could be added here) */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none z-0 overflow-hidden">
+                    <motion.span
+                        className="text-[10rem] md:text-[20rem] font-bold text-outline opacity-20 whitespace-nowrap block"
+                        animate={{ x: hoveredSide === "left" ? -20 : 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        TECH
+                    </motion.span>
                 </div>
-                <p className="text-slate-300 mb-6 leading-relaxed">"{testimonial.content}"</p>
-                <div>
-                  <div className="font-semibold text-white">{testimonial.name}</div>
-                  <div className="text-slate-400 text-sm">{testimonial.role}</div>
-                </div>
-              </ProfessionalCard>
-            ))}
-          </div>
-        </div>
-      </ProfessionalBackground>
 
-      {/* CTA Section */}
-      <ProfessionalBackground variant="aurora" className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Ready to <span className="gradient-text">Get Started</span>?
-          </h2>
-          <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-            Let's discuss your project and bring your vision to life with our expertise and innovation.
-          </p>
-          <Link
-            href="/contact"
-            className="group inline-flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105"
-          >
-            <span>Contact Us Today</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-          </Link>
+                {/* Content */}
+                <div className="relative z-10 max-w-lg p-8 md:p-12 flex flex-col justify-center h-full w-full">
+                    <motion.div
+                        custom={0}
+                        initial="hidden"
+                        animate="visible"
+                        variants={textVariant}
+                        className="w-full flex justify-center mb-8"
+                    >
+                        {/* Tech Story Animation */}
+                        <StorySequence stages={techStory} color="text-black" />
+                    </motion.div>
+
+                    <div className="text-center md:text-left">
+                        <div className="overflow-hidden">
+                            <motion.h2 custom={1} variants={textVariant} initial="hidden" animate="visible" className="text-4xl md:text-6xl font-bold mb-4 text-black tracking-tight leading-tight">
+                                THREE DINE <br />
+                                <span className="text-blue-600">TECHNOLOGY</span>
+                            </motion.h2>
+                        </div>
+
+                        <motion.p
+                            custom={2}
+                            variants={textVariant}
+                            initial="hidden"
+                            animate="visible"
+                            className="text-lg text-gray-500 mb-8 leading-relaxed max-w-md mx-auto md:mx-0"
+                        >
+                            Building the digital future with cutting-edge web development and custom software.
+                        </motion.p>
+
+                        <motion.div custom={3} variants={textVariant} initial="hidden" animate="visible">
+                            <Link href="/technology" className="group inline-flex items-center text-lg font-bold text-black border-b-2 border-black pb-1 hover:text-blue-600 hover:border-blue-600 transition-all">
+                                <span className="mr-3">ENTER TECHNOLOGY</span>
+                                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
+                            </Link>
+                        </motion.div>
+                    </div>
+                </div>
+            </motion.div>
+
+            {/* RIGHT SIDE: RESEARCH */}
+            <motion.div
+                className="relative h-1/2 md:h-full flex items-center justify-center overflow-hidden cursor-pointer bg-black"
+                initial={false}
+                animate={{ width: typeof window !== 'undefined' && window.innerWidth >= 768 ? rightWidth : "100%", height: typeof window !== 'undefined' && window.innerWidth < 768 ? "50%" : "100%" }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                onMouseEnter={() => setHoveredSide("right")}
+                onMouseLeave={() => setHoveredSide(null)}
+            >
+
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none z-0">
+                    <motion.span
+                        className="text-[10rem] md:text-[20rem] font-bold text-outline-white opacity-10 whitespace-nowrap block"
+                        animate={{ x: hoveredSide === "right" ? 20 : 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        LABS
+                    </motion.span>
+                </div>
+
+                <div className="relative z-10 max-w-lg p-8 md:p-12 flex flex-col justify-center h-full w-full pl-12 md:pl-24">
+                    <motion.div
+                        custom={0}
+                        initial="hidden"
+                        animate="visible"
+                        variants={textVariant}
+                        className="w-full flex justify-center mb-8"
+                    >
+                        {/* Research Story Animation */}
+                        <StorySequence stages={researchStory} color="text-white" />
+                    </motion.div>
+
+                    <div className="text-center md:text-left">
+                        <div className="overflow-hidden">
+                            <motion.h2 custom={1} variants={textVariant} initial="hidden" animate="visible" className="text-4xl md:text-6xl font-bold mb-4 text-white tracking-tight leading-tight">
+                                THREE DINE <br />
+                                <span className="text-gray-500">RESEARCH</span>
+                            </motion.h2>
+                        </div>
+
+                        <motion.p
+                            custom={2}
+                            variants={textVariant}
+                            initial="hidden"
+                            animate="visible"
+                            className="text-lg text-gray-400 mb-8 leading-relaxed max-w-md mx-auto md:mx-0"
+                        >
+                            Pioneering the unknown. AI, Machine Learning, and next-gen computational models.
+                        </motion.p>
+
+                        <motion.div custom={3} variants={textVariant} initial="hidden" animate="visible">
+                            <Link href="/research" className="group inline-flex items-center text-lg font-bold text-white border-b-2 border-white pb-1 hover:text-gray-300 hover:border-gray-300 transition-all">
+                                <span className="mr-3">ENTER RESEARCH</span>
+                                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
+                            </Link>
+                        </motion.div>
+                    </div>
+                </div>
+            </motion.div>
         </div>
-      </ProfessionalBackground>
-    </div>
-  );
+    );
 }
+

@@ -1,143 +1,95 @@
-"use client"
+"use client";
 
-import type React from "react"
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import { Lock, ArrowRight } from "lucide-react";
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Shield, Eye, EyeOff, AlertCircle, CheckCircle, Info } from "lucide-react"
-import { adminSignIn } from "@/app/actions/admin"
-import { useRouter } from "next/navigation"
-import { isSupabaseConfigured } from "@/lib/supabase"
+export default function AdminLoginPage() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-export default function AdminLogin() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [result, setResult] = useState<{ success: boolean; message: string } | null>(null)
-  const router = useRouter()
+    const supabase = createClient();
+    const router = useRouter();
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  setResult(null);
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
 
-  const formData = new FormData(e.currentTarget);
-  const email = formData.get("email")?.toString().trim();
-  const password = formData.get("password")?.toString().trim();
+        const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+        });
 
-  if (!email || !password) {
-    setResult({ success: false, message: "Email and password are required" });
-    setIsSubmitting(false);
-    return;
-  }
+        if (error) {
+            setError(error.message);
+            setLoading(false);
+        } else {
+            router.push("/admin/dashboard");
+            router.refresh(); // Refresh to update server components (layout sidebar)
+        }
+    };
 
-  try {
-    const res = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-black">
+            <div className="w-full max-w-md p-8 bg-white border border-gray-800 shadow-2xl">
 
-    const result = await res.json();
-    setResult(result);
+                <div className="text-center mb-8">
+                    <div className="w-16 h-16 bg-black text-white mx-auto flex items-center justify-center mb-4">
+                        <Lock className="w-8 h-8" />
+                    </div>
+                    <h1 className="text-3xl font-black uppercase text-black">Admin Access</h1>
+                    <p className="text-gray-500 mt-2">Enter credentials to continue.</p>
+                </div>
 
-    if (result.success) {
-      setTimeout(() => {
-        router.push("/admin/dashboard");
-      }, 1000);
-    }
-  } catch (error) {
-    console.error("Login error:", error);
-    setResult({ success: false, message: "Login request failed" });
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+                {error && (
+                    <div className="bg-red-50 text-red-600 p-4 mb-6 text-sm font-bold border-l-4 border-red-600">
+                        {error}
+                    </div>
+                )}
 
+                <form onSubmit={handleLogin} className="space-y-6">
+                    <div>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Email Address</label>
+                        <input
+                            type="email"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full border-2 border-gray-200 p-3 font-bold text-black focus:border-black focus:outline-none transition-colors"
+                            placeholder="admin@threedine.com"
+                        />
+                    </div>
 
+                    <div>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Password</label>
+                        <input
+                            type="password"
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full border-2 border-gray-200 p-3 font-bold text-black focus:border-black focus:outline-none transition-colors"
+                            placeholder="••••••••"
+                        />
+                    </div>
 
-  return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-gray-900 border-gray-700">
-        <CardHeader className="text-center">
-          <div className="mx-auto bg-blue-600 p-3 rounded-full w-fit mb-4">
-            <Shield className="h-8 w-8 text-white" />
-          </div>
-          <CardTitle className="text-2xl text-white">Admin Login</CardTitle>
-          <p className="text-gray-400">Access the admin dashboard</p>
-        </CardHeader>
-        <CardContent>
-          {!isSupabaseConfigured && (
-            <div className="mb-4 p-3 rounded-lg flex items-center gap-2 bg-blue-600/20 border border-blue-600/30 text-blue-400">
-              <Info className="h-4 w-4" />
-              <span className="text-sm">Demo mode - Supabase not configured</span>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full bg-black text-white py-4 font-black uppercase tracking-widest hover:bg-gray-800 transition-colors flex items-center justify-center group"
+                    >
+                        {loading ? "Authenticating..." : (
+                            <>
+                                Enter Portal <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </>
+                        )}
+                    </button>
+                </form>
+
             </div>
-          )}
-
-          {result && (
-            <div
-              className={`mb-4 p-3 rounded-lg flex items-center gap-2 ${
-                result.success
-                  ? "bg-green-600/20 border border-green-600/30 text-green-400"
-                  : "bg-red-600/20 border border-red-600/30 text-red-400"
-              }`}
-            >
-              {result.success ? <CheckCircle className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
-              <span className="text-sm">{result.message}</span>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="email" className="text-gray-300">
-                Email
-              </Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                className="bg-gray-800 border-gray-600 text-white"
-                placeholder="admin@threedinetech.com"
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="password" className="text-gray-300">
-                Password
-              </Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  className="bg-gray-800 border-gray-600 text-white pr-10"
-                  placeholder="Enter password"
-                  required
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-0 top-0 h-full px-3 text-gray-400 hover:text-white"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </Button>
-              </div>
-            </div>
-            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={isSubmitting}>
-              {isSubmitting ? "Signing In..." : "Login"}
-            </Button>
-          </form>
-          <div className="mt-4 text-center text-sm text-gray-400">
-            {!isSupabaseConfigured
-              ? "Demo credentials: admin@threedinetech.com / admin123"
-              : "Use your admin credentials"}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  )
+        </div>
+    );
 }

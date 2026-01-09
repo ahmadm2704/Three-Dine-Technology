@@ -1,16 +1,16 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Inter, Oswald, Open_Sans } from "next/font/google"
 import "./globals.css"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const oswald = Oswald({ subsets: ["latin"], variable: "--font-oswald" })
+const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-open-sans" })
 
 export const metadata: Metadata = {
-  title: "Three Dine Technology - Transforming Ideas Into Digital Reality",
-  description: "Leading IT company providing web development, mobile apps, custom software, and digital solutions.",
-    generator: 'v0.dev'
+  title: "Three Dine Group",
+  description: "Three Dine Technology & Research",
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -19,11 +19,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.className} bg-black text-white`}>
-        <Navbar />
-        <main className="pt-16">{children}</main>
-        <Footer />
+    <html lang="en">
+      <body className={`${inter.variable} ${oswald.variable} ${openSans.variable} font-sans bg-white text-black antialiased`}>
+        {children}
       </body>
     </html>
   )
