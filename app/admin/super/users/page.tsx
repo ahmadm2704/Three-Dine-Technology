@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { User, Shield, Trash2, AlertTriangle } from "lucide-react";
 import { redirect } from "next/navigation";
+import { deleteAdminAction } from "./actions";
 
 export default async function SuperAdminUsersPage() {
     const supabase = createClient();
@@ -52,7 +53,7 @@ export default async function SuperAdminUsersPage() {
                                 <td className="p-4 text-xs font-mono text-gray-500">{new Date(admin.created_at).toLocaleDateString()}</td>
                                 <td className="p-4 text-right">
                                     {admin.role !== 'super_admin' ? (
-                                        <form action="/admin/super/actions/delete-admin" method="post">
+                                        <form action={deleteAdminAction}>
                                             <input type="hidden" name="id" value={admin.id} />
                                             <button type="submit" className="text-red-500 hover:text-red-700 font-bold text-xs uppercase flex items-center justify-end">
                                                 <Trash2 className="w-4 h-4 mr-1" /> Revoke Access
