@@ -3,23 +3,29 @@
 import Link from "next/link";
 import {
     ArrowRight,
-    // Tech Icons
-    Code2, Terminal, Database, Globe, Cpu,
-    // Research Icons
-    Microscope, Search, FlaskConical, Dna, BrainCircuit
+    Code2, Terminal, Database, Globe,
+    Microscope, Search, FlaskConical, Dna,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StorySequence from "@/components/ui/story-sequence";
 
 export default function GatewayPage() {
     const [hoveredSide, setHoveredSide] = useState<"left" | "right" | null>(null);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener("resize", check);
+        return () => window.removeEventListener("resize", check);
+    }, []);
 
     const leftWidth = hoveredSide === "left" ? "65%" : hoveredSide === "right" ? "35%" : "50%";
     const rightWidth = hoveredSide === "right" ? "65%" : hoveredSide === "left" ? "35%" : "50%";
 
     const textVariant = {
-        hidden: { y: 50, opacity: 0 },
+        hidden: { y: 30, opacity: 0 },
         visible: (i: number) => ({
             y: 0,
             opacity: 1,
@@ -31,7 +37,6 @@ export default function GatewayPage() {
         }),
     };
 
-    // Define the 10-second stories (4 stages * 2.5s)
     const techStory = [
         { icon: Terminal, label: "Coding Logic" },
         { icon: Database, label: "Processing Data" },
@@ -47,23 +52,21 @@ export default function GatewayPage() {
     ];
 
     return (
-        <div className="h-screen w-full flex flex-col md:flex-row overflow-hidden bg-black">
+        <div className="h-[100dvh] w-full flex flex-col md:flex-row overflow-hidden bg-black">
             {/* LEFT SIDE: TECHNOLOGY */}
             <motion.div
-                className="relative h-1/2 md:h-full flex items-center justify-center overflow-hidden cursor-pointer"
+                className="relative flex-1 md:flex-none flex items-center justify-center overflow-hidden cursor-pointer"
                 initial={false}
-                animate={{ width: typeof window !== 'undefined' && window.innerWidth >= 768 ? leftWidth : "100%", height: typeof window !== 'undefined' && window.innerWidth < 768 ? "50%" : "100%" }}
+                animate={isMobile ? { width: "100%", height: "50%" } : { width: leftWidth, height: "100%" }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                onMouseEnter={() => setHoveredSide("left")}
-                onMouseLeave={() => setHoveredSide(null)}
+                onMouseEnter={() => !isMobile && setHoveredSide("left")}
+                onMouseLeave={() => !isMobile && setHoveredSide(null)}
             >
-                {/* White Background */}
                 <div className="absolute inset-0 bg-white z-0" />
 
-                {/* Background Outline Text (Parallax-ish effect could be added here) */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none z-0 overflow-hidden">
                     <motion.span
-                        className="text-[10rem] md:text-[20rem] font-bold text-outline opacity-20 whitespace-nowrap block"
+                        className="text-[6rem] sm:text-[10rem] md:text-[20rem] font-bold text-outline opacity-20 whitespace-nowrap block"
                         animate={{ x: hoveredSide === "left" ? -20 : 0 }}
                         transition={{ duration: 0.6 }}
                     >
@@ -71,22 +74,21 @@ export default function GatewayPage() {
                     </motion.span>
                 </div>
 
-                {/* Content */}
-                <div className="relative z-10 max-w-lg p-8 md:p-12 flex flex-col justify-center h-full w-full">
+                <div className="relative z-10 max-w-lg px-6 py-4 md:p-12 flex flex-col items-center justify-center h-full w-full">
+                    {/* Story animation — hidden on mobile for space */}
                     <motion.div
                         custom={0}
                         initial="hidden"
                         animate="visible"
                         variants={textVariant}
-                        className="w-full flex justify-center mb-8"
+                        className="hidden sm:flex w-full justify-center mb-6"
                     >
-                        {/* Tech Story Animation */}
                         <StorySequence stages={techStory} color="text-black" />
                     </motion.div>
 
-                    <div className="text-center md:text-left">
+                    <div className="text-center">
                         <div className="overflow-hidden">
-                            <motion.h2 custom={1} variants={textVariant} initial="hidden" animate="visible" className="text-4xl md:text-6xl font-bold mb-4 text-black tracking-tight leading-tight">
+                            <motion.h2 custom={1} variants={textVariant} initial="hidden" animate="visible" className="text-2xl sm:text-4xl md:text-6xl font-bold mb-2 md:mb-4 text-black tracking-tight leading-tight">
                                 THREE DINE <br />
                                 <span className="text-blue-600">TECHNOLOGY</span>
                             </motion.h2>
@@ -97,15 +99,15 @@ export default function GatewayPage() {
                             variants={textVariant}
                             initial="hidden"
                             animate="visible"
-                            className="text-lg text-gray-500 mb-8 leading-relaxed max-w-md mx-auto md:mx-0"
+                            className="text-sm sm:text-base md:text-lg text-gray-500 mb-4 md:mb-8 leading-relaxed max-w-md mx-auto"
                         >
                             Building the digital future with cutting-edge web development and custom software.
                         </motion.p>
 
                         <motion.div custom={3} variants={textVariant} initial="hidden" animate="visible">
-                            <Link href="/technology" className="group inline-flex items-center text-lg font-bold text-black border-b-2 border-black pb-1 hover:text-blue-600 hover:border-blue-600 transition-all">
-                                <span className="mr-3">ENTER TECHNOLOGY</span>
-                                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
+                            <Link href="/technology" className="group inline-flex items-center text-sm sm:text-base md:text-lg font-bold text-black border-b-2 border-black pb-1 hover:text-blue-600 hover:border-blue-600 transition-all">
+                                <span className="mr-2 md:mr-3">ENTER TECHNOLOGY</span>
+                                <ArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:translate-x-2" />
                             </Link>
                         </motion.div>
                     </div>
@@ -114,17 +116,16 @@ export default function GatewayPage() {
 
             {/* RIGHT SIDE: RESEARCH */}
             <motion.div
-                className="relative h-1/2 md:h-full flex items-center justify-center overflow-hidden cursor-pointer bg-black"
+                className="relative flex-1 md:flex-none flex items-center justify-center overflow-hidden cursor-pointer bg-black"
                 initial={false}
-                animate={{ width: typeof window !== 'undefined' && window.innerWidth >= 768 ? rightWidth : "100%", height: typeof window !== 'undefined' && window.innerWidth < 768 ? "50%" : "100%" }}
+                animate={isMobile ? { width: "100%", height: "50%" } : { width: rightWidth, height: "100%" }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                onMouseEnter={() => setHoveredSide("right")}
-                onMouseLeave={() => setHoveredSide(null)}
+                onMouseEnter={() => !isMobile && setHoveredSide("right")}
+                onMouseLeave={() => !isMobile && setHoveredSide(null)}
             >
-
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none z-0">
                     <motion.span
-                        className="text-[10rem] md:text-[20rem] font-bold text-outline-white opacity-10 whitespace-nowrap block"
+                        className="text-[6rem] sm:text-[10rem] md:text-[20rem] font-bold text-outline-white opacity-10 whitespace-nowrap block"
                         animate={{ x: hoveredSide === "right" ? 20 : 0 }}
                         transition={{ duration: 0.6 }}
                     >
@@ -132,21 +133,20 @@ export default function GatewayPage() {
                     </motion.span>
                 </div>
 
-                <div className="relative z-10 max-w-lg p-8 md:p-12 flex flex-col justify-center h-full w-full pl-12 md:pl-24">
+                <div className="relative z-10 max-w-lg px-6 py-4 md:p-12 md:pl-24 flex flex-col items-center justify-center h-full w-full">
                     <motion.div
                         custom={0}
                         initial="hidden"
                         animate="visible"
                         variants={textVariant}
-                        className="w-full flex justify-center mb-8"
+                        className="hidden sm:flex w-full justify-center mb-6"
                     >
-                        {/* Research Story Animation */}
                         <StorySequence stages={researchStory} color="text-white" />
                     </motion.div>
 
-                    <div className="text-center md:text-left">
+                    <div className="text-center">
                         <div className="overflow-hidden">
-                            <motion.h2 custom={1} variants={textVariant} initial="hidden" animate="visible" className="text-4xl md:text-6xl font-bold mb-4 text-white tracking-tight leading-tight">
+                            <motion.h2 custom={1} variants={textVariant} initial="hidden" animate="visible" className="text-2xl sm:text-4xl md:text-6xl font-bold mb-2 md:mb-4 text-white tracking-tight leading-tight">
                                 THREE DINE <br />
                                 <span className="text-gray-500">RESEARCH</span>
                             </motion.h2>
@@ -157,15 +157,15 @@ export default function GatewayPage() {
                             variants={textVariant}
                             initial="hidden"
                             animate="visible"
-                            className="text-lg text-gray-400 mb-8 leading-relaxed max-w-md mx-auto md:mx-0"
+                            className="text-sm sm:text-base md:text-lg text-gray-400 mb-4 md:mb-8 leading-relaxed max-w-md mx-auto"
                         >
                             Pioneering the unknown. AI, Machine Learning, and next-gen computational models.
                         </motion.p>
 
                         <motion.div custom={3} variants={textVariant} initial="hidden" animate="visible">
-                            <Link href="/research" className="group inline-flex items-center text-lg font-bold text-white border-b-2 border-white pb-1 hover:text-gray-300 hover:border-gray-300 transition-all">
-                                <span className="mr-3">ENTER RESEARCH</span>
-                                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
+                            <Link href="/research" className="group inline-flex items-center text-sm sm:text-base md:text-lg font-bold text-white border-b-2 border-white pb-1 hover:text-gray-300 hover:border-gray-300 transition-all">
+                                <span className="mr-2 md:mr-3">ENTER RESEARCH</span>
+                                <ArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:translate-x-2" />
                             </Link>
                         </motion.div>
                     </div>

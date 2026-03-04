@@ -31,8 +31,8 @@ export default function StorySequence({ stages, color = "currentColor" }: StoryS
     }, [stages.length]);
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-[200px] w-full">
-            <div className="relative w-48 h-48 flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center min-h-[120px] sm:min-h-[200px] w-full">
+            <div className="relative w-24 h-24 sm:w-48 sm:h-48 flex items-center justify-center">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={currentIndex}
@@ -46,29 +46,27 @@ export default function StorySequence({ stages, color = "currentColor" }: StoryS
                             icon={stages[currentIndex].icon}
                             className="w-full h-full"
                             color={color}
-                            // Reset animation on each change to trigger draw effect
                             delay={0}
                         />
                     </motion.div>
                 </AnimatePresence>
             </div>
 
-            <div className="h-8 mt-6 overflow-hidden">
+            <div className="h-6 sm:h-8 mt-3 sm:mt-6 overflow-hidden">
                 <AnimatePresence mode="wait">
                     <motion.p
                         key={currentIndex}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className={`text-xl font-bold uppercase tracking-widest ${color}`}
+                        className={`text-sm sm:text-xl font-bold uppercase tracking-widest ${color}`}
                     >
                         {stages[currentIndex].label}
                     </motion.p>
                 </AnimatePresence>
             </div>
 
-            {/* Progress Bar */}
-            <div className="w-32 h-1 bg-gray-200/20 rounded-full mt-4 overflow-hidden">
+            <div className="w-24 sm:w-32 h-1 bg-gray-200/20 rounded-full mt-3 sm:mt-4 overflow-hidden">
                 <motion.div
                     key={currentIndex}
                     initial={{ width: "0%" }}
