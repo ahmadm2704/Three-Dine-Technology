@@ -1,21 +1,27 @@
-import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { Plus, Edit, Trash2 } from "lucide-react";
-import { redirect } from "next/navigation";
 
-export default async function AdminProjectsPage() {
-    const supabase = createClient();
+// Mock projects data
+const mockProjects = [
+  {
+    id: "1",
+    name: "E-commerce Platform",
+    status: "completed",
+    client: "TechCorp Inc.",
+    created_at: "2024-01-15T00:00:00Z",
+  },
+  {
+    id: "2", 
+    name: "Mobile Banking App",
+    status: "in_progress",
+    client: "FinanceFirst",
+    created_at: "2024-01-10T00:00:00Z",
+  },
+];
 
-    // Fetch projects from tech_projects table
-    const { data: projects, error } = await supabase
-        .from("tech_projects")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-    if (error) {
-        console.error("Error fetching projects:", error);
-        // In a real app we'd show an error state
-    }
+export default function AdminProjectsPage() {
+    const projects = mockProjects;
+    const error = null;
 
     return (
         <div className="p-8">

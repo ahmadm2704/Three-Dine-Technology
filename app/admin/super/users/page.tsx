@@ -1,25 +1,27 @@
-import { createClient } from "@/lib/supabase/server";
 import { User, Shield, Trash2, AlertTriangle } from "lucide-react";
-import { redirect } from "next/navigation";
-import { deleteAdminAction } from "./actions";
 
-export default async function SuperAdminUsersPage() {
-    const supabase = createClient();
+// Mock admin users data
+const mockUsers = [
+  {
+    id: "1",
+    email: "admin@threedine.com",
+    name: "Super Admin",
+    role: "super_admin",
+    created_at: "2024-01-15T00:00:00Z",
+  },
+  {
+    id: "2", 
+    email: "tech@threedine.com",
+    name: "Tech Admin",
+    role: "tech_admin",
+    created_at: "2024-01-10T00:00:00Z",
+  },
+];
 
-    // 1. Verify Super Admin Access
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect("/admin/login");
-
-    const { data: myRole } = await supabase.from('admins').select('role').eq('id', user.id).single();
-    if (myRole?.role !== 'super_admin') {
-        redirect("/admin/dashboard?error=unauthorized");
-    }
-
-    // 2. Fetch All Admins
-    const { data: admins } = await supabase
-        .from("admins")
-        .select("*")
-        .order("created_at", { ascending: false });
+export default function SuperAdminUsersPage() {
+    // For now, allow access without auth check
+    // TODO: Add proper auth when Supabase is configured
+    const users = mockUsers;
 
     return (
         <div className="p-8">
@@ -39,26 +41,23 @@ export default async function SuperAdminUsersPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {admins?.map((admin: any) => (
-                            <tr key={admin.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50">
-                                <td className="p-4 font-bold text-sm">{admin.email}</td>
+                        {users?.map((user: any) => (
+                            <tr key={user.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50">
+                                <td className="p-4 font-bold text-sm">{user.email}</td>
                                 <td className="p-4">
                                     <span className={`inline-block px-2 py-1 text-[10px] font-bold uppercase tracking-widest rounded 
-                         ${admin.role === 'super_admin' ? 'bg-purple-100 text-purple-700' :
-                                            admin.role === 'tech_admin' ? 'bg-black text-white' :
+                         ${user.role === 'super_admin' ? 'bg-purple-100 text-purple-700' :
+                                            user.role === 'tech_admin' ? 'bg-black text-white' :
                                                 'bg-blue-100 text-blue-700'}`}>
-                                        {admin.role.replace('_', ' ')}
+                                        {user.role.replace('_', ' ')}
                                     </span>
                                 </td>
-                                <td className="p-4 text-xs font-mono text-gray-500">{new Date(admin.created_at).toLocaleDateString()}</td>
+                                <td className="p-4 text-xs font-mono text-gray-500">{new Date(user.created_at).toLocaleDateString()}</td>
                                 <td className="p-4 text-right">
-                                    {admin.role !== 'super_admin' ? (
-                                        <form action={deleteAdminAction}>
-                                            <input type="hidden" name="id" value={admin.id} />
-                                            <button type="submit" className="text-red-500 hover:text-red-700 font-bold text-xs uppercase flex items-center justify-end">
-                                                <Trash2 className="w-4 h-4 mr-1" /> Revoke Access
-                                            </button>
-                                        </form>
+                                    {user.role !== 'super_admin' ? (
+                                        <button className="text-red-500 hover:text-red-700 font-bold text-xs uppercase flex items-center justify-end">
+                                            <Trash2 className="w-4 h-4 mr-1" /> Revoke Access
+                                        </button>
                                     ) : (
                                         <span className="text-gray-300 text-xs font-bold uppercase flex items-center justify-end cursor-not-allowed">
                                             <Shield className="w-4 h-4 mr-1" /> Protected

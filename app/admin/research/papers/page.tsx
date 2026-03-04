@@ -1,14 +1,29 @@
-import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { Plus, Edit, FileText, Download } from "lucide-react";
 
-export default async function AdminPapersPage() {
-    const supabase = createClient();
+// Mock research papers data
+const mockPapers = [
+  {
+    id: "1",
+    title: "Machine Learning in Healthcare",
+    authors: ["Dr. Sarah Chen", "Dr. Alex Morgan"],
+    journal: "Journal of AI Research", 
+    publication_date: "2024-01-15",
+    file_url: null,
+  },
+  {
+    id: "2",
+    title: "Quantum Computing Applications",
+    authors: ["Dr. Emily Johnson"],
+    journal: "Quantum Computing Journal",
+    publication_date: "2024-01-10",
+    file_url: null,
+  },
+];
 
-    const { data: papers, error } = await supabase
-        .from("research_papers")
-        .select("*")
-        .order("publication_date", { ascending: false });
+export default function AdminPapersPage() {
+    const papers = mockPapers;
+    const error = null;
 
     return (
         <div className="p-8">

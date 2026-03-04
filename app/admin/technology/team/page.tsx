@@ -1,14 +1,26 @@
-import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { Plus, User, Trash2 } from "lucide-react";
 
-export default async function AdminTechTeamPage() {
-    const supabase = createClient();
+// Mock team data
+const mockMembers = [
+  {
+    id: "1",
+    name: "Sarah Chen",
+    role: "Lead Developer",  
+    email: "sarah@threedine.com",
+    created_at: "2024-01-15T00:00:00Z",
+  },
+  {
+    id: "2",
+    name: "Alex Morgan",
+    role: "UI/UX Designer",
+    email: "alex@threedine.com", 
+    created_at: "2024-01-10T00:00:00Z",
+  },
+];
 
-    const { data: members } = await supabase
-        .from("tech_team")
-        .select("*")
-        .order("created_at", { ascending: false });
+export default function AdminTechTeamPage() {
+    const members = mockMembers;
 
     return (
         <div className="p-8">

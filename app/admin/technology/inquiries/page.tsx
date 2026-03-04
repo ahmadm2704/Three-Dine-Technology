@@ -1,13 +1,29 @@
-import { createClient } from "@/lib/supabase/server";
 import { Mail, Clock, CheckCircle } from "lucide-react";
 
-export default async function AdminTechInquiriesPage() {
-    const supabase = createClient();
+// Mock inquiries data
+const mockInquiries = [
+  {
+    id: "1",
+    name: "John Doe",
+    email: "john@example.com",
+    subject: "Website Development",
+    message: "We need a new company website",
+    status: "new",
+    created_at: "2024-01-15T00:00:00Z",
+  },
+  {
+    id: "2",
+    name: "Jane Smith", 
+    email: "jane@company.com",
+    subject: "Mobile App Development",
+    message: "Looking for iOS app development",
+    status: "responded",
+    created_at: "2024-01-10T00:00:00Z",
+  },
+];
 
-    const { data: inquiries } = await supabase
-        .from("tech_inquiries")
-        .select("*")
-        .order("created_at", { ascending: false });
+export default function AdminTechInquiriesPage() {
+    const inquiries = mockInquiries;
 
     return (
         <div className="p-8">

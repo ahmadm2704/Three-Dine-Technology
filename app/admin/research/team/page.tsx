@@ -1,14 +1,20 @@
-import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import { Plus, User, FlaskConical } from "lucide-react";
+import { Plus, User, Trash2, FlaskConical } from "lucide-react";
 
-export default async function AdminResearchTeamPage() {
-    const supabase = createClient();
+// Mock research team data
+const mockMembers = [
+  {
+    id: "1",
+    name: "Dr. Emily Johnson",
+    role: "Lead Researcher",
+    specialization: "AI & Machine Learning",
+    email: "emily@threedine.com",
+    created_at: "2024-01-15T00:00:00Z",
+  },
+];
 
-    const { data: members } = await supabase
-        .from("research_team")
-        .select("*")
-        .order("created_at", { ascending: false });
+export default function AdminResearchTeamPage() {
+    const members = mockMembers;
 
     return (
         <div className="p-8">

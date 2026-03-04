@@ -1,14 +1,28 @@
-import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { Plus, GraduationCap } from "lucide-react";
 
-export default async function AdminResearchPartnersPage() {
-    const supabase = createClient();
+// Mock partners data
+const mockPartners = [
+  {
+    id: "1",
+    name: "Stanford University",
+    type: "Academic",
+    contact_email: "research@stanford.edu",
+    description: "AI Research Partnership",
+    created_at: "2024-01-15T00:00:00Z",
+  },
+  {
+    id: "2",
+    name: "MIT Research Lab",
+    type: "Academic",
+    contact_email: "partnership@mit.edu",
+    description: "Quantum Computing Research", 
+    created_at: "2024-01-10T00:00:00Z",
+  },
+];
 
-    const { data: partners } = await supabase
-        .from("research_partners")
-        .select("*")
-        .order("created_at", { ascending: false });
+export default function AdminResearchPartnersPage() {
+    const partners = mockPartners;
 
     return (
         <div className="p-8">

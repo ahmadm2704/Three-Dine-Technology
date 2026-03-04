@@ -1,14 +1,26 @@
-import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import { Plus, Server, Trash2 } from "lucide-react";
+import { Plus, Settings, Trash2, Server } from "lucide-react";
 
-export default async function AdminTechServicesPage() {
-    const supabase = createClient();
+// Mock services data
+const mockServices = [
+  {
+    id: "1",
+    title: "Web Development",
+    description: "Custom web applications",
+    is_active: true,
+    created_at: "2024-01-15T00:00:00Z",
+  },
+  {
+    id: "2",
+    title: "Mobile Development", 
+    description: "iOS and Android apps",
+    is_active: true,
+    created_at: "2024-01-10T00:00:00Z",
+  },
+];
 
-    const { data: services } = await supabase
-        .from("tech_services")
-        .select("*")
-        .order("created_at", { ascending: false });
+export default function AdminTechServicesPage() {
+    const services = mockServices;
 
     return (
         <div className="p-8">
