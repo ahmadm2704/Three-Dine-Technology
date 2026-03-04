@@ -14,7 +14,7 @@ export default function NewServicePage() {
     const [formData, setFormData] = useState({
         title: "",
         description: "",
-        icon_name: "Code2", // Default
+        icon: "Code2",
         price_range: "$$$",
     });
 
@@ -72,8 +72,8 @@ export default function NewServicePage() {
                             <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Icon Name (Lucide)</label>
                             <input
                                 type="text"
-                                value={formData.icon_name}
-                                onChange={(e) => setFormData({ ...formData, icon_name: e.target.value })}
+                                value={formData.icon}
+                                onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
                                 className="w-full border-2 border-gray-200 p-3 text-sm focus:border-black focus:outline-none"
                                 placeholder="e.g. Code2, Server"
                             />

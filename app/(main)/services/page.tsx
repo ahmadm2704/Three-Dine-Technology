@@ -47,7 +47,7 @@ export default function ServicesPage() {
             data.map((s: any) => ({
               id: s.slug || s.id,
               icon: s.icon || "Code2",
-              title: s.name,
+              title: s.title,
               description: s.description,
             }))
           );
