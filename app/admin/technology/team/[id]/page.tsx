@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { ImageUploadField } from "@/components/admin/image-upload-field";
 
 export default function EditTeamMemberPage() {
     const supabase = createClient();
@@ -93,8 +94,7 @@ export default function EditTeamMemberPage() {
                         <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full border-2 border-gray-200 p-3 text-sm focus:border-black focus:outline-none" />
                     </div>
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Profile Image URL</label>
-                        <input type="text" value={formData.image_url} onChange={(e) => setFormData({ ...formData, image_url: e.target.value })} className="w-full border-2 border-gray-200 p-3 text-sm focus:border-black focus:outline-none" placeholder="https://..." />
+                        <ImageUploadField label="Profile Image" value={formData.image_url} onChange={(url) => setFormData({ ...formData, image_url: url })} />
                     </div>
                     <label className="flex items-center space-x-3 cursor-pointer">
                         <input type="checkbox" checked={formData.is_active} onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })} className="w-5 h-5 border-2 border-gray-300 rounded" />

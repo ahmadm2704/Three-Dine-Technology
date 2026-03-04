@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { ImageUploadField } from "@/components/admin/image-upload-field";
 
 export default function EditProjectPage() {
     const supabase = createClient();
@@ -127,9 +128,8 @@ export default function EditProjectPage() {
                                 <option value="cancelled">Cancelled</option>
                             </select>
                         </div>
-                        <div>
-                            <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Image URL</label>
-                            <input type="text" value={formData.image_url} onChange={(e) => setFormData({ ...formData, image_url: e.target.value })} className="w-full border-2 border-gray-200 p-3 text-sm focus:border-black focus:outline-none" placeholder="https://..." />
+                        <div className="col-span-2">
+                            <ImageUploadField label="Project Image" value={formData.image_url} onChange={(url) => setFormData({ ...formData, image_url: url })} />
                         </div>
                         <div className="col-span-2">
                             <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Tech Stack (comma separated)</label>

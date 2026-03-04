@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ArrowLeft, Save } from "lucide-react";
 import Link from "next/link";
+import { ImageUploadField } from "@/components/admin/image-upload-field";
 
 export default function NewResearcherPage() {
     const supabase = createClient();
@@ -78,13 +79,7 @@ export default function NewResearcherPage() {
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Profile Image URL</label>
-                        <input
-                            type="text"
-                            value={formData.image_url}
-                            onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                            className="w-full border-2 border-gray-200 p-3 text-sm focus:border-black focus:outline-none"
-                        />
+                        <ImageUploadField label="Profile Image" value={formData.image_url} onChange={(url) => setFormData({ ...formData, image_url: url })} />
                     </div>
 
                     <button
