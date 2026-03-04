@@ -1,65 +1,73 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import SketchyIcon from "@/components/ui/sketchy-icon";
 import {
   Code2, Smartphone, Cloud, Brain,
   ShoppingCart, Shield, Database, Layout,
-  ArrowRight
+  ArrowRight, Loader2
 } from "lucide-react";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
+
+const iconMap: Record<string, any> = {
+  Code2, Smartphone, Cloud, Brain, ShoppingCart, Shield, Database, Layout,
+};
+
+const fallbackServices = [
+  { id: "web", icon: "Code2", title: "Web Development", description: "Scalable, high-performance web applications using React, Next.js, and Node.js." },
+  { id: "mobile", icon: "Smartphone", title: "Mobile Apps", description: "Native and cross-platform mobile solutions for iOS and Android." },
+  { id: "cloud", icon: "Cloud", title: "Cloud Solutions", description: "AWS, Azure, and Google Cloud infrastructure design and management." },
+  { id: "ai", icon: "Brain", title: "AI Integration", description: "Machine learning models and AI-powered automation integration." },
+  { id: "ecommerce", icon: "ShoppingCart", title: "E-Commerce", description: "Custom online stores with seamless payment processing and inventory management." },
+  { id: "cyber", icon: "Shield", title: "Cybersecurity", description: "Advanced security audits and implementation to protect your data." },
+  { id: "data", icon: "Database", title: "Data Analytics", description: "Transforming raw data into actionable insights for business growth." },
+  { id: "design", icon: "Layout", title: "UI/UX Design", description: "User-centric design that drives engagement and conversion." },
+];
 
 export default function ServicesPage() {
-  const services = [
-    {
-      id: "web",
-      icon: Code2,
-      title: "Web Development",
-      description: "Scalable, high-performance web applications using React, Next.js, and Node.js.",
-    },
-    {
-      id: "mobile",
-      icon: Smartphone,
-      title: "Mobile Apps",
-      description: "Native and cross-platform mobile solutions for iOS and Android.",
-    },
-    {
-      id: "cloud",
-      icon: Cloud,
-      title: "Cloud Solutions",
-      description: "AWS, Azure, and Google Cloud infrastructure design and management.",
-    },
-    {
-      id: "ai",
-      icon: Brain,
-      title: "AI Integration",
-      description: "Machine learning models and AI-powered automation integration.",
-    },
-    {
-      id: "ecommerce",
-      icon: ShoppingCart,
-      title: "E-Commerce",
-      description: "Custom online stores with seamless payment processing and inventory management.",
-    },
-    {
-      id: "cyber",
-      icon: Shield,
-      title: "Cybersecurity",
-      description: "Advanced security audits and implementation to protect your data.",
-    },
-    {
-      id: "data",
-      icon: Database,
-      title: "Data Analytics",
-      description: "Transforming raw data into actionable insights for business growth.",
-    },
-    {
-      id: "design",
-      icon: Layout,
-      title: "UI/UX Design",
-      description: "User-centric design that drives engagement and conversion.",
-    },
-  ];
+  const [services, setServices] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        const supabase = createClient();
+        const { data, error } = await supabase
+          .from("services")
+          .select("*")
+          .eq("is_active", true)
+          .order("display_order", { ascending: true });
+
+        if (error || !data || data.length === 0) {
+          setServices(fallbackServices);
+        } else {
+          setServices(
+            data.map((s: any) => ({
+              id: s.slug || s.id,
+              icon: s.icon || "Code2",
+              title: s.name,
+              description: s.description,
+            }))
+          );
+        }
+      } catch {
+        setServices(fallbackServices);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchServices();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white min-h-screen pt-24 pb-20">
@@ -98,7 +106,7 @@ export default function ServicesPage() {
               </span>
 
               <div className="w-16 h-16 mb-8 text-black group-hover:text-white transition-colors">
-                <SketchyIcon icon={service.icon} className="w-full h-full" color="currentColor" delay={index * 0.1} />
+                <SketchyIcon icon={iconMap[service.icon] || Code2} className="w-full h-full" color="currentColor" delay={index * 0.1} />
               </div>
 
               <h3 className="text-2xl font-bold uppercase tracking-tight mb-4 group-hover:translate-x-2 transition-transform duration-300">

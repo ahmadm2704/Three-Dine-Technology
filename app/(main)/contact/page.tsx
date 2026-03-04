@@ -21,10 +21,10 @@ export default function ContactPage() {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.from("tech_inquiries").insert({
+    const { error } = await supabase.from("contact_submissions").insert({
       name: formData.name,
       email: formData.email,
-      subject: formData.subject,
+      service: formData.subject,
       message: formData.message,
       status: "new"
     });

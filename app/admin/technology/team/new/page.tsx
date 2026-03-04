@@ -22,7 +22,7 @@ export default function NewTeamMemberPage() {
         e.preventDefault();
         setLoading(true);
 
-        const { error } = await supabase.from("tech_team").insert(formData);
+        const { error } = await supabase.from("team_members").insert(formData);
 
         if (error) {
             alert("Error adding member: " + error.message);

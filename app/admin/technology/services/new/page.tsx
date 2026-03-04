@@ -22,7 +22,7 @@ export default function NewServicePage() {
         e.preventDefault();
         setLoading(true);
 
-        const { error } = await supabase.from("tech_services").insert(formData);
+        const { error } = await supabase.from("services").insert({ ...formData, slug: formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'), is_active: true });
 
         if (error) {
             alert("Error creating service: " + error.message);

@@ -1,27 +1,35 @@
-import Link from "next/link";
-import { Plus, Edit, Trash2 } from "lucide-react";
+"use client";
 
-// Mock projects data
-const mockProjects = [
-  {
-    id: "1",
-    name: "E-commerce Platform",
-    status: "completed",
-    client: "TechCorp Inc.",
-    created_at: "2024-01-15T00:00:00Z",
-  },
-  {
-    id: "2", 
-    name: "Mobile Banking App",
-    status: "in_progress",
-    client: "FinanceFirst",
-    created_at: "2024-01-10T00:00:00Z",
-  },
-];
+import Link from "next/link";
+import { Plus, Edit, Trash2, Loader2 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
 
 export default function AdminProjectsPage() {
-    const projects = mockProjects;
-    const error = null;
+    const supabase = createClient();
+    const [projects, setProjects] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchProjects = async () => {
+        const { data, error } = await supabase
+            .from("projects")
+            .select("*")
+            .order("created_at", { ascending: false });
+        if (data) setProjects(data);
+        setLoading(false);
+    };
+
+    useEffect(() => { fetchProjects(); }, []);
+
+    const handleDelete = async (id: string) => {
+        if (!confirm("Are you sure you want to delete this project?")) return;
+        const { error } = await supabase.from("projects").delete().eq("id", id);
+        if (error) {
+            alert("Error deleting: " + error.message);
+        } else {
+            setProjects(projects.filter(p => p.id !== id));
+        }
+    };
 
     return (
         <div className="p-8">
@@ -38,51 +46,59 @@ export default function AdminProjectsPage() {
                 </Link>
             </div>
 
-            <div className="bg-white border border-gray-200 shadow-sm overflow-hidden">
-                <table className="w-full text-left border-collapse">
-                    <thead>
-                        <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="p-4 font-bold uppercase text-xs text-gray-500 tracking-widest">Title</th>
-                            <th className="p-4 font-bold uppercase text-xs text-gray-500 tracking-widest">Category</th>
-                            <th className="p-4 font-bold uppercase text-xs text-gray-500 tracking-widest">Stack</th>
-                            <th className="p-4 font-bold uppercase text-xs text-gray-500 tracking-widest">Status</th>
-                            <th className="p-4 font-bold uppercase text-xs text-gray-500 tracking-widest text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {!projects || projects.length === 0 ? (
-                            <tr>
-                                <td colSpan={5} className="p-8 text-center text-gray-400 italic">
-                                    No projects found. Create one to get started.
-                                </td>
+            {loading ? (
+                <div className="flex items-center justify-center py-20">
+                    <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+                </div>
+            ) : (
+                <div className="bg-white border border-gray-200 shadow-sm overflow-hidden">
+                    <table className="w-full text-left border-collapse">
+                        <thead>
+                            <tr className="bg-gray-50 border-b border-gray-200">
+                                <th className="p-4 font-bold uppercase text-xs text-gray-500 tracking-widest">Name</th>
+                                <th className="p-4 font-bold uppercase text-xs text-gray-500 tracking-widest">Client</th>
+                                <th className="p-4 font-bold uppercase text-xs text-gray-500 tracking-widest">Status</th>
+                                <th className="p-4 font-bold uppercase text-xs text-gray-500 tracking-widest">Technologies</th>
+                                <th className="p-4 font-bold uppercase text-xs text-gray-500 tracking-widest text-right">Actions</th>
                             </tr>
-                        ) : (
-                            projects.map((project: any) => (
-                                <tr key={project.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                                    <td className="p-4 font-bold">{project.title}</td>
-                                    <td className="p-4 text-sm text-gray-600 uppercase">{project.category}</td>
-                                    <td className="p-4 text-sm text-gray-500">
-                                        {project.tech_stack?.join(", ") || "-"}
-                                    </td>
-                                    <td className="p-4">
-                                        {project.is_featured ? (
-                                            <span className="bg-green-100 text-green-700 px-2 py-1 text-xs font-bold uppercase rounded-full">Featured</span>
-                                        ) : (
-                                            <span className="bg-gray-100 text-gray-500 px-2 py-1 text-xs font-bold uppercase rounded-full">Normal</span>
-                                        )}
-                                    </td>
-                                    <td className="p-4 text-right space-x-2">
-                                        <Link href={`/admin/technology/projects/${project.id}`} className="inline-block p-2 text-blue-600 hover:bg-blue-50 rounded">
-                                            <Edit className="w-4 h-4" />
-                                        </Link>
-                                        {/* Delete would need a client component or server action form */}
+                        </thead>
+                        <tbody>
+                            {projects.length === 0 ? (
+                                <tr>
+                                    <td colSpan={5} className="p-8 text-center text-gray-400 italic">
+                                        No projects found. Create one to get started.
                                     </td>
                                 </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
-            </div>
+                            ) : (
+                                projects.map((project: any) => (
+                                    <tr key={project.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                        <td className="p-4 font-bold">{project.name}</td>
+                                        <td className="p-4 text-sm text-gray-600">{project.client_name || "-"}</td>
+                                        <td className="p-4">
+                                            <span className={`px-2 py-1 text-xs font-bold uppercase rounded-full ${
+                                                project.status === "completed" ? "bg-green-100 text-green-700" :
+                                                project.status === "in_progress" ? "bg-blue-100 text-blue-700" :
+                                                "bg-gray-100 text-gray-500"
+                                            }`}>{project.status?.replace("_", " ") || "N/A"}</span>
+                                        </td>
+                                        <td className="p-4 text-sm text-gray-500">
+                                            {project.technologies?.join(", ") || "-"}
+                                        </td>
+                                        <td className="p-4 text-right space-x-2">
+                                            <Link href={`/admin/technology/projects/${project.id}`} className="inline-block p-2 text-blue-600 hover:bg-blue-50 rounded">
+                                                <Edit className="w-4 h-4" />
+                                            </Link>
+                                            <button onClick={() => handleDelete(project.id)} className="inline-block p-2 text-red-600 hover:bg-red-50 rounded">
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
     );
 }

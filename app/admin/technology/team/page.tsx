@@ -1,26 +1,35 @@
-import Link from "next/link";
-import { Plus, User, Trash2 } from "lucide-react";
+"use client";
 
-// Mock team data
-const mockMembers = [
-  {
-    id: "1",
-    name: "Sarah Chen",
-    role: "Lead Developer",  
-    email: "sarah@threedine.com",
-    created_at: "2024-01-15T00:00:00Z",
-  },
-  {
-    id: "2",
-    name: "Alex Morgan",
-    role: "UI/UX Designer",
-    email: "alex@threedine.com", 
-    created_at: "2024-01-10T00:00:00Z",
-  },
-];
+import Link from "next/link";
+import { Plus, User, Trash2, Loader2 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
 
 export default function AdminTechTeamPage() {
-    const members = mockMembers;
+    const supabase = createClient();
+    const [members, setMembers] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchMembers = async () => {
+        const { data, error } = await supabase
+            .from("team_members")
+            .select("*")
+            .order("display_order", { ascending: true });
+        if (data) setMembers(data);
+        setLoading(false);
+    };
+
+    useEffect(() => { fetchMembers(); }, []);
+
+    const handleDelete = async (id: string) => {
+        if (!confirm("Are you sure you want to remove this team member?")) return;
+        const { error } = await supabase.from("team_members").delete().eq("id", id);
+        if (error) {
+            alert("Error deleting: " + error.message);
+        } else {
+            setMembers(members.filter(m => m.id !== id));
+        }
+    };
 
     return (
         <div className="p-8">
@@ -37,30 +46,42 @@ export default function AdminTechTeamPage() {
                 </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {!members || members.length === 0 ? (
-                    <div className="col-span-full text-center text-gray-400 italic py-12">
-                        No team members found.
-                    </div>
-                ) : (
-                    members.map((member: any) => (
-                        <div key={member.id} className="bg-white border border-gray-200 p-6 flex flex-col items-center text-center shadow-sm">
-                            <div className="w-24 h-24 bg-gray-100 rounded-full mb-4 overflow-hidden border-2 border-transparent hover:border-black transition-all">
-                                {member.image_url ? (
-                                    <img src={member.image_url} alt={member.name} className="w-full h-full object-cover" />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                                        <User className="w-8 h-8 text-gray-400" />
-                                    </div>
-                                )}
-                            </div>
-                            <h3 className="text-lg font-bold uppercase">{member.name}</h3>
-                            <div className="text-xs font-bold uppercase text-blue-600 tracking-widest mb-2">{member.role}</div>
-                            <p className="text-xs text-gray-500 line-clamp-2">{member.bio}</p>
+            {loading ? (
+                <div className="flex items-center justify-center py-20">
+                    <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {members.length === 0 ? (
+                        <div className="col-span-full text-center text-gray-400 italic py-12">
+                            No team members found. Add one to get started.
                         </div>
-                    ))
-                )}
-            </div>
+                    ) : (
+                        members.map((member: any) => (
+                            <div key={member.id} className="bg-white border border-gray-200 p-6 flex flex-col items-center text-center shadow-sm relative group">
+                                <button
+                                    onClick={() => handleDelete(member.id)}
+                                    className="absolute top-3 right-3 p-1.5 text-red-500 opacity-0 group-hover:opacity-100 hover:bg-red-50 rounded transition-all"
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                </button>
+                                <div className="w-24 h-24 bg-gray-100 rounded-full mb-4 overflow-hidden border-2 border-transparent hover:border-black transition-all">
+                                    {member.image_url ? (
+                                        <img src={member.image_url} alt={member.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                                            <User className="w-8 h-8 text-gray-400" />
+                                        </div>
+                                    )}
+                                </div>
+                                <h3 className="text-lg font-bold uppercase">{member.name}</h3>
+                                <div className="text-xs font-bold uppercase text-blue-600 tracking-widest mb-2">{member.role}</div>
+                                <p className="text-xs text-gray-500 line-clamp-2">{member.bio}</p>
+                            </div>
+                        ))
+                    )}
+                </div>
+            )}
         </div>
     );
 }

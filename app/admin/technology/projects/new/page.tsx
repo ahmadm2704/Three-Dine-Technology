@@ -12,14 +12,14 @@ export default function NewProjectPage() {
     const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
-        title: "",
+        name: "",
         description: "",
-        client: "",
-        category: "Web App",
+        client_name: "",
+        project_type: "Web App",
         image_url: "",
         demo_url: "",
         repo_url: "",
-        tech_stack: "", // Comma separated
+        tech_stack: "",
         is_featured: false
     });
 
@@ -27,17 +27,19 @@ export default function NewProjectPage() {
         e.preventDefault();
         setLoading(true);
 
-        const stackArray = formData.tech_stack.split(",").map(s => s.trim()).filter(s => s);
+        const techArray = formData.tech_stack.split(",").map(s => s.trim()).filter(s => s);
 
-        const { error } = await supabase.from("tech_projects").insert({
-            title: formData.title,
+        const { error } = await supabase.from("projects").insert({
+            name: formData.name,
+            slug: formData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
             description: formData.description,
-            client: formData.client, // Added client field support
+            client_name: formData.client_name,
+            project_type: formData.project_type,
             image_url: formData.image_url,
-            demo_url: formData.demo_url,
-            repo_url: formData.repo_url,
-            tech_stack: stackArray,
-            is_featured: formData.is_featured
+            technologies: techArray,
+            is_featured: formData.is_featured,
+            is_public: true,
+            status: "in_progress",
         });
 
         if (error) {
@@ -63,12 +65,12 @@ export default function NewProjectPage() {
 
                     <div className="grid grid-cols-2 gap-6">
                         <div className="col-span-2">
-                            <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Title</label>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Project Name</label>
                             <input
                                 type="text"
                                 required
-                                value={formData.title}
-                                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                value={formData.name}
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none"
                             />
                         </div>
@@ -84,26 +86,25 @@ export default function NewProjectPage() {
                         </div>
 
                         <div>
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Client</label>
-                                <input
-                                    type="text"
-                                    value={formData.client}
-                                    onChange={(e) => setFormData({ ...formData, client: e.target.value })}
-                                    className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none"
-                                />
-                            </div>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Client Name</label>
+                            <input
+                                type="text"
+                                required
+                                value={formData.client_name}
+                                onChange={(e) => setFormData({ ...formData, client_name: e.target.value })}
+                                className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none"
+                            />
+                        </div>
 
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Category</label>
-                                <input
-                                    type="text"
-                                    value={formData.category}
-                                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                    className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none"
-                                    placeholder="e.g. Fintech, Healthcare"
-                                />
-                            </div>
+                        <div>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Project Type</label>
+                            <input
+                                type="text"
+                                value={formData.project_type}
+                                onChange={(e) => setFormData({ ...formData, project_type: e.target.value })}
+                                className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none"
+                                placeholder="e.g. Web App, Mobile App"
+                            />
                         </div>
 
                         <div>

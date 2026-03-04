@@ -1,28 +1,35 @@
-import Link from "next/link";
-import { Plus, GraduationCap } from "lucide-react";
+"use client";
 
-// Mock partners data
-const mockPartners = [
-  {
-    id: "1",
-    name: "Stanford University",
-    type: "Academic",
-    contact_email: "research@stanford.edu",
-    description: "AI Research Partnership",
-    created_at: "2024-01-15T00:00:00Z",
-  },
-  {
-    id: "2",
-    name: "MIT Research Lab",
-    type: "Academic",
-    contact_email: "partnership@mit.edu",
-    description: "Quantum Computing Research", 
-    created_at: "2024-01-10T00:00:00Z",
-  },
-];
+import Link from "next/link";
+import { Plus, GraduationCap, Trash2, Loader2 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
 
 export default function AdminResearchPartnersPage() {
-    const partners = mockPartners;
+    const supabase = createClient();
+    const [partners, setPartners] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchPartners = async () => {
+        const { data, error } = await supabase
+            .from("research_partners")
+            .select("*")
+            .order("created_at", { ascending: false });
+        if (data) setPartners(data);
+        setLoading(false);
+    };
+
+    useEffect(() => { fetchPartners(); }, []);
+
+    const handleDelete = async (id: string) => {
+        if (!confirm("Are you sure you want to remove this partner?")) return;
+        const { error } = await supabase.from("research_partners").delete().eq("id", id);
+        if (error) {
+            alert("Error deleting: " + error.message);
+        } else {
+            setPartners(partners.filter(p => p.id !== id));
+        }
+    };
 
     return (
         <div className="p-8">
@@ -31,42 +38,50 @@ export default function AdminResearchPartnersPage() {
                     <h1 className="text-3xl font-black uppercase text-black">Research Partners</h1>
                     <p className="text-gray-500">Collaborating universities and institutions.</p>
                 </div>
-                <Link
-                    href="/admin/research/partners/new"
-                    className="bg-black text-white px-6 py-3 font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors flex items-center"
-                >
+                <Link href="/admin/research/partners/new"
+                    className="bg-black text-white px-6 py-3 font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors flex items-center">
                     <Plus className="w-5 h-5 mr-2" /> Add Partner
                 </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {!partners || partners.length === 0 ? (
-                    <div className="col-span-full text-center text-gray-400 italic py-12">
-                        No partners found.
-                    </div>
-                ) : (
-                    partners.map((partner: any) => (
-                        <div key={partner.id} className="bg-white border border-gray-200 p-6 flex items-center space-x-4 shadow-sm hover:shadow-md transition-all">
-                            <div className="w-16 h-16 bg-gray-100 flex items-center justify-center shrink-0">
-                                {partner.logo_url ? (
-                                    <img src={partner.logo_url} alt={partner.name} className="max-w-full max-h-full p-2" />
-                                ) : (
-                                    <GraduationCap className="w-8 h-8 text-gray-400" />
-                                )}
+            {loading ? (
+                <div className="flex items-center justify-center py-20">
+                    <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {partners.length === 0 ? (
+                        <div className="col-span-full text-center text-gray-400 italic py-12">No partners found. Add one to get started.</div>
+                    ) : (
+                        partners.map((partner: any) => (
+                            <div key={partner.id} className="bg-white border border-gray-200 p-6 flex items-center space-x-4 shadow-sm hover:shadow-md transition-all relative group">
+                                <button
+                                    onClick={() => handleDelete(partner.id)}
+                                    className="absolute top-3 right-3 p-1.5 text-red-500 opacity-0 group-hover:opacity-100 hover:bg-red-50 rounded transition-all"
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                </button>
+                                <div className="w-16 h-16 bg-gray-100 flex items-center justify-center shrink-0">
+                                    {partner.logo_url ? (
+                                        <img src={partner.logo_url} alt={partner.name} className="max-w-full max-h-full p-2" />
+                                    ) : (
+                                        <GraduationCap className="w-8 h-8 text-gray-400" />
+                                    )}
+                                </div>
+                                <div>
+                                    <h3 className="font-bold uppercase text-sm mb-1">{partner.name}</h3>
+                                    <div className="text-xs text-gray-500">{partner.location}</div>
+                                    {partner.website_url && (
+                                        <a href={partner.website_url} target="_blank" className="text-[10px] font-bold uppercase text-blue-600 hover:underline mt-1 block">
+                                            Visit Website
+                                        </a>
+                                    )}
+                                </div>
                             </div>
-                            <div>
-                                <h3 className="font-bold uppercase text-sm mb-1">{partner.name}</h3>
-                                <div className="text-xs text-gray-500">{partner.location}</div>
-                                {partner.website_url && (
-                                    <a href={partner.website_url} target="_blank" className="text-[10px] font-bold uppercase text-blue-600 hover:underline mt-1 block">
-                                        Visit Website
-                                    </a>
-                                )}
-                            </div>
-                        </div>
-                    ))
-                )}
-            </div>
+                        ))
+                    )}
+                </div>
+            )}
         </div>
     );
 }
