@@ -3,8 +3,23 @@ import { Button } from "@/components/ui/button"
 import { Calendar, User, ArrowLeft } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { getBlogPostBySlug } from "@/lib/database"
 import { notFound } from "next/navigation"
+
+// Mock blog post data
+const mockBlogPost = {
+  id: "1",
+  title: "The Future of Web Development in 2024",
+  slug: "future-of-web-development-2024",
+  content: `<p>Web development continues to evolve at a rapid pace. In 2024, we're seeing exciting developments in areas like AI integration, serverless architecture, and progressive web apps.</p>
+
+<h2>Key Trends to Watch</h2>
+<p>This year brings several important trends that will shape how we build web applications...</p>`,
+  excerpt: "Exploring the latest trends and technologies shaping the future of web development.",
+  author: "Sarah Chen",
+  published_date: "2024-01-15T00:00:00Z",
+  tags: ["Web Development", "Technology", "Trends"],
+  is_published: true,
+};
 
 interface BlogPostPageProps {
   params: {
@@ -12,10 +27,10 @@ interface BlogPostPageProps {
   }
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = await getBlogPostBySlug(params.slug)
+export default function BlogPostPage({ params }: BlogPostPageProps) {
+  const post = mockBlogPost;
 
-  if (!post) {
+  if (!post || params.slug !== post.slug) {
     notFound()
   }
 
