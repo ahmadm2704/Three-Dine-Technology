@@ -280,52 +280,22 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER set_service_slug_trigger BEFORE INSERT OR UPDATE ON services FOR EACH ROW EXECUTE FUNCTION set_service_slug();
 
 -- ============================================
--- ROW LEVEL SECURITY - PERMISSIVE FOR ALL
+-- ROW LEVEL SECURITY - DISABLED
 -- (App uses its own admin auth, not Supabase Auth)
 -- ============================================
-ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
-ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
-ALTER TABLE team_members ENABLE ROW LEVEL SECURITY;
-ALTER TABLE services ENABLE ROW LEVEL SECURITY;
-ALTER TABLE contact_submissions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE company_stats ENABLE ROW LEVEL SECURITY;
-ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
-ALTER TABLE testimonials ENABLE ROW LEVEL SECURITY;
-ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
-ALTER TABLE research_papers ENABLE ROW LEVEL SECURITY;
-ALTER TABLE research_partners ENABLE ROW LEVEL SECURITY;
-ALTER TABLE research_team ENABLE ROW LEVEL SECURITY;
-ALTER TABLE research_inquiries ENABLE ROW LEVEL SECURITY;
-
--- Allow full access for anon and authenticated roles (app manages its own auth)
-CREATE POLICY "Allow all for anon" ON projects FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON team_members FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON services FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON contact_submissions FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON company_stats FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON blog_posts FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON testimonials FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON newsletter_subscribers FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON admin_users FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON research_papers FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON research_partners FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON research_team FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON research_inquiries FOR ALL TO anon USING (true) WITH CHECK (true);
-
--- Also allow service_role (used by API routes)
-CREATE POLICY "Allow all for service_role" ON projects FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for service_role" ON team_members FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for service_role" ON services FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for service_role" ON contact_submissions FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for service_role" ON company_stats FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for service_role" ON blog_posts FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for service_role" ON testimonials FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for service_role" ON newsletter_subscribers FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for service_role" ON admin_users FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for service_role" ON research_papers FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for service_role" ON research_partners FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for service_role" ON research_team FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for service_role" ON research_inquiries FOR ALL TO service_role USING (true) WITH CHECK (true);
+ALTER TABLE admin_users DISABLE ROW LEVEL SECURITY;
+ALTER TABLE projects DISABLE ROW LEVEL SECURITY;
+ALTER TABLE team_members DISABLE ROW LEVEL SECURITY;
+ALTER TABLE services DISABLE ROW LEVEL SECURITY;
+ALTER TABLE contact_submissions DISABLE ROW LEVEL SECURITY;
+ALTER TABLE company_stats DISABLE ROW LEVEL SECURITY;
+ALTER TABLE blog_posts DISABLE ROW LEVEL SECURITY;
+ALTER TABLE testimonials DISABLE ROW LEVEL SECURITY;
+ALTER TABLE newsletter_subscribers DISABLE ROW LEVEL SECURITY;
+ALTER TABLE research_papers DISABLE ROW LEVEL SECURITY;
+ALTER TABLE research_partners DISABLE ROW LEVEL SECURITY;
+ALTER TABLE research_team DISABLE ROW LEVEL SECURITY;
+ALTER TABLE research_inquiries DISABLE ROW LEVEL SECURITY;
 
 -- ============================================
 -- SEED DATA (Optional - sample admin user)

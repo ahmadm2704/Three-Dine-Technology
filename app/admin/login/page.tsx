@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { Lock, ArrowRight } from "lucide-react";
 
@@ -11,7 +10,6 @@ export default function AdminLoginPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const supabase = createClient();
     const router = useRouter();
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -19,17 +17,25 @@ export default function AdminLoginPage() {
         setLoading(true);
         setError(null);
 
-        const { error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
+        try {
+            const res = await fetch("/api/admin/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
 
-        if (error) {
-            setError(error.message);
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                setError(data.message || "Invalid credentials");
+                setLoading(false);
+            } else {
+                router.push("/admin/dashboard");
+                router.refresh();
+            }
+        } catch {
+            setError("Network error. Please try again.");
             setLoading(false);
-        } else {
-            router.push("/admin/dashboard");
-            router.refresh(); // Refresh to update server components (layout sidebar)
         }
     };
 
