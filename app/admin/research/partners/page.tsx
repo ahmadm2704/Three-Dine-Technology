@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Plus, GraduationCap, Trash2, Loader2 } from "lucide-react";
+import { Plus, GraduationCap, Trash2, Loader2, Edit } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 
@@ -55,12 +55,17 @@ export default function AdminResearchPartnersPage() {
                     ) : (
                         partners.map((partner: any) => (
                             <div key={partner.id} className="bg-white border border-gray-200 p-6 flex items-center space-x-4 shadow-sm hover:shadow-md transition-all relative group">
-                                <button
-                                    onClick={() => handleDelete(partner.id)}
-                                    className="absolute top-3 right-3 p-1.5 text-red-500 opacity-0 group-hover:opacity-100 hover:bg-red-50 rounded transition-all"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
+                                <div className="absolute top-3 right-3 flex space-x-1 opacity-0 group-hover:opacity-100 transition-all">
+                                    <Link href={`/admin/research/partners/${partner.id}`} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded">
+                                        <Edit className="w-4 h-4" />
+                                    </Link>
+                                    <button
+                                        onClick={() => handleDelete(partner.id)}
+                                        className="p-1.5 text-red-500 hover:bg-red-50 rounded"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                </div>
                                 <div className="w-16 h-16 bg-gray-100 flex items-center justify-center shrink-0">
                                     {partner.logo_url ? (
                                         <img src={partner.logo_url} alt={partner.name} className="max-w-full max-h-full p-2" />

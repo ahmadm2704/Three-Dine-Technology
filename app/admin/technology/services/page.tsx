@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Plus, Trash2, Server, Loader2 } from "lucide-react";
+import { Plus, Trash2, Server, Loader2, Edit } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 
@@ -59,12 +59,17 @@ export default function AdminTechServicesPage() {
                     ) : (
                         services.map((service: any) => (
                             <div key={service.id} className="bg-white border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow relative group">
-                                <button
-                                    onClick={() => handleDelete(service.id)}
-                                    className="absolute top-3 right-3 p-1.5 text-red-500 opacity-0 group-hover:opacity-100 hover:bg-red-50 rounded transition-all"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
+                                <div className="absolute top-3 right-3 flex space-x-1 opacity-0 group-hover:opacity-100 transition-all">
+                                    <Link href={`/admin/technology/services/${service.id}`} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded">
+                                        <Edit className="w-4 h-4" />
+                                    </Link>
+                                    <button
+                                        onClick={() => handleDelete(service.id)}
+                                        className="p-1.5 text-red-500 hover:bg-red-50 rounded"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                </div>
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="w-10 h-10 bg-gray-100 flex items-center justify-center rounded">
                                         <Server className="w-5 h-5 text-black" />

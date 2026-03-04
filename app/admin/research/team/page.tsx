@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Plus, User, Trash2, FlaskConical, Loader2 } from "lucide-react";
+import { Plus, User, Trash2, FlaskConical, Loader2, Edit } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 
@@ -55,12 +55,17 @@ export default function AdminResearchTeamPage() {
                     ) : (
                         members.map((member: any) => (
                             <div key={member.id} className="bg-white border border-gray-200 p-6 flex flex-col items-center text-center shadow-sm relative overflow-hidden group">
-                                <button
-                                    onClick={() => handleDelete(member.id)}
-                                    className="absolute top-3 right-3 p-1.5 text-red-500 opacity-0 group-hover:opacity-100 hover:bg-red-50 rounded transition-all z-20"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
+                                <div className="absolute top-3 right-3 flex space-x-1 opacity-0 group-hover:opacity-100 transition-all z-20">
+                                    <Link href={`/admin/research/team/${member.id}`} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded">
+                                        <Edit className="w-4 h-4" />
+                                    </Link>
+                                    <button
+                                        onClick={() => handleDelete(member.id)}
+                                        className="p-1.5 text-red-500 hover:bg-red-50 rounded"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                </div>
                                 <div className="absolute top-0 right-0 p-2 opacity-10">
                                     <FlaskConical className="w-16 h-16" />
                                 </div>
