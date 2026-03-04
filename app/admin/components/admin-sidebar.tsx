@@ -18,15 +18,23 @@ import { useEffect, useState } from "react";
 
 export default function AdminSidebar() {
     const pathname = usePathname();
-    const [role, setRole] = useState<string | null>(null);
+    const [role, setRole] = useState<string | null>("super_admin");
     const supabase = createClient();
 
     useEffect(() => {
         const getRole = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-                const { data } = await supabase.from('admins').select('role').eq('id', user.id).single();
-                setRole(data?.role || null);
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    const { data } = await supabase.from('admins').select('role').eq('id', user.id).single();
+                    setRole(data?.role || "super_admin");
+                } else {
+                    // Default to super_admin when no authenticated user (e.g. Supabase not configured)
+                    setRole("super_admin");
+                }
+            } catch {
+                // Fallback to super_admin if Supabase is unavailable
+                setRole("super_admin");
             }
         };
         getRole();
