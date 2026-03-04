@@ -3,7 +3,7 @@
 "use server"
 
 import { createSession, destroySession } from "@/lib/auth";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createServerClient } from "@supabase/ssr";
 import {
   createProject as createProjectInDatabase,
   updateProject,
@@ -16,6 +16,22 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
+
+// Helper function to create Supabase client
+async function createSupabaseClient() {
+  const cookieStore = await cookies();
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+      },
+    }
+  );
+}
 
 const contactStatusEnum = z.enum(["new", "in_progress", "responded", "closed"]);
 type ContactStatus = z.infer<typeof contactStatusEnum>;
@@ -64,7 +80,7 @@ function getFormData(formData: FormData) {
 
 export async function upsertTeamMember(formData: FormData, id?: string) {
   try {
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = await createSupabaseClient();
     const data = {
       name: formData.get("name"),
       role: formData.get("role"),
@@ -96,7 +112,7 @@ export async function upsertTeamMember(formData: FormData, id?: string) {
 
 export async function fetchTeamMembers() {
   try {
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = await createSupabaseClient();
     const { data, error } = await supabase.from("teams").select("*");
     if (error) throw error;
     return data || [];
@@ -108,7 +124,7 @@ export async function fetchTeamMembers() {
 
 export async function upsertService(formData: FormData, id?: string) {
   try {
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = await createSupabaseClient();
     const data = {
       title: formData.get("title"),
       description: formData.get("description"),
@@ -127,7 +143,7 @@ export async function upsertService(formData: FormData, id?: string) {
 
 export async function deleteTeamMember(id: string) {
   try {
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = await createSupabaseClient();
     const { error } = await supabase.from("teams").delete().eq("id", id);
     if (error) throw error;
     return { success: true, message: "Team member deleted" };
@@ -138,7 +154,7 @@ export async function deleteTeamMember(id: string) {
 
 export async function deleteService(id: string) {
   try {
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = await createSupabaseClient();
     const { error } = await supabase.from("services").delete().eq("id", id);
     if (error) throw error;
     return { success: true, message: "Service deleted" };
@@ -154,7 +170,7 @@ export async function adminSignIn(formData: FormData) {
     const email = (formData.get("email") as string).trim();
     const password = (formData.get("password") as string).trim();
 
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = await createSupabaseClient();
     const { data: admin, error } = await supabase
       .from("admin_users")
       .select("id, email, password_hash")
@@ -219,7 +235,7 @@ export async function createProjectAction(formData: FormData) {
       end_date: parsed.end_date === "" ? null : parsed.end_date,
     };
 
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = await createSupabaseClient();
     const { error } = await supabase.from("projects").insert([sanitizedData]);
 
     if (error) {
@@ -255,7 +271,7 @@ export async function updateProjectAction(id: string, formData: FormData) {
       end_date: parsed.end_date === "" ? null : parsed.end_date,
     };
 
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = await createSupabaseClient();
     const { error } = await supabase.from("projects").update(sanitizedData).eq("id", id);
 
     if (error) {
@@ -285,7 +301,7 @@ export async function deleteProjectAction(id: string) {
 
     if (!isSupabaseConfigured) return { success: false, message: "Supabase not configured - demo mode only" };
 
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = await createSupabaseClient();
     await deleteProject(id);
 
     return { success: true, message: "Project deleted successfully" };
@@ -307,7 +323,7 @@ export async function updateContactAction(id: string, formData: FormData) {
 
     const parsedStatus = contactStatusEnum.parse(status);
 
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = await createSupabaseClient();
     await updateContactSubmission(id, { status: parsedStatus, admin_notes });
 
     return { success: true, message: "Contact updated successfully" };
@@ -327,7 +343,7 @@ export async function updateContactAction(id: string, formData: FormData) {
 
 export async function updateStatsAction(formData: FormData) {
   try {
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = await createSupabaseClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
