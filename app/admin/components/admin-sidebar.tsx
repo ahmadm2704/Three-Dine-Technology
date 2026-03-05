@@ -13,32 +13,32 @@ import {
     Mail,
     Shield
 } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
+
+function getAdminSession(): { role: string; name: string } | null {
+    try {
+        const cookies = document.cookie.split(";").map(c => c.trim());
+        const roleCookie = cookies.find(c => c.startsWith("admin-role="));
+        if (!roleCookie) return null;
+        const value = decodeURIComponent(roleCookie.split("=").slice(1).join("="));
+        return JSON.parse(value);
+    } catch {
+        return null;
+    }
+}
 
 export default function AdminSidebar() {
     const pathname = usePathname();
-    const [role, setRole] = useState<string | null>("super_admin");
-    const supabase = createClient();
+    const [role, setRole] = useState<string>("super_admin");
+    const [adminName, setAdminName] = useState<string>("");
 
     useEffect(() => {
-        const getRole = async () => {
-            try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (user) {
-                    const { data } = await supabase.from('admins').select('role').eq('id', user.id).single();
-                    setRole(data?.role || "super_admin");
-                } else {
-                    // Default to super_admin when no authenticated user (e.g. Supabase not configured)
-                    setRole("super_admin");
-                }
-            } catch {
-                // Fallback to super_admin if Supabase is unavailable
-                setRole("super_admin");
-            }
-        };
-        getRole();
-    }, [supabase]);
+        const session = getAdminSession();
+        if (session) {
+            setRole(session.role || "super_admin");
+            setAdminName(session.name || "");
+        }
+    }, []);
 
     const isActive = (path: string) => pathname.startsWith(path);
 

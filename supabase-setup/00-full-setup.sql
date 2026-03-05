@@ -298,12 +298,15 @@ ALTER TABLE research_team DISABLE ROW LEVEL SECURITY;
 ALTER TABLE research_inquiries DISABLE ROW LEVEL SECURITY;
 
 -- ============================================
--- SEED DATA (Optional - sample admin user)
+-- SEED DATA - Admin Users
 -- ============================================
--- Password: admin123 (bcrypt hash)
+-- All passwords: admin123
+-- Generate new hashes with: node -e "require('bcryptjs').hash('YOUR_PASSWORD',10).then(h=>console.log(h))"
 INSERT INTO admin_users (email, password_hash, name, role) VALUES
-  ('super@threedine.com', '$2b$10$XKrJ7tKVt5YL8QnN5m5Cj.ZQz0FS2q2YJZ5FP7iC8TRhXviJVdOKu', 'Super Admin', 'super_admin')
-ON CONFLICT (email) DO NOTHING;
+  ('super@threedine.com', '$2b$10$k3jq7rU7r6cA5EUcosBwieIiwp9AgOP6zT0okYe/5TLSqb.MC9pDG', 'Super Admin', 'super_admin'),
+  ('tech@threedine.com', '$2b$10$k3jq7rU7r6cA5EUcosBwieIiwp9AgOP6zT0okYe/5TLSqb.MC9pDG', 'Tech Admin', 'tech_admin'),
+  ('research@threedine.com', '$2b$10$k3jq7rU7r6cA5EUcosBwieIiwp9AgOP6zT0okYe/5TLSqb.MC9pDG', 'Research Admin', 'research_admin')
+ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash, role = EXCLUDED.role;
 
 -- ============================================
 -- DONE! All tables created successfully.
