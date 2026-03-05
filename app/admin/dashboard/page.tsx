@@ -1,26 +1,32 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Users, FolderKanban, FileText, Server, Loader2 } from "lucide-react";
 
+function getAdminSession(): { role: string; name: string } | null {
+    try {
+        const cookies = document.cookie.split(";").map(c => c.trim());
+        const roleCookie = cookies.find(c => c.startsWith("admin-role="));
+        if (!roleCookie) return null;
+        const value = decodeURIComponent(roleCookie.split("=").slice(1).join("="));
+        return JSON.parse(value);
+    } catch {
+        return null;
+    }
+}
+
 export default function AdminDashboard() {
     const supabase = createClient();
-    const router = useRouter();
-    const [userEmail, setUserEmail] = useState("super@threedine.com");
+    const [adminName, setAdminName] = useState("");
     const [counts, setCounts] = useState({ projects: 0, papers: 0, services: 0, team: 0 });
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const loadDashboard = async () => {
-            try {
-                // Try to get authenticated user
-                const { data: { user } } = await supabase.auth.getUser();
-                if (user?.email) setUserEmail(user.email);
-            } catch {}
+        const session = getAdminSession();
+        if (session) setAdminName(session.name);
 
-            // Fetch real counts
+        const loadDashboard = async () => {
             try {
                 const [projectsRes, servicesRes, teamRes] = await Promise.all([
                     supabase.from("projects").select("id", { count: "exact", head: true }),
@@ -50,7 +56,7 @@ export default function AdminDashboard() {
         <div className="p-8">
             <div className="mb-8">
                 <h1 className="text-4xl font-black uppercase text-black mb-2">Dashboard</h1>
-                <p className="text-gray-500">Welcome back, <span className="font-bold text-black">{userEmail}</span></p>
+                <p className="text-gray-500">Welcome back, <span className="font-bold text-black">{adminName || "Admin"}</span></p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
