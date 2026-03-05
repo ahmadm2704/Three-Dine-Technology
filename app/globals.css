@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    /* Codistan-inspired Light Mode Colors */
+    /* Light Mode Colors */
     --background: 0 0% 100%;
     /* White */
     --foreground: 0 0% 0%;
@@ -39,6 +39,37 @@
     --ring: 212 96% 54%;
 
     --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 47% 6%;
+    /* Dark navy #0a0f1c */
+    --foreground: 0 0% 95%;
+
+    --card: 222 40% 10%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 222 40% 10%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 212 96% 54%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 222 30% 14%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 222 30% 14%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 222 30% 14%;
+    --accent-foreground: 0 0% 90%;
+
+    --destructive: 0 80% 55%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 222 20% 18%;
+    --input: 222 20% 18%;
+    --ring: 212 96% 54%;
   }
 }
 

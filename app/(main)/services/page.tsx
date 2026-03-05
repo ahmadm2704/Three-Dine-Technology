@@ -70,7 +70,7 @@ export default function ServicesPage() {
   }
 
   return (
-    <div className="bg-white min-h-screen pt-24 pb-20">
+    <div className="bg-white dark:bg-gray-950 min-h-screen pt-24 pb-20">
       {/* HERO SECTION */}
       <section className="relative px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-32">
         <div className="absolute top-0 right-0 -z-10 opacity-[0.05] pointer-events-none select-none">
@@ -83,13 +83,13 @@ export default function ServicesPage() {
           transition={{ duration: 0.8 }}
           className="mt-20"
         >
-          <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tight mb-8">
+          <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tight mb-8 dark:text-white">
             Our <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-600" style={{ WebkitTextStroke: '1px black' }}>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-600 dark:from-white dark:to-gray-400" style={{ WebkitTextStroke: '1px black' }}>
               Expertise
             </span>
           </h1>
-          <p className="text-xl text-gray-500 max-w-2xl leading-relaxed font-light">
+          <p className="text-xl text-gray-500 dark:text-gray-400 max-w-2xl leading-relaxed font-light">
             We deliver comprehensive technical solutions tailored to your unique business challenges. From code to cloud, we have you covered.
           </p>
         </motion.div>
@@ -97,15 +97,15 @@ export default function ServicesPage() {
 
       {/* SERVICES GRID */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-200 border border-gray-200">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-200 dark:bg-gray-700 border border-gray-200 dark:border-gray-700">
           {services.map((service, index) => (
-            <div key={index} id={service.id} className="bg-white p-12 hover:bg-black hover:text-white transition-all duration-500 group relative overflow-hidden">
+            <div key={index} id={service.id} className="bg-white dark:bg-gray-950 p-12 hover:bg-blue-600 hover:text-white transition-all duration-500 group relative overflow-hidden">
               {/* Number Background */}
-              <span className="absolute top-4 right-6 text-6xl font-black text-gray-100 group-hover:text-white/10 transition-colors">
+              <span className="absolute top-4 right-6 text-6xl font-black text-gray-100 dark:text-gray-800 group-hover:text-white/10 transition-colors">
                 0{index + 1}
               </span>
 
-              <div className="w-16 h-16 mb-8 text-black group-hover:text-white transition-colors">
+              <div className="w-16 h-16 mb-8 text-black dark:text-white group-hover:text-white transition-colors">
                 <SketchyIcon icon={iconMap[service.icon] || Code2} className="w-full h-full" color="currentColor" delay={index * 0.1} />
               </div>
 
@@ -129,8 +129,8 @@ export default function ServicesPage() {
 
       {/* FINAL CTA */}
       <section className="mt-32 text-center px-4">
-        <h2 className="text-4xl font-black uppercase mb-8">Need a Custom Solution?</h2>
-        <Link href="/contact" className="inline-block px-10 py-5 bg-black text-white font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors">
+        <h2 className="text-4xl font-black uppercase mb-8 dark:text-white">Need a Custom Solution?</h2>
+        <Link href="/contact" className="inline-block px-10 py-5 bg-blue-600 text-white font-bold uppercase tracking-widest hover:bg-blue-700 transition-colors">
           Contact Engineering
         </Link>
       </section>

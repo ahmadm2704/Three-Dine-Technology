@@ -70,12 +70,12 @@ export default function TechnologyPage() {
   ];
 
   return (
-    <div className="bg-white min-h-screen text-black font-sans selection:bg-black selection:text-white">
+    <div className="bg-white dark:bg-gray-950 min-h-screen text-black dark:text-white font-sans selection:bg-black selection:text-white">
 
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden border-b border-black">
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden border-b border-black dark:border-gray-700">
         {/* Background Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
         {/* Massive Background Text */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.03]">
@@ -93,27 +93,27 @@ export default function TechnologyPage() {
             transition={{ duration: 0.8 }}
             className="space-y-8 text-center md:text-left"
           >
-            <div className="inline-block px-3 py-1 border border-black text-xs font-bold uppercase tracking-widest bg-black text-white">
+            <div className="inline-block px-3 py-1 border border-blue-600 text-xs font-bold uppercase tracking-widest bg-blue-600 text-white">
               Premium Development Agency
             </div>
 
             <h1 className="text-6xl md:text-8xl font-black uppercase leading-[0.9] tracking-tight">
               We Build <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-500" style={{ WebkitTextStroke: '2px black' }}>
+              <span className="text-blue-600">
                 Digital
               </span>
               <br />
               Realities.
             </h1>
 
-            <p className="text-xl md:text-2xl text-gray-600 max-w-lg leading-relaxed font-light mx-auto md:mx-0">
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-lg leading-relaxed font-light mx-auto md:mx-0">
               From initial concept to market dominance. We engineer robust digital solutions that scale.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
               <Link
                 href="/contact"
-                className="group relative px-8 py-4 bg-black text-white font-bold text-lg uppercase tracking-wide hover:bg-gray-800 transition-all"
+                className="group relative px-8 py-4 bg-blue-600 text-white font-bold text-lg uppercase tracking-wide hover:bg-blue-700 transition-all"
               >
                 <span className="flex items-center space-x-3">
                   <span>Start Project</span>
@@ -123,7 +123,7 @@ export default function TechnologyPage() {
 
               <Link
                 href="/portfolio"
-                className="group inline-flex items-center justify-center px-8 py-4 border-2 border-black text-black font-bold text-lg uppercase tracking-wide hover:bg-black hover:text-white transition-all"
+                className="group inline-flex items-center justify-center px-8 py-4 border-2 border-blue-600 text-blue-600 font-bold text-lg uppercase tracking-wide hover:bg-blue-600 hover:text-white transition-all"
               >
                 View Work
               </Link>
@@ -138,8 +138,8 @@ export default function TechnologyPage() {
             className="flex justify-center items-center relative"
           >
             {/* Decorative Circle */}
-            <div className="absolute inset-0 border border-dashed border-gray-300 rounded-full animate-spin-slow pointer-events-none" style={{ animationDuration: '30s' }}></div>
-            <div className=" bg-white p-12 rounded-full shadow-2xl shadow-gray-200 border border-gray-100 z-10 w-[400px] h-[400px] flex items-center justify-center">
+            <div className="absolute inset-0 border border-dashed border-gray-300 dark:border-gray-600 rounded-full animate-spin-slow pointer-events-none" style={{ animationDuration: '30s' }}></div>
+            <div className=" bg-white dark:bg-gray-900 p-12 rounded-full shadow-2xl shadow-gray-200 dark:shadow-gray-900/50 border border-gray-100 dark:border-gray-800 z-10 w-[400px] h-[400px] flex items-center justify-center">
               <StorySequence stages={techProcessStory} color="text-black" />
             </div>
           </motion.div>
@@ -180,7 +180,7 @@ export default function TechnologyPage() {
                   <SketchyIcon icon={feature.icon} className="w-full h-full" color="text-white" delay={index * 0.2} />
                 </div>
 
-                <h3 className="text-2xl font-bold mb-4 uppercase tracking-tight group-hover:text-blue-400 transition-colors">{feature.title}</h3>
+                <h3 className="text-2xl font-bold mb-4 uppercase tracking-tight group-hover:text-blue-500 transition-colors">{feature.title}</h3>
                 <p className="text-gray-400 leading-relaxed font-light">{feature.description}</p>
               </div>
             ))}
@@ -189,15 +189,15 @@ export default function TechnologyPage() {
       </section>
 
       {/* 3. STATS SECTION - Minimalist */}
-      <section className="py-24 bg-white border-b border-black">
+      <section className="py-24 bg-white dark:bg-gray-950 border-b border-black dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             {stats.map((stat, index) => (
               <div key={index} className="text-center group">
-                <div className="text-6xl md:text-7xl font-black text-black mb-2 group-hover:scale-110 transition-transform duration-300 inline-block font-sans">
+                <div className="text-6xl md:text-7xl font-black text-black dark:text-white mb-2 group-hover:scale-110 transition-transform duration-300 inline-block font-sans">
                   {stat.number}
                 </div>
-                <div className="text-gray-500 font-bold uppercase tracking-widest text-sm border-t-2 border-transparent group-hover:border-black pt-4 inline-block transition-all">
+                <div className="text-gray-500 font-bold uppercase tracking-widest text-sm border-t-2 border-transparent group-hover:border-blue-600 pt-4 inline-block transition-all">
                   {stat.label}
                 </div>
               </div>
@@ -207,28 +207,28 @@ export default function TechnologyPage() {
       </section>
 
       {/* 4. TESTIMONIALS - Clean Grid */}
-      <section className="py-32 bg-gray-50 relative">
+      <section className="py-32 bg-gray-50 dark:bg-gray-900 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-6xl font-black uppercase mb-6">Clients Trust Us</h2>
-            <div className="h-1 w-24 bg-black mx-auto"></div>
+            <div className="h-1 w-24 bg-blue-600 mx-auto"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white p-10 shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                <div className="flex items-center mb-6 text-black">
+              <div key={index} className="bg-white dark:bg-gray-800 p-10 shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                <div className="flex items-center mb-6 text-black dark:text-white">
                   {Array.from({ length: testimonial.rating }).map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-800 mb-8 leading-loose italic text-lg">"{testimonial.content}"</p>
-                <div className="flex items-center border-t border-gray-100 pt-6">
-                  <div className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center font-bold mr-4">
+                <p className="text-gray-800 dark:text-gray-300 mb-8 leading-loose italic text-lg">"{testimonial.content}"</p>
+                <div className="flex items-center border-t border-gray-100 dark:border-gray-700 pt-6">
+                  <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
                     {testimonial.name[0]}
                   </div>
                   <div>
-                    <div className="font-bold text-black uppercase text-sm tracking-wide">{testimonial.name}</div>
+                    <div className="font-bold text-black dark:text-white uppercase text-sm tracking-wide">{testimonial.name}</div>
                     <div className="text-gray-500 text-xs font-bold uppercase">{testimonial.role}</div>
                   </div>
                 </div>
@@ -250,7 +250,7 @@ export default function TechnologyPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-block bg-white text-black font-black text-xl px-16 py-6 hover:bg-transparent hover:text-white hover:border-white border-2 border-white transition-all duration-300 uppercase tracking-widest"
+            className="inline-block bg-blue-600 text-white font-black text-xl px-16 py-6 hover:bg-blue-700 border-2 border-blue-600 hover:border-blue-700 transition-all duration-300 uppercase tracking-widest"
           >
             Get In Touch
           </Link>

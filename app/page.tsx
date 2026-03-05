@@ -52,7 +52,7 @@ export default function GatewayPage() {
     ];
 
     return (
-        <div className="h-[100dvh] w-full flex flex-col md:flex-row overflow-hidden bg-black">
+        <div className="h-[100dvh] w-full flex flex-col-reverse md:flex-row overflow-hidden bg-black">
             {/* LEFT SIDE: TECHNOLOGY */}
             <motion.div
                 className="relative flex-1 md:flex-none flex items-center justify-center overflow-hidden cursor-pointer"

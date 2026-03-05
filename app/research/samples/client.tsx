@@ -5,10 +5,10 @@ import Link from "next/link";
 
 export default function ResearchSamplesClient({ samples }: { samples: any[] }) {
     return (
-        <div className="bg-white text-black min-h-screen">
-            <section className="py-24 px-4 text-center border-b border-black">
+        <div className="bg-white dark:bg-gray-950 text-black dark:text-white min-h-screen">
+            <section className="py-24 px-4 text-center border-b border-black dark:border-gray-700">
                 <h1 className="text-6xl font-black uppercase tracking-tighter mb-4">Research Samples</h1>
-                <p className="text-xl text-gray-600">Access our open-source findings and technical reports.</p>
+                <p className="text-xl text-gray-600 dark:text-gray-400">Access our open-source findings and technical reports.</p>
             </section>
 
             <section className="max-w-5xl mx-auto px-4 py-16">
@@ -17,8 +17,8 @@ export default function ResearchSamplesClient({ samples }: { samples: any[] }) {
                         <div className="text-center text-gray-500 italic py-12">No publications available at this time. Check back soon.</div>
                     ) : (
                         samples.map((sample, i) => (
-                            <div key={i} className="flex flex-col md:flex-row items-center border border-black p-6 hover:shadow-lg transition-all">
-                                <div className="w-12 h-12 bg-black text-white flex items-center justify-center mr-6 shrink-0">
+                            <div key={i} className="flex flex-col md:flex-row items-center border border-black dark:border-gray-700 p-6 hover:shadow-lg transition-all">
+                                <div className="w-12 h-12 bg-black dark:bg-white text-white dark:text-black flex items-center justify-center mr-6 shrink-0">
                                     <FileText className="w-6 h-6" />
                                 </div>
 
@@ -29,11 +29,11 @@ export default function ResearchSamplesClient({ samples }: { samples: any[] }) {
                                         Published: {sample.publication_date}
                                         {sample.file_size ? ` • Size: ${sample.file_size}` : ''}
                                     </div>
-                                    <p className="text-sm text-gray-600 mt-2 line-clamp-2">{sample.abstract}</p>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 line-clamp-2">{sample.abstract}</p>
                                 </div>
 
                                 {sample.file_url ? (
-                                    <a href={sample.file_url} target="_blank" className="flex items-center px-6 py-3 border-2 border-black font-bold uppercase text-sm hover:bg-black hover:text-white transition-colors">
+                                    <a href={sample.file_url} target="_blank" className="flex items-center px-6 py-3 border-2 border-black dark:border-white font-bold uppercase text-sm hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
                                         Download <Download className="ml-2 w-4 h-4" />
                                     </a>
                                 ) : (
@@ -47,8 +47,8 @@ export default function ResearchSamplesClient({ samples }: { samples: any[] }) {
                 </div>
 
                 <div className="mt-16 text-center">
-                    <p className="text-lg text-gray-600 mb-6">Need access to our full archive?</p>
-                    <Link href="/research/contact" className="inline-flex items-center font-bold uppercase border-b-2 border-black pb-1 hover:text-blue-600 hover:border-blue-600 transition-colors">
+                    <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">Need access to our full archive?</p>
+                    <Link href="/research/contact" className="inline-flex items-center font-bold uppercase border-b-2 border-black dark:border-white pb-1 hover:text-blue-600 hover:border-blue-600 transition-colors">
                         Request Archival Access <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>
                 </div>

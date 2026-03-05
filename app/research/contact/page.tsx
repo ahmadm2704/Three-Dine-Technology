@@ -43,7 +43,7 @@ export default function ResearchContactPage() {
     };
 
     return (
-        <div className="bg-white text-black min-h-screen flex flex-col md:flex-row">
+        <div className="bg-white dark:bg-gray-950 text-black dark:text-white min-h-screen flex flex-col md:flex-row">
 
             {/* LEFT: Info */}
             <div className="w-full md:w-1/2 bg-black text-white p-12 md:p-24 flex flex-col justify-center">
@@ -78,13 +78,13 @@ export default function ResearchContactPage() {
             </div>
 
             {/* RIGHT: Form */}
-            <div className="w-full md:w-1/2 p-12 md:p-24 flex flex-col justify-center bg-white">
+            <div className="w-full md:w-1/2 p-12 md:p-24 flex flex-col justify-center bg-white dark:bg-gray-950">
                 {sent ? (
                     <div className="text-center w-full">
                         <div className="text-6xl mb-4">🔬</div>
                         <h2 className="text-4xl font-black uppercase mb-4">Inquiry Received</h2>
                         <p className="text-gray-500 text-xl font-light">Our research team will review your proposal.</p>
-                        <button onClick={() => setSent(false)} className="mt-8 text-black underline font-bold uppercase tracking-widest text-sm">Submit Another</button>
+                        <button onClick={() => setSent(false)} className="mt-8 text-black dark:text-white underline font-bold uppercase tracking-widest text-sm">Submit Another</button>
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} className="space-y-8">
@@ -95,7 +95,7 @@ export default function ResearchContactPage() {
                                 required
                                 value={formData.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                className="w-full border-b-2 border-gray-200 py-3 focus:outline-none focus:border-black transition-colors text-xl font-bold bg-transparent"
+                                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-3 focus:outline-none focus:border-black dark:focus:border-white transition-colors text-xl font-bold bg-transparent"
                                 placeholder="John Doe"
                             />
                         </div>
@@ -108,7 +108,7 @@ export default function ResearchContactPage() {
                                 required
                                 value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                className="w-full border-b-2 border-gray-200 py-3 focus:outline-none focus:border-black transition-colors text-xl font-bold bg-transparent"
+                                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-3 focus:outline-none focus:border-black dark:focus:border-white transition-colors text-xl font-bold bg-transparent"
                                 placeholder="john@university.edu"
                             />
                         </div>
@@ -119,7 +119,7 @@ export default function ResearchContactPage() {
                                 type="text"
                                 value={formData.institution}
                                 onChange={(e) => setFormData({ ...formData, institution: e.target.value })}
-                                className="w-full border-b-2 border-gray-200 py-3 focus:outline-none focus:border-black transition-colors text-xl font-bold bg-transparent"
+                                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-3 focus:outline-none focus:border-black dark:focus:border-white transition-colors text-xl font-bold bg-transparent"
                                 placeholder="University of X"
                             />
                         </div>
@@ -129,7 +129,7 @@ export default function ResearchContactPage() {
                             <select
                                 value={formData.subject}
                                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                                className="w-full border-b-2 border-gray-200 py-3 focus:outline-none focus:border-black transition-colors text-xl font-bold bg-transparent"
+                                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-3 focus:outline-none focus:border-black dark:focus:border-white transition-colors text-xl font-bold bg-transparent"
                             >
                                 <option>Proposal for Collaboration</option>
                                 <option>Access to Data</option>
@@ -144,7 +144,7 @@ export default function ResearchContactPage() {
                                 required
                                 value={formData.message}
                                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                className="w-full border-b-2 border-gray-200 py-3 focus:outline-none focus:border-black transition-colors text-lg bg-transparent min-h-[100px]"
+                                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-3 focus:outline-none focus:border-black dark:focus:border-white transition-colors text-lg bg-transparent min-h-[100px]"
                                 placeholder="Describe your inquiry..."
                             ></textarea>
                         </div>

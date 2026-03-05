@@ -25,9 +25,9 @@ export default function ResearchLayout({
     children: React.ReactNode
 }) {
     return (
-        <div className={`${oswald.variable} ${openSans.variable} font-sans bg-white text-black min-h-screen flex flex-col`}>
+        <div className={`${oswald.variable} ${openSans.variable} font-sans bg-white dark:bg-gray-950 text-black dark:text-white min-h-screen flex flex-col`}>
             <ResearchNavbar />
-            <main className="flex-grow pt-16">
+            <main className="flex-grow pt-24">
                 {children}
             </main>
             <ResearchFooter />

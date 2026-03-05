@@ -11,18 +11,20 @@ const fallbackProjects = [
     title: "E-commerce Platform",
     client: "TechCorp Inc.",
     description: "Modern e-commerce platform with advanced features",
-    category: "Web Application",
+    category: "Full Stack",
     tech_stack: ["React", "Node.js", "PostgreSQL"],
     demo_url: "#",
+    image_url: "",
   },
   {
     id: "2",
     title: "Mobile Banking App",
     client: "FinanceFirst",
     description: "Secure mobile banking application",
-    category: "Mobile App",
+    category: "Full Stack",
     tech_stack: ["React Native", "Node.js"],
     demo_url: "#",
+    image_url: "",
   },
 ];
 
@@ -49,9 +51,10 @@ export default function PortfolioPage() {
               title: p.name,
               client: p.client_name,
               description: p.description,
-              category: p.project_type || "Web Application",
+              category: p.project_type || "Full Stack",
               tech_stack: p.technologies || [],
               demo_url: p.demo_url || "#",
+              image_url: p.image_url || "",
             }))
           );
         }
@@ -66,8 +69,8 @@ export default function PortfolioPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+      <div className="min-h-screen bg-[#0a0f1c] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
       </div>
     );
   }

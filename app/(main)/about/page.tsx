@@ -30,7 +30,7 @@ export default function AboutPage() {
     ];
 
     return (
-        <div className="bg-white min-h-screen pt-24 pb-20">
+        <div className="bg-white dark:bg-gray-950 min-h-screen pt-24 pb-20">
 
             {/* HERO */}
             <section className="relative px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-32">
@@ -45,16 +45,16 @@ export default function AboutPage() {
                     className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
                 >
                     <div>
-                        <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tight mb-8">
+                        <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tight mb-8 dark:text-white">
                             Who <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-500" style={{ WebkitTextStroke: '2px black' }}>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-500 dark:from-white dark:to-gray-400" style={{ WebkitTextStroke: '2px black' }}>
                                 We Are
                             </span>
                         </h1>
-                        <div className="h-1 w-24 bg-black mb-8"></div>
+                        <div className="h-1 w-24 bg-blue-600 mb-8"></div>
                     </div>
 
-                    <div className="text-xl leading-relaxed font-light text-gray-600">
+                    <div className="text-xl leading-relaxed font-light text-gray-600 dark:text-gray-400">
                         <p className="mb-6">
                             Three Dine Technology is a forward-thinking digital innovation agency. We bridge the gap between complex problems and elegant, scalable solutions.
                         </p>
@@ -74,7 +74,7 @@ export default function AboutPage() {
                         {values.map((value, index) => (
                             <div key={index} className="text-center group">
                                 <div className="w-24 h-24 mx-auto mb-8 text-white relative">
-                                    <div className="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                                <div className="absolute inset-0 bg-blue-500/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
                                     <SketchyIcon icon={value.icon} className="w-full h-full relative z-10" color="currentColor" delay={index * 0.2} />
                                 </div>
                                 <h3 className="text-2xl font-bold uppercase mb-4 tracking-wide">{value.title}</h3>
@@ -90,11 +90,11 @@ export default function AboutPage() {
             {/* STORY SECTION */}
             <section className="py-32 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start gap-16">
                 <div className="md:w-1/3">
-                    <h2 className="text-5xl font-black uppercase sticky top-32 leading-none">
+                    <h2 className="text-5xl font-black uppercase sticky top-32 leading-none dark:text-white">
                         Our <br /> <span className="text-outline-black">Origin</span>
                     </h2>
                 </div>
-                <div className="md:w-2/3 space-y-12 text-lg text-gray-800 leading-loose border-l-2 border-black pl-8 md:pl-16">
+                <div className="md:w-2/3 space-y-12 text-lg text-gray-800 dark:text-gray-300 leading-loose border-l-2 border-blue-600 pl-8 md:pl-16">
                     <div>
                         <span className="text-4xl font-black block mb-4">2018</span>
                         <p>Four engineers in a garage with a shared skepticism of "bloated software." The first line of code for Three Dine was written on a napkin.</p>
@@ -111,8 +111,8 @@ export default function AboutPage() {
             </section>
 
             {/* CTA */}
-            <section className="text-center py-24 border-t border-black">
-                <Link href="/team" className="group inline-flex items-center text-4xl font-black uppercase hover:text-gray-500 transition-colors">
+            <section className="text-center py-24 border-t border-gray-200 dark:border-gray-700">
+                <Link href="/team" className="group inline-flex items-center text-4xl font-black uppercase hover:text-blue-600 transition-colors dark:text-white">
                     Meet the Team <ArrowRight className="ml-4 w-12 h-12 group-hover:translate-x-4 transition-transform" />
                 </Link>
             </section>

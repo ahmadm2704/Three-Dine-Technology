@@ -8,6 +8,7 @@ export default function ResearchFooter() {
 
     const links = [
         { name: "About Division", href: "/research/about" },
+        { name: "Research Team", href: "/research/team" },
         { name: "Partner Universities", href: "/research/universities" },
         { name: "Research Samples", href: "/research/samples" },
         { name: "Contact Team", href: "/research/contact" },

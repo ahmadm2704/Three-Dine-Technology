@@ -39,7 +39,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-white min-h-screen pt-20 flex flex-col md:flex-row">
+    <div className="bg-white dark:bg-gray-950 min-h-screen pt-20 flex flex-col md:flex-row">
 
       {/* LEFT SIDE: INFO (Black) */}
       <div className="w-full md:w-1/2 bg-black text-white p-12 md:p-24 flex flex-col justify-between relative overflow-hidden">
@@ -74,19 +74,19 @@ export default function ContactPage() {
       </div>
 
       {/* RIGHT SIDE: FORM (White) */}
-      <div className="w-full md:w-1/2 bg-white p-12 md:p-24 flex items-center">
+      <div className="w-full md:w-1/2 bg-white dark:bg-gray-950 p-12 md:p-24 flex items-center">
         {sent ? (
           <div className="text-center w-full">
             <div className="text-6xl mb-4">✅</div>
-            <h2 className="text-4xl font-black uppercase mb-4">Message Sent</h2>
+            <h2 className="text-4xl font-black uppercase mb-4 dark:text-white">Message Sent</h2>
             <p className="text-gray-500 text-xl font-light">We will get back to you shortly.</p>
-            <button onClick={() => setSent(false)} className="mt-8 text-black underline font-bold uppercase tracking-widest text-sm">Send Another</button>
+            <button onClick={() => setSent(false)} className="mt-8 text-black dark:text-white underline font-bold uppercase tracking-widest text-sm">Send Another</button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="w-full max-w-lg space-y-12">
 
             <div className="space-y-2 group">
-              <label className="text-xs font-bold uppercase tracking-widest text-gray-400 group-focus-within:text-black transition-colors">
+              <label className="text-xs font-bold uppercase tracking-widest text-gray-400 group-focus-within:text-black dark:group-focus-within:text-white transition-colors">
                 Your Name
               </label>
               <input
@@ -94,13 +94,13 @@ export default function ContactPage() {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full border-b-2 border-gray-200 py-4 text-xl font-bold text-black focus:outline-none focus:border-black transition-colors bg-transparent placeholder-gray-200"
+                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-4 text-xl font-bold text-black dark:text-white focus:outline-none focus:border-blue-600 transition-colors bg-transparent placeholder-gray-200 dark:placeholder-gray-600"
                 placeholder="John Doe"
               />
             </div>
 
             <div className="space-y-2 group">
-              <label className="text-xs font-bold uppercase tracking-widest text-gray-400 group-focus-within:text-black transition-colors">
+              <label className="text-xs font-bold uppercase tracking-widest text-gray-400 group-focus-within:text-black dark:group-focus-within:text-white transition-colors">
                 Email Address
               </label>
               <input
@@ -108,19 +108,19 @@ export default function ContactPage() {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full border-b-2 border-gray-200 py-4 text-xl font-bold text-black focus:outline-none focus:border-black transition-colors bg-transparent placeholder-gray-200"
+                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-4 text-xl font-bold text-black dark:text-white focus:outline-none focus:border-blue-600 transition-colors bg-transparent placeholder-gray-200 dark:placeholder-gray-600"
                 placeholder="john@example.com"
               />
             </div>
 
             <div className="space-y-2 group">
-              <label className="text-xs font-bold uppercase tracking-widest text-gray-400 group-focus-within:text-black transition-colors">
+              <label className="text-xs font-bold uppercase tracking-widest text-gray-400 group-focus-within:text-black dark:group-focus-within:text-white transition-colors">
                 Services Interested In
               </label>
               <select
                 value={formData.subject}
                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                className="w-full border-b-2 border-gray-200 py-4 text-xl font-bold text-black focus:outline-none focus:border-black transition-colors bg-transparent cursor-pointer"
+                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-4 text-xl font-bold text-black dark:text-white focus:outline-none focus:border-blue-600 transition-colors bg-transparent cursor-pointer"
               >
                 <option>Web Development</option>
                 <option>Mobile App</option>
@@ -131,7 +131,7 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-2 group">
-              <label className="text-xs font-bold uppercase tracking-widest text-gray-400 group-focus-within:text-black transition-colors">
+              <label className="text-xs font-bold uppercase tracking-widest text-gray-400 group-focus-within:text-black dark:group-focus-within:text-white transition-colors">
                 Project Details
               </label>
               <textarea
@@ -139,7 +139,7 @@ export default function ContactPage() {
                 required
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full border-b-2 border-gray-200 py-4 text-xl font-bold text-black focus:outline-none focus:border-black transition-colors bg-transparent placeholder-gray-200 resize-none"
+                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-4 text-xl font-bold text-black dark:text-white focus:outline-none focus:border-blue-600 transition-colors bg-transparent placeholder-gray-200 dark:placeholder-gray-600 resize-none"
                 placeholder="Tell us about your idea..."
               />
             </div>
@@ -147,7 +147,7 @@ export default function ContactPage() {
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center space-x-4 bg-black text-white px-10 py-5 font-bold uppercase tracking-widest hover:bg-gray-800 transition-all group w-full md:w-auto justify-center"
+              className="flex items-center space-x-4 bg-blue-600 text-white px-10 py-5 font-bold uppercase tracking-widest hover:bg-blue-700 transition-all group w-full md:w-auto justify-center">
             >
               <span>{loading ? "Sending..." : "Send Message"}</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />

@@ -41,12 +41,12 @@ export default function ResearchHomePage() {
     ];
 
     return (
-        <div className="bg-white text-black font-sans selection:bg-black selection:text-white">
+        <div className="bg-white dark:bg-gray-950 text-black dark:text-white font-sans selection:bg-black selection:text-white">
 
             {/* 1. HERO SECTION */}
-            <section className="relative h-screen flex items-center justify-center overflow-hidden border-b border-black pt-16">
+            <section className="relative h-screen flex items-center justify-center overflow-hidden border-b border-black dark:border-gray-700 pt-16">
                 {/* Background Grid */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
                 {/* Massive Background Text - Always visible now */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.03]">
@@ -64,29 +64,29 @@ export default function ResearchHomePage() {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="space-y-8 text-center md:text-left order-2 md:order-1"
                     >
-                        <div className="inline-block px-3 py-1 border border-black text-xs font-bold uppercase tracking-widest bg-black text-white">
+                        <div className="inline-block px-3 py-1 border border-black dark:border-white text-xs font-bold uppercase tracking-widest bg-black dark:bg-white text-white dark:text-black">
                             Scientific Division
                         </div>
 
                         <h1 className="text-6xl md:text-8xl font-black uppercase leading-[0.9] tracking-tight">
                             Scientific<br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-500" style={{ WebkitTextStroke: '2px black' }}>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-500 dark:from-white dark:to-gray-400" style={{ WebkitTextStroke: '2px black' }}>
                                 Excellence
                             </span>
                         </h1>
 
-                        <p className="text-xl md:text-2xl text-gray-600 max-w-lg leading-relaxed font-light mx-auto md:mx-0">
+                        <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-lg leading-relaxed font-light mx-auto md:mx-0">
                             Pushing the boundaries of knowledge through rigorous inquiry and innovation.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
-                            <Link href="/research/about" className="group relative px-8 py-4 bg-black text-white font-bold text-lg uppercase tracking-wide hover:bg-gray-800 transition-all">
+                            <Link href="/research/about" className="group relative px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-bold text-lg uppercase tracking-wide hover:bg-gray-800 dark:hover:bg-gray-200 transition-all">
                                 <span className="flex items-center space-x-3">
                                     <span>Explore Mission</span>
                                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                 </span>
                             </Link>
-                            <Link href="/research/samples" className="group inline-flex items-center justify-center px-8 py-4 border-2 border-black text-black font-bold text-lg uppercase tracking-wide hover:bg-black hover:text-white transition-all">
+                            <Link href="/research/samples" className="group inline-flex items-center justify-center px-8 py-4 border-2 border-black dark:border-white text-black dark:text-white font-bold text-lg uppercase tracking-wide hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
                                 View Samples
                             </Link>
                         </div>
@@ -100,9 +100,9 @@ export default function ResearchHomePage() {
                         className="flex justify-center items-center relative order-1 md:order-2 w-full place-self-center py-20"
                     >
                         {/* Decorative Circle */}
-                        <div className="absolute inset-0 border border-dashed border-gray-300 rounded-full animate-spin-slow pointer-events-none opacity-50" style={{ animationDuration: '30s' }}></div>
+                        <div className="absolute inset-0 border border-dashed border-gray-300 dark:border-gray-600 rounded-full animate-spin-slow pointer-events-none opacity-50" style={{ animationDuration: '30s' }}></div>
 
-                        <div className="bg-white p-6 md:p-12 rounded-full shadow-2xl shadow-gray-200 border border-gray-100 z-10 w-[300px] h-[300px] md:w-[450px] md:h-[450px] flex items-center justify-center relative">
+                        <div className="bg-white dark:bg-gray-900 p-6 md:p-12 rounded-full shadow-2xl shadow-gray-200 dark:shadow-gray-900/50 border border-gray-100 dark:border-gray-800 z-10 w-[300px] h-[300px] md:w-[450px] md:h-[450px] flex items-center justify-center relative">
                             <StorySequence stages={researchProcessStory} color="text-black" />
                         </div>
                     </motion.div>
@@ -113,14 +113,14 @@ export default function ResearchHomePage() {
             {/* HIGHLIGHTS */}
             <section className="py-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-black">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-black dark:border-gray-700">
                         {highlights.map((item, i) => (
-                            <div key={i} className="p-12 border-b md:border-b-0 md:border-r border-black last:border-r-0 hover:bg-gray-50 transition-colors group">
+                            <div key={i} className="p-12 border-b md:border-b-0 md:border-r border-black dark:border-gray-700 last:border-r-0 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors group">
                                 <div className="w-16 h-16 mb-6">
                                     <SketchyIcon icon={item.icon} className="w-full h-full" />
                                 </div>
                                 <h3 className="text-2xl font-bold uppercase mb-4 group-hover:text-blue-600 transition-colors">{item.title}</h3>
-                                <p className="text-gray-600">{item.description}</p>
+                                <p className="text-gray-600 dark:text-gray-400">{item.description}</p>
                             </div>
                         ))}
                     </div>

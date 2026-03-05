@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import { Menu, X, Code, Zap, Users, Mail, Briefcase, Home } from "lucide-react"
 import { usePathname } from 'next/navigation'
+import DarkModeToggle from "@/components/dark-mode-toggle"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -35,7 +36,7 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-        ? "bg-white border-b border-black py-2"
+        ? "bg-white dark:bg-gray-900 border-b border-black dark:border-gray-700 py-2"
         : "bg-transparent py-6"
         }`}
     >
@@ -43,8 +44,8 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/technology" className="flex items-center space-x-2 group">
-            <span className="w-8 h-8 bg-black text-white flex items-center justify-center font-bold rounded-none">TD</span>
-            <span className="text-xl font-black uppercase tracking-tighter">Three Dine</span>
+            <span className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center font-bold rounded-none">TD</span>
+            <span className="text-xl font-black uppercase tracking-tighter dark:text-white">Three Dine</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -56,26 +57,28 @@ export default function Navbar() {
                   href={item.href}
                   className="relative group overflow-hidden"
                 >
-                  <span className={`text-sm font-bold uppercase tracking-widest transition-colors ${scrolled ? 'text-black' : 'text-black'} hover:text-gray-500`}>
+                  <span className={`text-sm font-bold uppercase tracking-widest transition-colors text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-400`}>
                     {item.label}
                   </span>
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span>
                 </Link>
               )
             })}
+            <DarkModeToggle className="border-gray-300 dark:border-gray-600 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800" />
             <Link
               href="/contact"
-              className="px-6 py-2 bg-black text-white font-bold uppercase text-xs tracking-widest hover:bg-gray-800 transition-colors"
+              className="px-6 py-2 bg-blue-600 text-white font-bold uppercase text-xs tracking-widest hover:bg-blue-700 transition-colors"
             >
               Get Quote
             </Link>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center space-x-2">
+            <DarkModeToggle className="border-gray-300 dark:border-gray-600 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800" />
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-black"
+              className="p-2 text-black dark:text-white"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -84,14 +87,14 @@ export default function Navbar() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-black h-screen">
+          <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-900 border-b border-black dark:border-gray-700 h-screen">
             <div className="flex flex-col items-center justify-center h-full space-y-8">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="text-2xl font-black uppercase tracking-tighter text-black hover:text-gray-500"
+                  className="text-2xl font-black uppercase tracking-tighter text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400"
                 >
                   {item.label}
                 </Link>

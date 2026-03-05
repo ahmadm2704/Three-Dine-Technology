@@ -40,7 +40,7 @@ export default function Footer() {
           <h2 className="text-4xl md:text-6xl font-black uppercase mb-8">
             Ready to <span className="text-outline-white">Collaborate?</span>
           </h2>
-          <Link href="/contact" className="inline-flex items-center text-xl font-bold uppercase border-b-2 border-white pb-2 hover:text-gray-400 hover:border-gray-400 transition-colors">
+          <Link href="/contact" className="inline-flex items-center text-xl font-bold uppercase border-b-2 border-blue-600 pb-2 hover:text-blue-400 hover:border-blue-400 transition-colors">
             Let's Talk <ArrowRight className="ml-4 w-6 h-6" />
           </Link>
         </div>
@@ -68,7 +68,7 @@ export default function Footer() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300"
+                    className="w-10 h-10 border border-white/20 flex items-center justify-center text-white hover:bg-blue-600 hover:border-blue-600 transition-all duration-300"
                     aria-label={item.label}
                   >
                     <Icon className="w-5 h-5" />

@@ -6,7 +6,7 @@ import SketchyIcon from "@/components/ui/sketchy-icon";
 
 export default function ResearchAboutPage() {
     return (
-        <div className="bg-white text-black">
+        <div className="bg-white dark:bg-gray-950 text-black dark:text-white">
             <section className="py-24 border-b border-black bg-black text-white">
                 <div className="max-w-4xl mx-auto px-4 text-center">
                     <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-8">
@@ -22,10 +22,10 @@ export default function ResearchAboutPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div className="space-y-8">
                         <h2 className="text-4xl font-black uppercase">Our Methodology</h2>
-                        <p className="text-gray-600 text-lg leading-relaxed">
+                        <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
                             We employ a multi-disciplinary approach, combining data science, behavioral psychology, and systems engineering to solve complex problems. Our research is not just for show; it drives the core logic of Three Dine Technology's products.
                         </p>
-                        <p className="text-gray-600 text-lg leading-relaxed">
+                        <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
                             Founded by a team of PhDs and Industry veterans, we believe in open-source knowledge sharing and rigorous peer review.
                         </p>
                     </div>
@@ -36,13 +36,13 @@ export default function ResearchAboutPage() {
                             { icon: Users, title: "Collaboration", desc: "Working with global minds." },
                             { icon: Lightbulb, title: "Innovation", desc: "Finding novel solutions to old problems." }
                         ].map((item, i) => (
-                            <div key={i} className="flex items-start space-x-6 p-6 border border-black hover:shadow-xl transition-all">
+                            <div key={i} className="flex items-start space-x-6 p-6 border border-black dark:border-gray-700 hover:shadow-xl transition-all">
                                 <div className="w-12 h-12 shrink-0">
                                     <SketchyIcon icon={item.icon} className="w-full h-full" />
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold uppercase mb-2">{item.title}</h3>
-                                    <p className="text-gray-600">{item.desc}</p>
+                                    <p className="text-gray-600 dark:text-gray-400">{item.desc}</p>
                                 </div>
                             </div>
                         ))}
