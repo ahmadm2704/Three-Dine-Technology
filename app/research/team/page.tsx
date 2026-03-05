@@ -1,22 +1,24 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { User } from "lucide-react";
+import { User, Loader2 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
-const ceo = {
+const fallbackCeo = {
     name: "Ahmad Mujtaba",
     role: "Founder & CEO",
     image_url: "",
-    message: "Our research division is built on a commitment to academic integrity, rigorous methodology, and transformative scholarship. We empower students and researchers worldwide by delivering work that meets the highest standards of excellence — because knowledge shapes the future."
+    bio: "Our research division is built on a commitment to academic integrity, rigorous methodology, and transformative scholarship. We empower students and researchers worldwide by delivering work that meets the highest standards of excellence — because knowledge shapes the future."
 };
 
-const topManagement = [
+const fallbackTopManagement = [
     { name: "Dr. Nadia Hussain", role: "Chief Academic Officer", image_url: "", bio: "Overseeing all academic operations with 15+ years of scholarly leadership and curriculum expertise." },
     { name: "Fatima Zahra", role: "Quality Assurance Manager", image_url: "", bio: "Ensuring every deliverable meets the highest standards of accuracy, originality, and academic rigor." },
     { name: "Dr. Ammar Sheikh", role: "Lead Research Analyst (Engineering/Medical)", image_url: "", bio: "Guiding complex technical and medical research projects with domain-specific expertise." },
 ];
 
-const writingTeam = [
+const fallbackWritingTeam = [
     { name: "Hira Malik", role: "Senior Research Writer", image_url: "", bio: "Specializing in social sciences and humanities research with published journal contributions." },
     { name: "Usman Raza", role: "Technical Writer", image_url: "", bio: "Expert in engineering, computer science, and data-driven research documentation." },
     { name: "Ayesha Khan", role: "Medical Research Writer", image_url: "", bio: "Focused on clinical studies, medical literature reviews, and healthcare research." },
@@ -24,6 +26,14 @@ const writingTeam = [
     { name: "Sara Noor", role: "Dissertation Specialist", image_url: "", bio: "Supporting students through every stage of thesis and dissertation development." },
     { name: "Hassan Ali", role: "Data Analyst & Statistician", image_url: "", bio: "Providing quantitative analysis, SPSS, and statistical modeling for research projects." },
 ];
+
+function parseRole(role: string): { category: string; displayRole: string } {
+    if (role && role.includes("::")) {
+        const [cat, ...rest] = role.split("::");
+        return { category: cat, displayRole: rest.join("::") };
+    }
+    return { category: "writing_team", displayRole: role };
+}
 
 function TeamMemberCard({ member, index }: { member: any; index: number }) {
     return (
@@ -45,7 +55,7 @@ function TeamMemberCard({ member, index }: { member: any; index: number }) {
                 {member.name}
             </h3>
             <div className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 py-1 inline-block">
-                {member.role}
+                {member.displayRole || member.role}
             </div>
             {member.bio && (
                 <p className="text-gray-600 dark:text-gray-400 font-light leading-relaxed text-sm px-2">
@@ -57,6 +67,50 @@ function TeamMemberCard({ member, index }: { member: any; index: number }) {
 }
 
 export default function ResearchTeamPage() {
+    const [ceo, setCeo] = useState(fallbackCeo);
+    const [topManagement, setTopManagement] = useState(fallbackTopManagement);
+    const [writingTeam, setWritingTeam] = useState(fallbackWritingTeam);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchTeam() {
+            try {
+                const supabase = createClient();
+                const { data, error } = await supabase
+                    .from("research_team")
+                    .select("*")
+                    .order("created_at", { ascending: true });
+
+                if (!error && data && data.length > 0) {
+                    const parsed = data.map(m => {
+                        const { category, displayRole } = parseRole(m.role || "");
+                        return { ...m, category, displayRole };
+                    });
+
+                    const ceoMembers = parsed.filter(m => m.category === "ceo");
+                    const topMgmt = parsed.filter(m => m.category === "top_management");
+                    const writers = parsed.filter(m => m.category === "writing_team");
+
+                    if (ceoMembers.length > 0) {
+                        setCeo({ name: ceoMembers[0].name, role: ceoMembers[0].displayRole, image_url: ceoMembers[0].image_url || "", bio: ceoMembers[0].bio || "" });
+                    }
+                    if (topMgmt.length > 0) setTopManagement(topMgmt);
+                    if (writers.length > 0) setWritingTeam(writers);
+                }
+            } catch {}
+            setLoading(false);
+        }
+        fetchTeam();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-950">
+                <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+            </div>
+        );
+    }
+
     return (
         <div className="bg-white dark:bg-gray-950 min-h-screen pb-20">
 
@@ -93,7 +147,7 @@ export default function ResearchTeamPage() {
                             </h1>
                             <p className="text-emerald-400 font-bold uppercase tracking-widest text-sm mb-8">{ceo.role}</p>
                             <blockquote className="text-lg md:text-xl text-gray-300 leading-relaxed font-light italic border-l-4 border-emerald-600 pl-6">
-                                "{ceo.message}"
+                                &ldquo;{ceo.bio}&rdquo;
                             </blockquote>
                         </motion.div>
                     </div>

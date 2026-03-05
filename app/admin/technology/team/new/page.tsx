@@ -7,6 +7,13 @@ import { ArrowLeft, Save } from "lucide-react";
 import Link from "next/link";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
 
+const techCategories = [
+    { value: "ceo", label: "CEO" },
+    { value: "top_management", label: "Top Management" },
+    { value: "it_team", label: "IT Team" },
+    { value: "support_team", label: "Support Team" },
+];
+
 export default function NewTeamMemberPage() {
     const supabase = createClient();
     const router = useRouter();
@@ -17,13 +24,20 @@ export default function NewTeamMemberPage() {
         role: "",
         bio: "",
         image_url: "",
+        category: "it_team",
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
-        const { error } = await supabase.from("team_members").insert(formData);
+        const { error } = await supabase.from("team_members").insert({
+            name: formData.name,
+            role: formData.role,
+            bio: formData.bio,
+            image_url: formData.image_url,
+            skills: [formData.category],
+        });
 
         if (error) {
             alert("Error adding member: " + error.message);
@@ -47,53 +61,51 @@ export default function NewTeamMemberPage() {
                 <form onSubmit={handleSubmit} className="space-y-6">
 
                     <div>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Section</label>
+                        <select
+                            value={formData.category}
+                            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                            className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none bg-white"
+                        >
+                            {techCategories.map(c => (
+                                <option key={c.value} value={c.value}>{c.label}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div>
                         <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
-                        <input
-                            type="text"
-                            required
-                            value={formData.name}
+                        <input type="text" required value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none"
-                        />
+                            className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none" />
                     </div>
 
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Role / Title</label>
-                        <input
-                            type="text"
-                            required
-                            value={formData.role}
+                        <input type="text" required value={formData.role}
                             onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                            className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none"
-                        />
+                            className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none" />
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Bio</label>
-                        <textarea
-                            rows={3}
-                            value={formData.bio}
+                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">
+                            {formData.category === "ceo" ? "CEO Message / Quote" : "Bio"}
+                        </label>
+                        <textarea rows={formData.category === "ceo" ? 5 : 3} value={formData.bio}
                             onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                            className="w-full border-2 border-gray-200 p-3 text-sm focus:border-black focus:outline-none"
-                        />
+                            placeholder={formData.category === "ceo" ? "Enter the CEO's leadership message..." : "Short bio description..."}
+                            className="w-full border-2 border-gray-200 p-3 text-sm focus:border-black focus:outline-none" />
                     </div>
 
                     <div>
-                        <ImageUploadField label="Profile Image" value={formData.image_url} onChange={(url) => setFormData({ ...formData, image_url: url })} />
+                        <ImageUploadField label="Profile Image" value={formData.image_url}
+                            onChange={(url) => setFormData({ ...formData, image_url: url })} />
                     </div>
 
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="bg-black text-white px-8 py-4 font-black uppercase tracking-widest hover:bg-gray-800 transition-colors flex items-center justify-center w-full"
-                    >
-                        {loading ? "Saving..." : (
-                            <>
-                                <Save className="w-5 h-5 mr-2" /> Add Member
-                            </>
-                        )}
+                    <button type="submit" disabled={loading}
+                        className="bg-black text-white px-8 py-4 font-black uppercase tracking-widest hover:bg-gray-800 transition-colors flex items-center justify-center w-full">
+                        {loading ? "Saving..." : (<><Save className="w-5 h-5 mr-2" /> Add Member</>)}
                     </button>
-
                 </form>
             </div>
         </div>

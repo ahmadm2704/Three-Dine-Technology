@@ -7,6 +7,13 @@ import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
 
+const techCategories = [
+    { value: "ceo", label: "CEO" },
+    { value: "top_management", label: "Top Management" },
+    { value: "it_team", label: "IT Team" },
+    { value: "support_team", label: "Support Team" },
+];
+
 export default function EditTeamMemberPage() {
     const supabase = createClient();
     const router = useRouter();
@@ -23,12 +30,14 @@ export default function EditTeamMemberPage() {
         image_url: "",
         email: "",
         is_active: true,
+        category: "it_team",
     });
 
     useEffect(() => {
         async function fetchMember() {
             const { data } = await supabase.from("team_members").select("*").eq("id", id).single();
             if (data) {
+                const cat = Array.isArray(data.skills) && data.skills.length > 0 ? data.skills[0] : "it_team";
                 setFormData({
                     name: data.name || "",
                     role: data.role || "",
@@ -36,6 +45,7 @@ export default function EditTeamMemberPage() {
                     image_url: data.image_url || "",
                     email: data.email || "",
                     is_active: data.is_active ?? true,
+                    category: cat,
                 });
             }
             setFetching(false);
@@ -54,6 +64,7 @@ export default function EditTeamMemberPage() {
             image_url: formData.image_url,
             email: formData.email,
             is_active: formData.is_active,
+            skills: [formData.category],
         }).eq("id", id);
 
         if (error) {
@@ -78,6 +89,13 @@ export default function EditTeamMemberPage() {
             <div className="max-w-xl bg-white p-8 border border-gray-200 shadow-sm">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Section</label>
+                        <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                            className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none bg-white">
+                            {techCategories.map(c => (<option key={c.value} value={c.value}>{c.label}</option>))}
+                        </select>
+                    </div>
+                    <div>
                         <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
                         <input type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none" />
                     </div>
@@ -86,8 +104,12 @@ export default function EditTeamMemberPage() {
                         <input type="text" required value={formData.role} onChange={(e) => setFormData({ ...formData, role: e.target.value })} className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none" />
                     </div>
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Bio</label>
-                        <textarea rows={3} value={formData.bio} onChange={(e) => setFormData({ ...formData, bio: e.target.value })} className="w-full border-2 border-gray-200 p-3 text-sm focus:border-black focus:outline-none" />
+                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">
+                            {formData.category === "ceo" ? "CEO Message / Quote" : "Bio"}
+                        </label>
+                        <textarea rows={formData.category === "ceo" ? 5 : 3} value={formData.bio} onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                            placeholder={formData.category === "ceo" ? "Enter the CEO's leadership message..." : "Short bio description..."}
+                            className="w-full border-2 border-gray-200 p-3 text-sm focus:border-black focus:outline-none" />
                     </div>
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Email</label>

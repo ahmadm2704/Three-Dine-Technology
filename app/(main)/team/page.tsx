@@ -1,23 +1,25 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { User } from "lucide-react";
+import { User, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 
-const ceo = {
+const fallbackCeo = {
     name: "Ahmad Mujtaba",
     role: "Founder & CEO",
     image_url: "",
-    message: "At Three Dine Technology, we don't just build software — we engineer the future. Our mission is to push the boundaries of what's possible, delivering digital solutions that transform businesses and create lasting impact. Every line of code we write is driven by purpose, precision, and passion."
+    bio: "At Three Dine Technology, we don't just build software — we engineer the future. Our mission is to push the boundaries of what's possible, delivering digital solutions that transform businesses and create lasting impact. Every line of code we write is driven by purpose, precision, and passion."
 };
 
-const topManagement = [
+const fallbackTopManagement = [
     { name: "James Carter", role: "Chief Technology Officer", image_url: "", bio: "Architecting our technology stack and driving engineering excellence across all platforms." },
     { name: "Olivia Martinez", role: "Chief Financial Officer", image_url: "", bio: "Strategic financial leadership ensuring sustainable growth and operational efficiency." },
     { name: "Liam Anderson", role: "Chief Marketing Officer", image_url: "", bio: "Crafting our brand narrative and driving market expansion through data-driven strategies." },
 ];
 
-const itTeam = [
+const fallbackItTeam = [
     { name: "Sarah Chen", role: "Lead Full-Stack Developer", image_url: "", bio: "Building robust web applications with React, Next.js, and Node.js." },
     { name: "David Kim", role: "Frontend Engineer", image_url: "", bio: "Crafting pixel-perfect interfaces and seamless user experiences." },
     { name: "Marcus Johnson", role: "Backend Engineer", image_url: "", bio: "Designing scalable APIs and database architectures." },
@@ -26,11 +28,17 @@ const itTeam = [
     { name: "Anna Wright", role: "UI/UX Designer", image_url: "", bio: "Translating complex problems into intuitive, user-centered designs." },
 ];
 
-const supportTeam = [
+const fallbackSupportTeam = [
     { name: "Jessica Lee", role: "Project Manager", image_url: "", bio: "Ensuring on-time delivery and seamless client communication." },
     { name: "Michael Torres", role: "QA Lead", image_url: "", bio: "Guardian of quality — testing every feature to perfection." },
     { name: "Sophie Bennett", role: "Client Success Manager", image_url: "", bio: "Building lasting relationships and ensuring client satisfaction." },
 ];
+
+function getCategory(member: any): string {
+    const skills = member.skills;
+    if (Array.isArray(skills) && skills.length > 0) return skills[0];
+    return "it_team";
+}
 
 function TeamMemberCard({ member, index }: { member: any; index: number }) {
     return (
@@ -64,6 +72,48 @@ function TeamMemberCard({ member, index }: { member: any; index: number }) {
 }
 
 export default function TeamPage() {
+    const [ceo, setCeo] = useState(fallbackCeo);
+    const [topManagement, setTopManagement] = useState(fallbackTopManagement);
+    const [itTeam, setItTeam] = useState(fallbackItTeam);
+    const [supportTeam, setSupportTeam] = useState(fallbackSupportTeam);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchTeam() {
+            try {
+                const supabase = createClient();
+                const { data, error } = await supabase
+                    .from("team_members")
+                    .select("*")
+                    .order("display_order", { ascending: true });
+
+                if (!error && data && data.length > 0) {
+                    const ceoMembers = data.filter(m => getCategory(m) === "ceo");
+                    const topMgmt = data.filter(m => getCategory(m) === "top_management");
+                    const it = data.filter(m => getCategory(m) === "it_team");
+                    const support = data.filter(m => getCategory(m) === "support_team");
+
+                    if (ceoMembers.length > 0) {
+                        setCeo({ name: ceoMembers[0].name, role: ceoMembers[0].role, image_url: ceoMembers[0].image_url || "", bio: ceoMembers[0].bio || "" });
+                    }
+                    if (topMgmt.length > 0) setTopManagement(topMgmt);
+                    if (it.length > 0) setItTeam(it);
+                    if (support.length > 0) setSupportTeam(support);
+                }
+            } catch {}
+            setLoading(false);
+        }
+        fetchTeam();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-950">
+                <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+            </div>
+        );
+    }
+
     return (
         <div className="bg-white dark:bg-gray-950 min-h-screen pb-20">
 
@@ -100,7 +150,7 @@ export default function TeamPage() {
                             </h1>
                             <p className="text-blue-400 font-bold uppercase tracking-widest text-sm mb-8">{ceo.role}</p>
                             <blockquote className="text-lg md:text-xl text-gray-300 leading-relaxed font-light italic border-l-4 border-blue-600 pl-6">
-                                "{ceo.message}"
+                                &ldquo;{ceo.bio}&rdquo;
                             </blockquote>
                         </motion.div>
                     </div>
