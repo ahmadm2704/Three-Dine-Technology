@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { createClient } from "@supabase/supabase-js";
 import { v4 as uuid } from "uuid";
-import { existsSync } from "fs";
 
 export const dynamic = "force-dynamic";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,20 +27,32 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: "File too large. Max 5MB." }, { status: 400 });
     }
 
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
     const buffer = Buffer.from(await file.arrayBuffer());
     const ext = file.name.split(".").pop() || "jpg";
     const filename = `${uuid()}.${ext}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
+    const filePath = `uploads/${filename}`;
 
-    if (!existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
+    const { error } = await supabase.storage
+      .from("team-images")
+      .upload(filePath, buffer, {
+        contentType: file.type,
+        upsert: true,
+      });
+
+    if (error) {
+      console.error("Supabase upload error:", error);
+      return NextResponse.json({ success: false, message: error.message }, { status: 500 });
     }
 
-    await writeFile(path.join(uploadDir, filename), buffer);
+    const { data: { publicUrl } } = supabase.storage
+      .from("team-images")
+      .getPublicUrl(filePath);
 
     return NextResponse.json({
       success: true,
-      url: `/uploads/${filename}`,
+      url: publicUrl,
     });
   } catch (error) {
     console.error("Upload error:", error);
