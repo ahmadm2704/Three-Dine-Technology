@@ -140,7 +140,7 @@ export default function TechnologyPage() {
             {/* Decorative Circle */}
             <div className="absolute inset-0 border border-dashed border-gray-300 dark:border-gray-600 rounded-full animate-spin-slow pointer-events-none" style={{ animationDuration: '30s' }}></div>
             <div className=" bg-white dark:bg-gray-900 p-12 rounded-full shadow-2xl shadow-gray-200 dark:shadow-gray-900/50 border border-gray-100 dark:border-gray-800 z-10 w-[400px] h-[400px] flex items-center justify-center">
-              <StorySequence stages={techProcessStory} color="text-black" />
+              <StorySequence stages={techProcessStory} color="text-black dark:text-white" />
             </div>
           </motion.div>
 
