@@ -11,7 +11,8 @@ import {
     GraduationCap,
     LogOut,
     Mail,
-    Shield
+    Shield,
+    KeyRound
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -146,7 +147,14 @@ export default function AdminSidebar() {
             </nav>
 
             {/* Footer */}
-            <div className="p-6 border-t border-gray-800">
+            <div className="p-6 border-t border-gray-800 space-y-3">
+                <Link
+                    href="/admin/change-password"
+                    className={`flex items-center space-x-3 text-gray-400 hover:text-white transition-colors w-full font-bold ${isActive('/admin/change-password') ? 'text-white' : ''}`}
+                >
+                    <KeyRound className="w-5 h-5" />
+                    <span>Change Password</span>
+                </Link>
                 <form action="/auth/signout" method="post">
                     <button type="submit" className="flex items-center space-x-3 text-red-500 hover:text-red-400 transition-colors w-full font-bold">
                         <LogOut className="w-5 h-5" />
