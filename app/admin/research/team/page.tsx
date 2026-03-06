@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Plus, User, Trash2, FlaskConical, Loader2, Edit, Crown, Briefcase, PenTool } from "lucide-react";
+import { Plus, User, Trash2, FlaskConical, Loader2, Edit, Crown, Briefcase, PenTool, ArrowUp, ArrowDown } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 
@@ -54,6 +54,22 @@ export default function AdminResearchTeamPage() {
         else { setMembers(members.filter(m => m.id !== id)); }
     };
 
+    const handleReorder = async (memberId: string, direction: "up" | "down") => {
+        const member = members.find(m => m.id === memberId);
+        if (!member) return;
+        const cat = parseRole(member.role).category;
+        const sectionMembers = members.filter(m => parseRole(m.role).category === cat);
+        const idx = sectionMembers.findIndex(m => m.id === memberId);
+        const swapIdx = direction === "up" ? idx - 1 : idx + 1;
+        if (swapIdx < 0 || swapIdx >= sectionMembers.length) return;
+        const other = sectionMembers[swapIdx];
+        const memberData = { name: member.name, role: member.role, bio: member.bio, image_url: member.image_url };
+        const otherData = { name: other.name, role: other.role, bio: other.bio, image_url: other.image_url };
+        await supabase.from("research_team").update(otherData).eq("id", member.id);
+        await supabase.from("research_team").update(memberData).eq("id", other.id);
+        fetchMembers();
+    };
+
     const sections = ["ceo", "top_management", "writing_team"];
 
     const grouped = sections.reduce((acc, cat) => {
@@ -94,11 +110,21 @@ export default function AdminResearchTeamPage() {
                                     <span className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full font-bold">{catMembers.length}</span>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                    {catMembers.map((member: any) => {
+                                    {catMembers.map((member: any, memberIdx: number) => {
                                         const { category, displayRole } = parseRole(member.role);
                                         return (
                                             <div key={member.id} className="bg-white border border-gray-200 p-6 flex flex-col items-center text-center shadow-sm relative overflow-hidden group">
                                                 <div className="absolute top-3 right-3 flex space-x-1 opacity-0 group-hover:opacity-100 transition-all z-20">
+                                                    {memberIdx > 0 && (
+                                                        <button onClick={() => handleReorder(member.id, "up")} className="p-1.5 text-gray-500 hover:bg-gray-100 rounded" title="Move up">
+                                                            <ArrowUp className="w-4 h-4" />
+                                                        </button>
+                                                    )}
+                                                    {memberIdx < catMembers.length - 1 && (
+                                                        <button onClick={() => handleReorder(member.id, "down")} className="p-1.5 text-gray-500 hover:bg-gray-100 rounded" title="Move down">
+                                                            <ArrowDown className="w-4 h-4" />
+                                                        </button>
+                                                    )}
                                                     <Link href={`/admin/research/team/${member.id}`} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded">
                                                         <Edit className="w-4 h-4" />
                                                     </Link>
