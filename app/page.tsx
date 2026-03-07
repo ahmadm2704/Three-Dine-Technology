@@ -27,8 +27,8 @@ export default function GatewayPage() {
     }, []);
 
     useEffect(() => {
-        const exitTimer = setTimeout(() => setSplashExiting(true), 2400);
-        const hideTimer = setTimeout(() => setShowSplash(false), 3000);
+        const exitTimer = setTimeout(() => setSplashExiting(true), 3000);
+        const hideTimer = setTimeout(() => setShowSplash(false), 4400);
         return () => { clearTimeout(exitTimer); clearTimeout(hideTimer); };
     }, []);
 
@@ -69,67 +69,154 @@ export default function GatewayPage() {
                 {showSplash && (
                     <motion.div
                         key="splash"
-                        className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center"
-                        animate={splashExiting ? { opacity: 0, scale: 1.04 } : { opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                        className="fixed inset-0 z-[100] overflow-hidden"
+                        exit={{ y: "-100%", transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 0.15 } }}
                     >
-                        <motion.div
-                            initial={{ scale: 0.6, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                            className="flex items-center gap-4 mb-6"
-                        >
-                            <motion.span
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                                transition={{ delay: 0.1, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                                className="w-14 h-14 bg-blue-600 text-white flex items-center justify-center font-black text-xl tracking-tighter"
-                            >
-                                TD
-                            </motion.span>
-                            <div className="flex flex-col leading-none">
-                                <motion.span
-                                    initial={{ x: 20, opacity: 0 }}
-                                    animate={{ x: 0, opacity: 1 }}
-                                    transition={{ delay: 0.2, duration: 0.5 }}
-                                    className="text-white font-black text-2xl md:text-3xl uppercase tracking-widest"
-                                >
-                                    Three Dine
-                                </motion.span>
-                                <motion.span
-                                    initial={{ x: 20, opacity: 0 }}
-                                    animate={{ x: 0, opacity: 1 }}
-                                    transition={{ delay: 0.3, duration: 0.5 }}
-                                    className="text-blue-400 font-black text-2xl md:text-3xl uppercase tracking-widest"
-                                >
-                                    Corporation
-                                </motion.span>
-                            </div>
-                        </motion.div>
+                        {/* Base background */}
+                        <div className="absolute inset-0 bg-[#060606]" />
 
+                        {/* Very subtle blue radial glow */}
                         <motion.div
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ delay: 0.5, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                            className="w-64 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent mb-5"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: splashExiting ? 0 : 1 }}
+                            transition={{ delay: 0.6, duration: 1.4 }}
+                            className="absolute inset-0 pointer-events-none"
+                            style={{ background: "radial-gradient(ellipse 55% 45% at 50% 52%, rgba(37,99,235,0.09), transparent)" }}
                         />
 
-                        <motion.p
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.8, duration: 0.6 }}
-                            className="text-xs sm:text-sm font-bold uppercase tracking-[0.35em] text-white/50"
+                        {/* Corner cross marks — top left */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: splashExiting ? 0 : 0.35 }}
+                            transition={{ delay: 0.4, duration: 0.6 }}
+                            className="absolute top-8 left-8 w-4 h-4 pointer-events-none"
                         >
-                            Where Research Meets Technology
-                        </motion.p>
+                            <div className="absolute top-1/2 left-0 w-full h-px bg-white -translate-y-1/2" />
+                            <div className="absolute left-1/2 top-0 h-full w-px bg-white -translate-x-1/2" />
+                        </motion.div>
 
-                        <motion.div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-32 h-0.5 bg-white/10 overflow-hidden">
-                            <motion.div
-                                initial={{ x: "-100%" }}
-                                animate={{ x: "0%" }}
-                                transition={{ delay: 0.3, duration: 1.8, ease: "linear" }}
-                                className="h-full w-full bg-blue-500"
-                            />
+                        {/* Corner cross marks — top right */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: splashExiting ? 0 : 0.35 }}
+                            transition={{ delay: 0.5, duration: 0.6 }}
+                            className="absolute top-8 right-8 w-4 h-4 pointer-events-none"
+                        >
+                            <div className="absolute top-1/2 left-0 w-full h-px bg-white -translate-y-1/2" />
+                            <div className="absolute left-1/2 top-0 h-full w-px bg-white -translate-x-1/2" />
+                        </motion.div>
+
+                        {/* Corner cross marks — bottom left */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: splashExiting ? 0 : 0.35 }}
+                            transition={{ delay: 0.55, duration: 0.6 }}
+                            className="absolute bottom-8 left-8 w-4 h-4 pointer-events-none"
+                        >
+                            <div className="absolute top-1/2 left-0 w-full h-px bg-white -translate-y-1/2" />
+                            <div className="absolute left-1/2 top-0 h-full w-px bg-white -translate-x-1/2" />
+                        </motion.div>
+
+                        {/* Corner cross marks — bottom right */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: splashExiting ? 0 : 0.35 }}
+                            transition={{ delay: 0.6, duration: 0.6 }}
+                            className="absolute bottom-8 right-8 w-4 h-4 pointer-events-none"
+                        >
+                            <div className="absolute top-1/2 left-0 w-full h-px bg-white -translate-y-1/2" />
+                            <div className="absolute left-1/2 top-0 h-full w-px bg-white -translate-x-1/2" />
+                        </motion.div>
+
+                        {/* Main content — lifts out when exiting */}
+                        <motion.div
+                            animate={splashExiting ? { opacity: 0, y: -36 } : { opacity: 1, y: 0 }}
+                            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                            className="absolute inset-0 flex flex-col items-center justify-center px-6"
+                        >
+                            {/* TD lettermark */}
+                            <div className="overflow-hidden mb-10">
+                                <motion.div
+                                    initial={{ y: "120%" }}
+                                    animate={{ y: "0%" }}
+                                    transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <div className="w-20 h-20 border border-white/10 bg-white/[0.04] flex items-center justify-center relative">
+                                        <span className="text-white font-black text-2xl tracking-tighter relative z-10">TD</span>
+                                        <span className="absolute inset-0 bg-blue-600/20 blur-2xl" />
+                                        {/* Corner ticks on badge */}
+                                        <span className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-blue-500/60" />
+                                        <span className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-blue-500/60" />
+                                        <span className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-blue-500/60" />
+                                        <span className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-blue-500/60" />
+                                    </div>
+                                </motion.div>
+                            </div>
+
+                            {/* THREE DINE — clip reveal */}
+                            <div className="overflow-hidden">
+                                <motion.div
+                                    initial={{ y: "105%" }}
+                                    animate={{ y: "0%" }}
+                                    transition={{ delay: 0.18, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <h1 className="text-white font-black text-4xl sm:text-5xl md:text-6xl uppercase tracking-[0.15em] leading-none text-center">
+                                        Three Dine
+                                    </h1>
+                                </motion.div>
+                            </div>
+
+                            {/* CORPORATION — clip reveal, staggered */}
+                            <div className="overflow-hidden mb-8">
+                                <motion.div
+                                    initial={{ y: "105%" }}
+                                    animate={{ y: "0%" }}
+                                    transition={{ delay: 0.3, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <h1 className="text-blue-500 font-black text-4xl sm:text-5xl md:text-6xl uppercase tracking-[0.15em] leading-none text-center">
+                                        Corporation
+                                    </h1>
+                                </motion.div>
+                            </div>
+
+                            {/* Divider line sweeps outward from center */}
+                            <div className="relative w-60 h-px mb-7 overflow-hidden">
+                                <motion.div
+                                    initial={{ scaleX: 0 }}
+                                    animate={{ scaleX: 1 }}
+                                    transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent origin-center"
+                                />
+                            </div>
+
+                            {/* Tagline — fades in with wide tracking */}
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: splashExiting ? 0 : 0.4 }}
+                                transition={{ delay: 0.9, duration: 1 }}
+                                className="text-[9px] sm:text-[11px] font-semibold uppercase tracking-[0.45em] text-white text-center"
+                            >
+                                Where Research Meets Technology
+                            </motion.p>
+                        </motion.div>
+
+                        {/* Bottom status bar */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: splashExiting ? 0 : 1 }}
+                            transition={{ delay: 0.7, duration: 0.7 }}
+                            className="absolute bottom-10 left-0 right-0 px-10 flex items-center gap-4 pointer-events-none"
+                        >
+                            <span className="text-[9px] uppercase tracking-[0.25em] text-white/20 font-medium">©2026</span>
+                            <div className="flex-1 h-px bg-white/10 overflow-hidden">
+                                <motion.div
+                                    initial={{ x: "-100%" }}
+                                    animate={{ x: "0%" }}
+                                    transition={{ delay: 0.8, duration: 2.0, ease: [0.4, 0, 0.6, 1] }}
+                                    className="h-full w-full bg-gradient-to-r from-white/20 via-blue-500 to-white/20"
+                                />
+                            </div>
+                            <span className="text-[9px] uppercase tracking-[0.25em] text-white/20 font-medium">001</span>
                         </motion.div>
                     </motion.div>
                 )}
