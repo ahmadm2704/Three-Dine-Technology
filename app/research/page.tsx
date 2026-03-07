@@ -65,7 +65,7 @@ export default function ResearchHomePage() {
                         className="space-y-8 text-center md:text-left order-2 md:order-1"
                     >
                         <div className="inline-block px-3 py-1 border border-black dark:border-white text-xs font-bold uppercase tracking-widest bg-black dark:bg-white text-white dark:text-black">
-                            Scientific Division
+                            The Reserach Division
                         </div>
 
                         <h1 className="text-6xl md:text-8xl font-black uppercase leading-[0.9] tracking-tight">
@@ -76,7 +76,7 @@ export default function ResearchHomePage() {
                         </h1>
 
                         <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-lg leading-relaxed font-light mx-auto md:mx-0">
-                            Pushing the boundaries of knowledge through rigorous inquiry and innovation.
+                            Pushing the boundaries of knowledge by bringing the epitome of academia within your reach.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
