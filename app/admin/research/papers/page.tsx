@@ -35,12 +35,12 @@ export default function AdminPapersPage() {
         <div className="p-8">
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-3xl font-black uppercase text-black">Research Papers</h1>
-                    <p className="text-gray-500">Manage academic publications and whitepapers.</p>
+                    <h1 className="text-3xl font-black uppercase text-black">Sample Papers</h1>
+                    <p className="text-gray-500">Manage sample papers, publications, and downloadable research files.</p>
                 </div>
                 <Link href="/admin/research/papers/new"
                     className="bg-black text-white px-6 py-3 font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors flex items-center">
-                    <Plus className="w-5 h-5 mr-2" /> Add Paper
+                    <Plus className="w-5 h-5 mr-2" /> Add Sample Paper
                 </Link>
             </div>
 
@@ -64,7 +64,7 @@ export default function AdminPapersPage() {
                             {papers.length === 0 ? (
                                 <tr>
                                     <td colSpan={5} className="p-8 text-center text-gray-400 italic">
-                                        No research papers published yet. Add one to get started.
+                                        No sample papers published yet. Add one to get started.
                                     </td>
                                 </tr>
                             ) : (

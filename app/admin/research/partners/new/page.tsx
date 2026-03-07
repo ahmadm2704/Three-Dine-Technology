@@ -40,14 +40,14 @@ export default function NewPartnerPage() {
                 <Link href="/admin/research/partners" className="mr-4 text-gray-500 hover:text-black">
                     <ArrowLeft className="w-6 h-6" />
                 </Link>
-                <h1 className="text-3xl font-black uppercase text-black">New Research Partner</h1>
+                <h1 className="text-3xl font-black uppercase text-black">Add Community University</h1>
             </div>
 
             <div className="max-w-xl bg-white p-8 border border-gray-200 shadow-sm">
                 <form onSubmit={handleSubmit} className="space-y-6">
 
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Institution Name</label>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">University Name</label>
                         <input
                             type="text"
                             required
@@ -58,13 +58,13 @@ export default function NewPartnerPage() {
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Location</label>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Country</label>
                         <input
                             type="text"
                             value={formData.location}
                             onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                             className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none"
-                            placeholder="e.g. Cambridge, MA"
+                            placeholder="e.g. USA"
                         />
                     </div>
 
@@ -89,7 +89,7 @@ export default function NewPartnerPage() {
                     >
                         {loading ? "Saving..." : (
                             <>
-                                <Save className="w-5 h-5 mr-2" /> Add Partner
+                                <Save className="w-5 h-5 mr-2" /> Add University
                             </>
                         )}
                     </button>

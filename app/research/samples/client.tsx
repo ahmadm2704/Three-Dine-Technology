@@ -2,8 +2,34 @@
 
 import { FileText, Download, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
 
-export default function ResearchSamplesClient({ samples }: { samples: any[] }) {
+type ResearchSample = {
+    id: string;
+    title: string;
+    abstract: string | null;
+    file_url: string | null;
+    publication_date: string | null;
+};
+
+export default function ResearchSamplesClient() {
+    const supabase = createClient();
+    const [samples, setSamples] = useState<ResearchSample[]>([]);
+
+    useEffect(() => {
+        async function fetchSamples() {
+            const { data } = await supabase
+                .from("research_papers")
+                .select("id, title, abstract, file_url, publication_date")
+                .order("publication_date", { ascending: false });
+
+            setSamples((data as ResearchSample[]) || []);
+        }
+
+        fetchSamples();
+    }, []);
+
     return (
         <div className="bg-white dark:bg-gray-950 text-black dark:text-white min-h-screen">
             <section className="py-24 px-4 text-center border-b border-black dark:border-gray-700">
@@ -16,8 +42,8 @@ export default function ResearchSamplesClient({ samples }: { samples: any[] }) {
                     {samples.length === 0 ? (
                         <div className="text-center text-gray-500 italic py-12">No publications available at this time. Check back soon.</div>
                     ) : (
-                        samples.map((sample, i) => (
-                            <div key={i} className="flex flex-col md:flex-row items-center border border-black dark:border-gray-700 p-6 hover:shadow-lg transition-all">
+                        samples.map((sample) => (
+                            <div key={sample.id} className="flex flex-col md:flex-row items-center border border-black dark:border-gray-700 p-6 hover:shadow-lg transition-all">
                                 <div className="w-12 h-12 bg-black dark:bg-white text-white dark:text-black flex items-center justify-center mr-6 shrink-0">
                                     <FileText className="w-6 h-6" />
                                 </div>
@@ -26,8 +52,7 @@ export default function ResearchSamplesClient({ samples }: { samples: any[] }) {
                                     <div className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1">Published Paper</div>
                                     <h3 className="text-xl font-bold uppercase">{sample.title}</h3>
                                     <div className="text-sm text-gray-500 mt-1">
-                                        Published: {sample.publication_date}
-                                        {sample.file_size ? ` • Size: ${sample.file_size}` : ''}
+                                        Published: {sample.publication_date || "Date not set"}
                                     </div>
                                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 line-clamp-2">{sample.abstract}</p>
                                 </div>

@@ -67,17 +67,17 @@ export default function EditPartnerPage() {
         <div className="p-8">
             <div className="mb-8 flex items-center">
                 <Link href="/admin/research/partners" className="mr-4 text-gray-500 hover:text-black"><ArrowLeft className="w-6 h-6" /></Link>
-                <h1 className="text-3xl font-black uppercase text-black">Edit Research Partner</h1>
+                <h1 className="text-3xl font-black uppercase text-black">Edit Community University</h1>
             </div>
             <div className="max-w-xl bg-white p-8 border border-gray-200 shadow-sm">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Institution Name</label>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">University Name</label>
                         <input type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none" />
                     </div>
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Location</label>
-                        <input type="text" value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none" placeholder="e.g. Cambridge, MA" />
+                        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Country</label>
+                        <input type="text" value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none" placeholder="e.g. USA" />
                     </div>
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Website URL</label>
@@ -87,7 +87,7 @@ export default function EditPartnerPage() {
                         <ImageUploadField label="Logo Image" value={formData.logo_url} onChange={(url) => setFormData({ ...formData, logo_url: url })} />
                     </div>
                     <button type="submit" disabled={loading} className="bg-black text-white px-8 py-4 font-black uppercase tracking-widest hover:bg-gray-800 transition-colors flex items-center justify-center w-full">
-                        {loading ? "Saving..." : (<><Save className="w-5 h-5 mr-2" /> Update Partner</>)}
+                        {loading ? "Saving..." : (<><Save className="w-5 h-5 mr-2" /> Update University</>)}
                     </button>
                 </form>
             </div>

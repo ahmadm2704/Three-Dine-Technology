@@ -35,12 +35,12 @@ export default function AdminResearchPartnersPage() {
         <div className="p-8">
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-3xl font-black uppercase text-black">Research Partners</h1>
-                    <p className="text-gray-500">Collaborating universities and institutions.</p>
+                    <h1 className="text-3xl font-black uppercase text-black">Global Learners Community</h1>
+                    <p className="text-gray-500">Manage countries and the universities shown under each region.</p>
                 </div>
                 <Link href="/admin/research/partners/new"
                     className="bg-black text-white px-6 py-3 font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors flex items-center">
-                    <Plus className="w-5 h-5 mr-2" /> Add Partner
+                    <Plus className="w-5 h-5 mr-2" /> Add University
                 </Link>
             </div>
 
@@ -51,7 +51,7 @@ export default function AdminResearchPartnersPage() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {partners.length === 0 ? (
-                        <div className="col-span-full text-center text-gray-400 italic py-12">No partners found. Add one to get started.</div>
+                        <div className="col-span-full text-center text-gray-400 italic py-12">No universities found. Add one to get started.</div>
                     ) : (
                         partners.map((partner: any) => (
                             <div key={partner.id} className="bg-white border border-gray-200 p-6 flex items-center space-x-4 shadow-sm hover:shadow-md transition-all relative group">
@@ -75,7 +75,7 @@ export default function AdminResearchPartnersPage() {
                                 </div>
                                 <div>
                                     <h3 className="font-bold uppercase text-sm mb-1">{partner.name}</h3>
-                                    <div className="text-xs text-gray-500">{partner.location}</div>
+                                    <div className="text-xs text-gray-500">{partner.location || "Country not set"}</div>
                                     {partner.website_url && (
                                         <a href={partner.website_url} target="_blank" className="text-[10px] font-bold uppercase text-blue-600 hover:underline mt-1 block">
                                             Visit Website

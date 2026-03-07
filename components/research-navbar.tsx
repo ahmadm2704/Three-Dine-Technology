@@ -26,7 +26,7 @@ export default function ResearchNavbar() {
         { name: "Home", href: "/research" },
         { name: "About", href: "/research/about" },
         { name: "Team", href: "/research/team" },
-        { name: "Universities", href: "/research/universities" },
+        { name: "Global Community", href: "/research/universities" },
         { name: "Samples", href: "/research/samples" },
         { name: "Contact", href: "/research/contact" },
     ];

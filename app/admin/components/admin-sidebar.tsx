@@ -9,6 +9,7 @@ import {
     Users,
     FileText,
     GraduationCap,
+    ClipboardList,
     LogOut,
     Mail,
     Shield,
@@ -55,8 +56,9 @@ export default function AdminSidebar() {
     // RESEARCH LINKS (Visible to research_admin & super_admin)
     const showResearch = role === 'research_admin' || role === 'super_admin';
     const researchLinks = [
-        { name: "Papers", href: "/admin/research/papers", icon: FileText },
-        { name: "Partners", href: "/admin/research/partners", icon: GraduationCap }, // Needs Update
+        { name: "Sample Papers", href: "/admin/research/papers", icon: FileText },
+        { name: "Global Community", href: "/admin/research/partners", icon: GraduationCap },
+        { name: "Case Studies", href: "/admin/research/case-studies", icon: ClipboardList },
         { name: "Team", href: "/admin/research/team", icon: Users }, // Needs Update
         { name: "Inquiries", href: "/admin/research/inquiries", icon: Mail }, // Needs Update
     ];

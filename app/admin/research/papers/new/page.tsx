@@ -48,7 +48,7 @@ export default function NewPaperPage() {
                 <Link href="/admin/research/papers" className="mr-4 text-gray-500 hover:text-black">
                     <ArrowLeft className="w-6 h-6" />
                 </Link>
-                <h1 className="text-3xl font-black uppercase text-black">New Publication</h1>
+                <h1 className="text-3xl font-black uppercase text-black">New Sample Paper</h1>
             </div>
 
             <div className="max-w-2xl bg-white p-8 border border-gray-200 shadow-sm">
@@ -56,7 +56,7 @@ export default function NewPaperPage() {
 
                     <div className="grid grid-cols-2 gap-6">
                         <div className="col-span-2">
-                            <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Paper Title</label>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Sample Paper Title</label>
                             <input
                                 type="text"
                                 required
@@ -128,7 +128,7 @@ export default function NewPaperPage() {
                     >
                         {loading ? "Publishing..." : (
                             <>
-                                <Save className="w-5 h-5 mr-2" /> Publish Paper
+                                <Save className="w-5 h-5 mr-2" /> Publish Sample Paper
                             </>
                         )}
                     </button>

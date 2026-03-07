@@ -71,13 +71,13 @@ export default function EditPaperPage() {
         <div className="p-8">
             <div className="mb-8 flex items-center">
                 <Link href="/admin/research/papers" className="mr-4 text-gray-500 hover:text-black"><ArrowLeft className="w-6 h-6" /></Link>
-                <h1 className="text-3xl font-black uppercase text-black">Edit Publication</h1>
+                <h1 className="text-3xl font-black uppercase text-black">Edit Sample Paper</h1>
             </div>
             <div className="max-w-2xl bg-white p-8 border border-gray-200 shadow-sm">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-2 gap-6">
                         <div className="col-span-2">
-                            <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Paper Title</label>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Sample Paper Title</label>
                             <input type="text" required value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full border-2 border-gray-200 p-3 font-bold focus:border-black focus:outline-none" />
                         </div>
                         <div className="col-span-2">
@@ -99,7 +99,7 @@ export default function EditPaperPage() {
                         </div>
                     </div>
                     <button type="submit" disabled={loading} className="bg-black text-white px-8 py-4 font-black uppercase tracking-widest hover:bg-gray-800 transition-colors flex items-center justify-center w-full">
-                        {loading ? "Saving..." : (<><Save className="w-5 h-5 mr-2" /> Update Paper</>)}
+                        {loading ? "Saving..." : (<><Save className="w-5 h-5 mr-2" /> Update Sample Paper</>)}
                     </button>
                 </form>
             </div>
