@@ -77,7 +77,7 @@ export default function GatewayPage() {
                             {/* seam rule top-half bottom */}
                         <motion.div
                             className="absolute bottom-0 left-16 right-16 h-px"
-                            style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0.06) 70%, transparent)" }}
+                            style={{ background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.45) 30%, rgba(59,130,246,0.45) 70%, transparent)" }}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: splashExiting ? 0 : 1 }}
                             transition={{ delay: 0.5, duration: 0.8 }}
@@ -115,7 +115,7 @@ export default function GatewayPage() {
                         {/* seam rule bottom-half top */}
                         <motion.div
                             className="absolute top-0 left-16 right-16 h-px"
-                            style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0.06) 70%, transparent)" }}
+                            style={{ background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.45) 30%, rgba(59,130,246,0.45) 70%, transparent)" }}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: splashExiting ? 0 : 1 }}
                             transition={{ delay: 0.5, duration: 0.8 }}
@@ -296,7 +296,7 @@ export default function GatewayPage() {
                             <div className="text-center">
                                 <motion.h2 custom={1} variants={textVariant} initial="hidden" animate="visible" className="text-2xl sm:text-4xl md:text-5xl font-bold mb-2 md:mb-3 text-black tracking-tight leading-none">
                                     <span className="block">THREE DINE</span>
-                                    <span className="mt-1 block text-blue-600 md:mt-2">TECHNOLOGY</span>
+                                    <span className="mt-1 block text-gray-500 md:mt-2">TECHNOLOGY</span>
                                 </motion.h2>
                                 <motion.p custom={2} variants={textVariant} initial="hidden" animate="visible" className="text-sm sm:text-base md:text-base text-gray-500 mb-4 md:mb-6 leading-relaxed max-w-md mx-auto">
                                     Building the digital future with cutting-edge web development and custom software.
@@ -343,7 +343,7 @@ export default function GatewayPage() {
                                     Delivering and Shaping the Epitome of Academia for Scholars and Innovators.
                                 </motion.p>
                                 <motion.div custom={3} variants={textVariant} initial="hidden" animate="visible">
-                                    <Link href="/research" className="group inline-flex items-center text-sm sm:text-base md:text-lg font-bold text-white border-b-2 border-white pb-1 hover:text-gray-300 hover:border-gray-300 transition-all">
+                                    <Link href="/research" className="group inline-flex items-center text-sm sm:text-base md:text-lg font-bold text-white border-b-2 border-white pb-1 hover:text-blue-500 hover:border-blue-500 transition-all">
                                         <span className="mr-2 md:mr-3">ENTER RESEARCH</span>
                                         <ArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:translate-x-2" />
                                     </Link>

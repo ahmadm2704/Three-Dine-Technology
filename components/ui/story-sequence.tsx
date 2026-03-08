@@ -72,7 +72,7 @@ export default function StorySequence({ stages, color = "currentColor" }: StoryS
                     initial={{ width: "0%" }}
                     animate={{ width: "100%" }}
                     transition={{ duration: 2.5, ease: "linear" }}
-                    className={`h-full ${color.includes('white') ? 'bg-white' : 'bg-blue-600 dark:bg-blue-400'}`}
+                    className={`h-full ${color.includes('black') ? 'bg-blue-600 dark:bg-blue-400' : color.includes('white') ? 'bg-blue-500' : 'bg-blue-600 dark:bg-blue-400'}`}
                 />
             </div>
         </div>
