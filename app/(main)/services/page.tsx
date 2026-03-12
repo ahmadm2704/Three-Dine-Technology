@@ -6,13 +6,20 @@ import SketchyIcon from "@/components/ui/sketchy-icon";
 import {
   Code2, Smartphone, Cloud, Brain,
   ShoppingCart, Shield, Database, Layout,
-  ArrowRight, Loader2
+  ArrowRight, Loader2, Network, Server, ServerCog,
+  HardDrive, Globe, Lock, Cpu, Wifi, Monitor,
+  Settings, Wrench, BarChart, LineChart, PieChart,
+  Layers, GitBranch, Terminal, Bot, Zap, Search,
+  Mail, MessageSquare, FileCode, Blocks, Boxes,
 } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 const iconMap: Record<string, any> = {
   Code2, Smartphone, Cloud, Brain, ShoppingCart, Shield, Database, Layout,
+  Network, Server, ServerCog, HardDrive, Globe, Lock, Cpu, Wifi, Monitor,
+  Settings, Wrench, BarChart, LineChart, PieChart, Layers, GitBranch,
+  Terminal, Bot, Zap, Search, Mail, MessageSquare, FileCode, Blocks, Boxes,
 };
 
 const fallbackServices = [
