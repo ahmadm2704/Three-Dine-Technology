@@ -96,7 +96,7 @@ export default function ResearchContactPage() {
                                 value={formData.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-3 focus:outline-none focus:border-black dark:focus:border-white transition-colors text-xl font-bold bg-transparent"
-                                placeholder="John Doe"
+                                placeholder="Your full name"
                             />
                         </div>
 
@@ -109,7 +109,7 @@ export default function ResearchContactPage() {
                                 value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                 className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-3 focus:outline-none focus:border-black dark:focus:border-white transition-colors text-xl font-bold bg-transparent"
-                                placeholder="john@university.edu"
+                                placeholder="your@email.com"
                             />
                         </div>
 
