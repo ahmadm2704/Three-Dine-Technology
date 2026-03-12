@@ -37,6 +37,8 @@ export default function NewProjectPage() {
             client_name: formData.client_name,
             project_type: formData.project_type,
             image_url: formData.image_url,
+            demo_url: formData.demo_url,
+            repo_url: formData.repo_url,
             technologies: techArray,
             is_featured: formData.is_featured,
             is_public: true,

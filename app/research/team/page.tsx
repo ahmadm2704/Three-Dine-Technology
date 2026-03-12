@@ -9,7 +9,7 @@ const fallbackCeo = {
     name: "Ahmad Mujtaba",
     role: "Founder & CEO",
     image_url: "",
-    bio: "Our research division is built on a commitment to academic integrity, rigorous methodology, and transformative scholarship. We empower students and researchers worldwide by delivering work that meets the highest standards of excellence — because knowledge shapes the future."
+    bio: "Our vision at ThreeDine Researchers is to make excellence accessible to every student and researcher worldwide. Leading this mission, I’ve seen that true scholarship thrives on expert guidance and unwavering support. We empower learners across the globe with the insight, tools, and confidence they need to take the first step toward success and achieve breakthroughs that shape the future."
 };
 
 const fallbackTopManagement = [

@@ -129,12 +129,12 @@ export default function ResearchContactPage() {
                             <select
                                 value={formData.subject}
                                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-3 focus:outline-none focus:border-black dark:focus:border-white transition-colors text-xl font-bold bg-transparent"
+                                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-3 focus:outline-none focus:border-black dark:focus:border-white transition-colors text-xl font-bold bg-white dark:bg-gray-950 text-black dark:text-white"
                             >
-                                <option>Proposal for Collaboration</option>
-                                <option>Access to Data</option>
-                                <option>Speaking Opportunity</option>
-                                <option>General Inquiry</option>
+                                <option className="bg-white dark:bg-gray-950">Proposal for Collaboration</option>
+                                <option className="bg-white dark:bg-gray-950">Access to Data</option>
+                                <option className="bg-white dark:bg-gray-950">Speaking Opportunity</option>
+                                <option className="bg-white dark:bg-gray-950">General Inquiry</option>
                             </select>
                         </div>
 

@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send, ArrowRight } from "lucide-react";
 import SketchyIcon from "@/components/ui/sketchy-icon";
 import { createClient } from "@/lib/supabase/client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ContactPage() {
   const supabase = createClient();
+  const [services, setServices] = useState<string[]>(["Web Development", "Mobile App", "UI/UX Design", "Custom Software", "Other"]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,6 +17,22 @@ export default function ContactPage() {
   });
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    async function fetchServices() {
+      const { data } = await supabase
+        .from("services")
+        .select("title")
+        .eq("is_active", true)
+        .order("display_order", { ascending: true });
+      if (data && data.length > 0) {
+        const titles = data.map((s: any) => s.title);
+        setServices([...titles, "Other"]);
+        setFormData(prev => ({ ...prev, subject: titles[0] }));
+      }
+    }
+    fetchServices();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +50,7 @@ export default function ContactPage() {
       alert("Error sending message: " + error.message);
     } else {
       setSent(true);
-      setFormData({ name: "", email: "", subject: "Web Development", message: "" });
+      setFormData({ name: "", email: "", subject: services[0] || "Other", message: "" });
     }
     setLoading(false);
   };
@@ -120,13 +137,11 @@ export default function ContactPage() {
               <select
                 value={formData.subject}
                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-4 text-xl font-bold text-black dark:text-white focus:outline-none focus:border-blue-600 transition-colors bg-transparent cursor-pointer"
+                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-4 text-xl font-bold text-black dark:text-white focus:outline-none focus:border-blue-600 transition-colors bg-white dark:bg-gray-950 cursor-pointer"
               >
-                <option>Web Development</option>
-                <option>Mobile App</option>
-                <option>UI/UX Design</option>
-                <option>Custom Software</option>
-                <option>Other</option>
+                {services.map((s) => (
+                  <option key={s} value={s} className="bg-white dark:bg-gray-950 text-black dark:text-white">{s}</option>
+                ))}
               </select>
             </div>
 

@@ -267,7 +267,7 @@ export default function GatewayPage() {
                 </div>
 
                 {/* SPLIT PANELS */}
-                <div className="flex-1 min-h-0 flex flex-col-reverse md:flex-row">
+                <div className="flex-1 min-h-0 flex flex-col md:flex-row">
 
                     {/* LEFT: TECHNOLOGY */}
                     <motion.div
@@ -296,7 +296,7 @@ export default function GatewayPage() {
                             <div className="text-center">
                                 <motion.h2 custom={1} variants={textVariant} initial="hidden" animate="visible" className="text-2xl sm:text-4xl md:text-5xl font-bold mb-2 md:mb-3 text-black tracking-tight leading-none">
                                     <span className="block">THREE DINE</span>
-                                    <span className="mt-1 block text-gray-500 md:mt-2">TECHNOLOGY</span>
+                                    <span className="mt-1 block text-blue-600 md:mt-2">TECHNOLOGY</span>
                                 </motion.h2>
                                 <motion.p custom={2} variants={textVariant} initial="hidden" animate="visible" className="text-sm sm:text-base md:text-base text-gray-500 mb-4 md:mb-6 leading-relaxed max-w-md mx-auto">
                                     Building the digital future with cutting-edge web development and custom software.
