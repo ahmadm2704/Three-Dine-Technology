@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import Link from "next/link";
+import IconPicker from "@/components/admin/icon-picker";
 
 export default function EditServicePage() {
     const supabase = createClient();
@@ -81,11 +82,10 @@ export default function EditServicePage() {
                         <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Description</label>
                         <textarea rows={4} required value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="w-full border-2 border-gray-200 p-3 text-sm focus:border-black focus:outline-none" />
                     </div>
+                    <div>
+                        <IconPicker value={formData.icon} onChange={(name) => setFormData({ ...formData, icon: name })} />
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Icon Name (Lucide)</label>
-                            <input type="text" value={formData.icon} onChange={(e) => setFormData({ ...formData, icon: e.target.value })} className="w-full border-2 border-gray-200 p-3 text-sm focus:border-black focus:outline-none" />
-                        </div>
                         <div>
                             <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Price Range</label>
                             <input type="text" value={formData.price_range} onChange={(e) => setFormData({ ...formData, price_range: e.target.value })} className="w-full border-2 border-gray-200 p-3 text-sm focus:border-black focus:outline-none" />
