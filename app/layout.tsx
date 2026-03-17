@@ -13,8 +13,8 @@ export const metadata: Metadata = {
   description: "Three Dine Technology & Research",
   generator: 'v0.dev',
   icons: {
-    icon: '/White Icon.png',
-    apple: '/White Icon.png'
+    icon: '/Black Icon.png',
+    apple: '/Black Icon.png'
   }
 }
 
