@@ -16,6 +16,7 @@ import {
     KeyRound
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 function getAdminSession(): { role: string; name: string } | null {
     try {
@@ -68,12 +69,24 @@ export default function AdminSidebar() {
 
             {/* Brand */}
             <div className="p-6 border-b border-gray-800">
-                <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-white text-black flex items-center justify-center font-bold">TD</div>
-                    <div className="flex flex-col">
-                        <span className="text-xl font-black uppercase tracking-tighter leading-none">Admin</span>
-                        <span className="text-[10px] text-gray-400 font-mono uppercase">{role?.replace('_', ' ')}</span>
+                <div className="space-y-2">
+                    <div className="w-56 h-12 overflow-hidden">
+                        <Image
+                            src="/logo.png"
+                            alt="Three Dine logo"
+                            width={224}
+                            height={48}
+                            className="w-full h-full object-contain dark:hidden"
+                        />
+                        <Image
+                            src="/logo-dark.png"
+                            alt="Three Dine logo"
+                            width={224}
+                            height={48}
+                            className="hidden w-full h-full object-contain dark:block"
+                        />
                     </div>
+                    <span className="text-[10px] text-gray-400 font-mono uppercase block">{role?.replace('_', ' ')}</span>
                 </div>
             </div>
 

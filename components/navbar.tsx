@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { Menu, X, Code, Zap, Users, Mail, Briefcase, Home } from "lucide-react"
 import { usePathname } from 'next/navigation'
 import DarkModeToggle from "@/components/dark-mode-toggle"
+import Image from "next/image"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -43,9 +44,25 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/technology" className="flex items-center space-x-2 group">
-            <span className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center font-bold rounded-none">TD</span>
-            <span className="text-xl font-black uppercase tracking-tighter dark:text-white">Three Dine</span>
+          <Link href="/technology" className="group">
+            <span className="w-56 h-12 flex items-center justify-center overflow-hidden">
+              <Image
+                src="/logo.png"
+                alt="Three Dine logo"
+                width={224}
+                height={48}
+                className="w-full h-full object-contain dark:hidden"
+                priority
+              />
+              <Image
+                src="/logo-dark.png"
+                alt="Three Dine logo"
+                width={224}
+                height={48}
+                className="hidden w-full h-full object-contain dark:block"
+                priority
+              />
+            </span>
           </Link>
 
           {/* Desktop Navigation */}

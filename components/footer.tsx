@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter, ArrowRight } from "lucide-react"
+import Image from "next/image"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -51,9 +52,15 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="space-y-6">
-            <Link href="/technology" className="block">
-              <span className="text-2xl font-black uppercase tracking-tighter">
-                Three Dine
+            <Link href="/technology" className="w-fit">
+              <span className="w-60 h-14 flex items-center justify-center overflow-hidden">
+                <Image
+                  src="/logo-dark.png"
+                  alt="Three Dine logo"
+                  width={240}
+                  height={56}
+                  className="w-full h-full object-contain"
+                />
               </span>
             </Link>
             <p className="text-gray-500 font-light leading-relaxed max-w-xs">

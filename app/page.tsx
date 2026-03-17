@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
     ArrowRight,
     Code2, Terminal, Database, Globe,
@@ -89,10 +90,9 @@ export default function GatewayPage() {
                                 animate={{ y: splashExiting ? "-120%" : "0%" }}
                                 transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                             >
-                                <span className="flex items-center gap-2.5">
-                                    <span className="w-5 h-5 bg-blue-600 flex items-center justify-center text-white font-black text-[9px] tracking-tighter flex-shrink-0">TD</span>
-                                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">Three Dine Corporation</span>
-                                </span>
+                                <div className="w-48 h-10 overflow-hidden relative">
+                                    <Image src="/logo-dark.png" alt="Three Dine Corporation" fill className="object-contain" priority />
+                                </div>
                             </motion.div>
                         </div>
                         {/* top-right index */}
@@ -160,7 +160,9 @@ export default function GatewayPage() {
                                         <span className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-blue-500/70" />
                                         <span className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-blue-500/70" />
                                         <span className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-blue-500/70" />
-                                        <span className="text-white font-black text-lg tracking-tighter z-10">TD</span>
+                                        <div className="relative z-10 w-10 h-10 flex items-center justify-center">
+                                            <Image src="/White Icon.png" alt="TD Icon" fill className="object-contain" priority />
+                                        </div>
                                     </div>
                                 </motion.div>
                             </div>
@@ -244,10 +246,8 @@ export default function GatewayPage() {
                         transition={{ delay: 2.9, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                         className="flex items-center gap-2.5"
                     >
-                        <span className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center font-black text-xs tracking-tighter flex-shrink-0">TD</span>
-                        <div className="flex flex-col leading-none">
-                            <span className="text-white font-black text-xs uppercase tracking-widest leading-tight">Three Dine</span>
-                            <span className="text-blue-400 font-black text-xs uppercase tracking-widest leading-tight">Corporation</span>
+                        <div className="w-56 h-12 overflow-hidden relative">
+                            <Image src="/logo-dark.png" alt="Three Dine Corporation" fill className="object-contain" priority />
                         </div>
                     </motion.div>
 

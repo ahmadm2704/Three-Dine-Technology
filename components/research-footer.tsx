@@ -1,7 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, ArrowRight, Microscope } from "lucide-react"
+import { Mail, Phone, MapPin, Github, Linkedin, Twitter, ArrowRight } from "lucide-react"
+import Image from "next/image"
 
 export default function ResearchFooter() {
     const currentYear = new Date().getFullYear()
@@ -38,13 +39,16 @@ export default function ResearchFooter() {
 
                     {/* Brand */}
                     <div className="space-y-6">
-                        <Link href="/research" className="block flex items-center space-x-2">
-                            <div className="bg-white text-black p-1">
-                                <Microscope className="w-6 h-6" />
+                        <Link href="/research" className="block w-fit">
+                            <div className="w-60 h-14 overflow-hidden">
+                                <Image
+                                    src="/logo-dark.png"
+                                    alt="Three Dine logo"
+                                    width={240}
+                                    height={56}
+                                    className="w-full h-full object-contain"
+                                />
                             </div>
-                            <span className="text-2xl font-black uppercase tracking-tighter">
-                                TD Research
-                            </span>
                         </Link>
                         <p className="text-gray-500 font-light leading-relaxed max-w-xs">
                             Scientific rigor meets digital innovation. Advancing knowledge through comprehensive research and analysis.

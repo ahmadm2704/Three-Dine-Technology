@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowRight, Microscope } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import DarkModeToggle from "@/components/dark-mode-toggle";
+import Image from "next/image";
 
 export default function ResearchNavbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -41,13 +42,25 @@ export default function ResearchNavbar() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center">
                     {/* Logo */}
-                    <Link href="/research" className="flex items-center space-x-2 group">
-                        <div className="bg-black dark:bg-white text-white dark:text-black p-2 group-hover:bg-blue-600 dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
-                            <Microscope className="w-6 h-6" />
+                    <Link href="/research" className="group">
+                        <div className="w-56 h-12 overflow-hidden">
+                            <Image
+                                src="/logo.png"
+                                alt="Three Dine logo"
+                                width={224}
+                                height={48}
+                                className="w-full h-full object-contain dark:hidden"
+                                priority
+                            />
+                            <Image
+                                src="/logo-dark.png"
+                                alt="Three Dine logo"
+                                width={224}
+                                height={48}
+                                className="hidden w-full h-full object-contain dark:block"
+                                priority
+                            />
                         </div>
-                        <span className="text-2xl font-black uppercase tracking-tighter text-black dark:text-white">
-                            TD <span className="text-gray-400">RESEARCH</span>
-                        </span>
                     </Link>
 
                     {/* Desktop Navigation */}
