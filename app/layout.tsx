@@ -11,7 +11,11 @@ const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-open-sans" })
 export const metadata: Metadata = {
   title: "Three Dine Group",
   description: "Three Dine Technology & Research",
-  generator: 'v0.dev'
+  generator: 'v0.dev',
+  icons: {
+    icon: '/White Icon.png',
+    apple: '/White Icon.png'
+  }
 }
 
 export default function RootLayout({
