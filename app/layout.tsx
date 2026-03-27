@@ -57,6 +57,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: 'SN67WeVKi6H1VyKe_iIMIyv1-cjlrjPksVEN_VaIDPY',
+  },
   icons: {
     icon: '/White Icon.png',
     apple: '/White Icon.png'
