@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Code2, Microscope, Mail, Phone, User, MessageSquare, Send, CheckCircle2 } from "lucide-react";
+import { submitContactForm } from "@/app/actions/contact";
 
 type Service = "technology" | "research" | null;
 
@@ -12,14 +13,28 @@ export default function GetInTouchPage() {
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+    const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        // Simulate sending
-        await new Promise(r => setTimeout(r, 1200));
+        setError(null);
+
+        const formData = new FormData();
+        formData.append("name", form.name);
+        formData.append("email", form.email);
+        formData.append("phone", form.phone);
+        formData.append("message", form.message);
+        formData.append("service", selected === "technology" ? "Technology Division" : "Research Division");
+
+        const result = await submitContactForm(formData);
+
         setLoading(false);
-        setSubmitted(true);
+        if (result.success) {
+            setSubmitted(true);
+        } else {
+            setError(result.message);
+        }
     };
 
     return (
@@ -144,7 +159,7 @@ export default function GetInTouchPage() {
                                             <input
                                                 required
                                                 type="text"
-                                                placeholder="Ahmad Mujtaba"
+                                                placeholder="Enter your full name"
                                                 value={form.name}
                                                 onChange={e => setForm({ ...form, name: e.target.value })}
                                                 className="w-full border-2 border-gray-200 pl-10 pr-4 py-3 text-sm focus:border-black focus:outline-none transition-colors"
@@ -158,7 +173,7 @@ export default function GetInTouchPage() {
                                             <input
                                                 required
                                                 type="email"
-                                                placeholder="you@example.com"
+                                                placeholder="Enter your email address"
                                                 value={form.email}
                                                 onChange={e => setForm({ ...form, email: e.target.value })}
                                                 className="w-full border-2 border-gray-200 pl-10 pr-4 py-3 text-sm focus:border-black focus:outline-none transition-colors"
@@ -168,12 +183,13 @@ export default function GetInTouchPage() {
                                 </div>
 
                                 <div>
-                                    <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1.5 block">Phone (optional)</label>
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1.5 block">Phone Number</label>
                                     <div className="relative">
                                         <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                                         <input
+                                            required
                                             type="tel"
-                                            placeholder="+92 300 0000000"
+                                            placeholder="Enter Your Phone Number"
                                             value={form.phone}
                                             onChange={e => setForm({ ...form, phone: e.target.value })}
                                             className="w-full border-2 border-gray-200 pl-10 pr-4 py-3 text-sm focus:border-black focus:outline-none transition-colors"
@@ -189,14 +205,20 @@ export default function GetInTouchPage() {
                                             required
                                             rows={4}
                                             placeholder={selected === "technology"
-                                                ? "Describe the software or web project you need..."
-                                                : "Describe your research topic, deadline, or academic requirements..."}
+                                                ? "Describe your software or web project..."
+                                                : "Describe your research requirements..."}
                                             value={form.message}
                                             onChange={e => setForm({ ...form, message: e.target.value })}
                                             className="w-full border-2 border-gray-200 pl-10 pr-4 py-3 text-sm focus:border-black focus:outline-none transition-colors resize-none"
                                         />
                                     </div>
                                 </div>
+
+                                {error && (
+                                    <div className="p-3 bg-red-50 text-red-600 text-xs font-bold uppercase tracking-widest text-center">
+                                        {error}
+                                    </div>
+                                )}
 
                                 <button
                                     type="submit"

@@ -9,7 +9,8 @@ export default function ResearchContactPage() {
     const [formData, setFormData] = useState({
         name: "",
         institution: "",
-        email: "", // Missing from original UI but needed for DB, adding input
+        email: "",
+        phone: "",
         subject: "Proposal for Collaboration",
         message: ""
     });
@@ -20,16 +21,13 @@ export default function ResearchContactPage() {
         e.preventDefault();
         setLoading(true);
 
-        // Assuming 'research_inquiries' table exists
-        const { error } = await supabase.from("research_inquiries").insert({
+        const { error } = await supabase.from("contact_submissions").insert({
             name: formData.name,
             email: formData.email,
-            institution: formData.institution,
+            phone: formData.phone,
+            company: formData.institution, // Map institution to company column
+            service: "Research Division",
             message: formData.message,
-            // DB structure might not have subject column based on previous SQL? 
-            // Let's check SQL... yes it does NOT have subject, but it has 'institution'.
-            // Wait, 'research_inquiries' has (name, email, institution, message, status).
-            // So I will just use these fields.
             status: "new"
         });
 
@@ -37,7 +35,7 @@ export default function ResearchContactPage() {
             alert("Error sending inquiry: " + error.message);
         } else {
             setSent(true);
-            setFormData({ name: "", institution: "", email: "", subject: "Proposal for Collaboration", message: "" });
+            setFormData({ name: "", institution: "", email: "", phone: "", subject: "Proposal for Collaboration", message: "" });
         }
         setLoading(false);
     };
@@ -121,6 +119,18 @@ export default function ResearchContactPage() {
                                 onChange={(e) => setFormData({ ...formData, institution: e.target.value })}
                                 className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-3 focus:outline-none focus:border-black dark:focus:border-white transition-colors text-xl font-bold bg-transparent"
                                 placeholder="University of X"
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-sm font-bold uppercase tracking-widest text-gray-500">Phone Number (Compulsory)</label>
+                            <input
+                                required
+                                type="tel"
+                                value={formData.phone}
+                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-3 focus:outline-none focus:border-black dark:focus:border-white transition-colors text-xl font-bold bg-transparent"
+                                placeholder="Phone/Whatsapp Number"
                             />
                         </div>
 

@@ -12,6 +12,7 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     subject: "Web Development", // Default
     message: ""
   });
@@ -41,6 +42,7 @@ export default function ContactPage() {
     const { error } = await supabase.from("contact_submissions").insert({
       name: formData.name,
       email: formData.email,
+      phone: formData.phone,
       service: formData.subject,
       message: formData.message,
       status: "new"
@@ -50,7 +52,7 @@ export default function ContactPage() {
       alert("Error sending message: " + error.message);
     } else {
       setSent(true);
-      setFormData({ name: "", email: "", subject: services[0] || "Other", message: "" });
+      setFormData({ name: "", email: "", phone: "", subject: services[0] || "Other", message: "" });
     }
     setLoading(false);
   };
@@ -132,6 +134,20 @@ export default function ContactPage() {
 
             <div className="space-y-2 group">
               <label className="text-xs font-bold uppercase tracking-widest text-gray-400 group-focus-within:text-black dark:group-focus-within:text-white transition-colors">
+                Phone/Whatsapp Number (Required)
+              </label>
+              <input
+                type="tel"
+                required
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="w-full border-b-2 border-gray-200 dark:border-gray-700 py-4 text-xl font-bold text-black dark:text-white focus:outline-none focus:border-blue-600 transition-colors bg-transparent placeholder-gray-200 dark:placeholder-gray-600"
+                placeholder="Phone/Whatsapp Number"
+              />
+            </div>
+
+            <div className="space-y-2 group">
+              <label className="text-xs font-bold uppercase tracking-widest text-gray-400 group-focus-within:text-black dark:group-focus-within:text-white transition-colors">
                 Services Interested In
               </label>
               <select
@@ -162,7 +178,7 @@ export default function ContactPage() {
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center space-x-4 bg-blue-600 text-white px-10 py-5 font-bold uppercase tracking-widest hover:bg-blue-700 transition-all group w-full md:w-auto justify-center">
+              className="flex items-center space-x-4 bg-blue-600 text-white px-10 py-5 font-bold uppercase tracking-widest hover:bg-blue-700 transition-all group w-full md:w-auto justify-center"
             >
               <span>{loading ? "Sending..." : "Send Message"}</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
