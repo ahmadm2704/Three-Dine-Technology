@@ -85,10 +85,19 @@ export default function ContactPage() {
             </div>
             <div>
               <h3 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-1">Email</h3>
-              <p className="text-xl font-bold">hello@threedinetech.com</p>
+              <a href="mailto:info@threedinecorporation.com" className="text-xl font-bold hover:text-blue-400 transition-colors">info@threedinecorporation.com</a>
             </div>
           </div>
-          {/* ... other info items (Phone, Studio) ... */}
+
+          <div className="flex items-start space-x-6 group">
+            <div className="w-12 h-12 text-white">
+              <SketchyIcon icon={Phone} className="w-full h-full" color="currentColor" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-1">WhatsApp</h3>
+              <a href="https://wa.me/447852562172" target="_blank" rel="noopener noreferrer" className="text-xl font-bold hover:text-blue-400 transition-colors">+44 7852 562172</a>
+            </div>
+          </div>
         </div>
       </div>
 

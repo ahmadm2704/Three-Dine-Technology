@@ -22,9 +22,8 @@ export default function Footer() {
   ]
 
   const contact = [
-    { icon: Mail, text: "hello@threedinetech.com", href: "mailto:hello@threedinetech.com" },
-    { icon: Phone, text: "+1 (555) 123-4567", href: "tel:+15551234567" },
-    { icon: MapPin, text: "San Francisco, CA", href: "#" },
+    { icon: Mail, text: "info@threedinecorporation.com", href: "mailto:info@threedinecorporation.com" },
+    { icon: Phone, text: "+44 7852 562172", href: "https://wa.me/447852562172" },
   ]
 
   const social = [
@@ -135,7 +134,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 uppercase font-bold tracking-wider">
-          <p>© {currentYear} ThreeDine Tech.</p>
+          <p>© {currentYear} Three Dine Corporation.</p>
           <div className="flex space-x-8 mt-4 md:mt-0">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
@@ -161,10 +160,9 @@ const company = [
   { name: "Blog", href: "/blog" },
 ]
 
-const contact = [
-  { icon: Mail, text: "hello@threedinetech.com", href: "mailto:hello@threedinetech.com" },
-  { icon: Phone, text: "+1 (555) 123-4567", href: "tel:+15551234567" },
-  { icon: MapPin, text: "San Francisco, CA", href: "#" },
-]
+  const contact = [
+    { icon: Mail, text: "info@threedinecorporation.com", href: "mailto:info@threedinecorporation.com" },
+    { icon: Phone, text: "+44 7852 562172", href: "https://wa.me/447852562172" },
+  ]
 
 

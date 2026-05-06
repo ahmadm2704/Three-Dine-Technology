@@ -95,7 +95,7 @@ export default function ResearchFooter() {
 
                 {/* Copyright */}
                 <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 uppercase font-bold tracking-wider">
-                    <p>© {currentYear} ThreeDine Research Division.</p>
+                    <p>© {currentYear} Three Dine Corporation - Research Division.</p>
                     <div className="flex space-x-8 mt-4 md:mt-0">
                         <Link href="/" className="hover:text-white transition-colors">Back to Main Gateway</Link>
                     </div>

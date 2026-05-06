@@ -1,6 +1,6 @@
 "use client";
 
-import { Send, MapPin, Mail } from "lucide-react";
+import { Send, Phone, Mail } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 
@@ -55,21 +55,21 @@ export default function ResearchContactPage() {
                 <div className="space-y-8">
                     <div className="flex items-start space-x-4">
                         <div className="w-12 h-12 border border-white/20 flex items-center justify-center shrink-0">
-                            <MapPin className="w-6 h-6" />
+                            <Mail className="w-6 h-6" />
                         </div>
                         <div>
-                            <h3 className="uppercase font-bold tracking-widest mb-1 text-sm">Headquarters</h3>
-                            <p className="text-gray-400">123 Innovation Blvd, Tech District<br />San Francisco, CA 94105</p>
+                            <h3 className="uppercase font-bold tracking-widest mb-1 text-sm">Email Us</h3>
+                            <a href="mailto:info@threedinecorporation.com" className="text-gray-400 hover:text-white transition-colors">info@threedinecorporation.com</a>
                         </div>
                     </div>
 
                     <div className="flex items-start space-x-4">
                         <div className="w-12 h-12 border border-white/20 flex items-center justify-center shrink-0">
-                            <Mail className="w-6 h-6" />
+                            <Phone className="w-6 h-6" />
                         </div>
                         <div>
-                            <h3 className="uppercase font-bold tracking-widest mb-1 text-sm">Email Us</h3>
-                            <p className="text-gray-400">research@threedinetech.com</p>
+                            <h3 className="uppercase font-bold tracking-widest mb-1 text-sm">WhatsApp</h3>
+                            <a href="https://wa.me/447852562172" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">+44 7852 562172</a>
                         </div>
                     </div>
                 </div>
